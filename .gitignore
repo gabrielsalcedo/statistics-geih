@@ -1,4 +1,0 @@
-output/
-*.RData
-*.Rhistory
-!output/.gitkeep
