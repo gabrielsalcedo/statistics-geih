@@ -536,6 +536,166 @@ reproducible.
 
 ---
 
+## Fase 3 — Función de Theil, estimadores y diseño del Monte Carlo
+
+### 3.1 Código frente a las fórmulas
+
+| Estimador | Fórmula de la propuesta | Código antes de esta fase | Diferencia |
+|---|---|---|---|
+| A | (1/W) Σ wᵢ (yᵢ/μ) ln(yᵢ/μ), μ ponderada | `theil_decomp(y, fex_aj)` | Ninguna |
+| B | Igual que A con wᵢ = 1 | `theil_decomp(y)` | Ninguna |
+| C | σ² = ln(1 + CV²), T = σ²/2 | **No existía** | — |
+| D | σ² = (1/n) Σ (ln yᵢ − m)², T = σ²/2 | **No existía** | — |
+| Descomposición | between = Σ sₖ ln(μₖ/μ); within = Σ sₖ Tₖ, con sₖ = participación en el ingreso | `theil_decomp(..., g)` | Ninguna. Además verifica T = T_B + T_W |
+
+**Cambios de esta fase (sin commit, para revisión de Gabriel):**
+- `R/theil.R` (nuevo):
+  - `theil_decomp()`, copiada **sin cambios** desde `03_theil.R`.
+  - `theil_A()` y `theil_B()`, envoltorios de una línea.
+  - `theil_C()` y `theil_D()`, nuevos.
+- `scripts/03_theil.R`: borra la definición de la función y la reemplaza por
+  `source(here("R", "theil.R"))`. Se volvió a correr y `theil_resumen.csv` y
+  `theil_grupos.csv` no cambiaron.
+
+**Detalles de C y D:**
+- **D divide por n, no por n − 1.** El EMV de σ² divide por n, y `var()` de R divide
+  por n − 1. Con n = 500 la diferencia es D/(n − 1) ≈ 0,0008 (en una submuestra de
+  2024: 0,38149 contra 0,38225).
+  - Frente a la desviación estándar de D en n = 500 (0,039) es pequeña.
+  - Pero no es ruido: es un sesgo sistemático, y el error estándar del promedio de 500
+    réplicas es 0,0018, del mismo orden. Con `var()`, la simulación podría atribuirle
+    a D un sesgo que viene de la fórmula y no del supuesto lognormal.
+  - Por eso `theil_D()` divide por n, y un test lo verifica.
+- **C también divide por n.** El método de momentos iguala los momentos *muestrales*,
+  que dividen por n. La propuesta escribe s²_y, que muchos leen como dividido por n − 1.
+  Conviene aclararlo en el texto.
+- **C y D aceptan pesos opcionales** (`w = NULL` por defecto, como en la propuesta).
+  Cuál variante se usa en la simulación lo decide el equipo (D2). Ver el efecto en 3.4.
+- **NA, ceros y pesos.** Las cuatro funciones se detienen si hay NA, ingresos ≤ 0,
+  pesos negativos, pesos que suman 0 o longitudes distintas. Un peso igual a 0 está
+  permitido y equivale a no incluir a esa persona (hay un test). `n` cuenta también a
+  las personas con peso 0; hoy no ocurre, porque `03` filtra por `responde`.
+
+### 3.2 Pruebas (`tests/testthat/`)
+
+Se corren con `testthat::test_dir("tests/testthat")` desde la raíz del proyecto.
+Resultado: **186 comprobaciones, 0 fallas**.
+
+| Prueba | Resultado esperado a mano |
+|---|---|
+| Ingresos iguales | T = 0 en A, B, C y D |
+| Una persona con todo el ingreso (n = 2, 10, 1.000) | T = ln n. Los demás reciben 10⁻¹², porque la función exige y > 0 |
+| Ejemplos 1 y 2 (antes en `03_theil.R`) | T, T_B y T_W calculados a mano |
+| Dos personas con ingresos 1 y 3 | ½[½ ln ½ + 1,5 ln 1,5] |
+| Escala: ingresos × 0,001 y × 10⁶; pesos × c | Ningún estimador cambia |
+| A con pesos = 1 | Igual a B |
+| A con pesos enteros | Igual a B con filas repetidas. Lo mismo para C y D con pesos |
+| Descomposición simulada | T_B + T_W = T; T_W = Σ sₖTₖ; Σ sₖ = 1; Tₖ = Theil del grupo calculado aparte |
+| Un solo grupo | between = 0 |
+| Lognormal con σ = 0,5 y 1 (n = 10⁶) | C, D y B se acercan a σ²/2 |
+| D frente a `var()` | D usa el divisor n |
+| NA, 0, negativos, pesos inválidos | Error en las cuatro funciones |
+| Peso 0 | No cambia el resultado |
+| **Datos reales**: 8 años × 5 dimensiones con `fex_aj` | T_B + T_W = T y T_W = Σ sₖTₖ (tolerancia 10⁻¹⁰). Se salta si no están las bases |
+
+No se hizo la comparación con un paquete externo: `ineq` y `dineq` no están instalados
+y solo se autorizó `testthat`. Los ejemplos calculados a mano cumplen ese papel. Si
+quieren la comparación, hay que autorizar `ineq`.
+
+### 3.3 Estado del Monte Carlo
+
+**No existe.** No hay código de simulación, ni semilla, ni réplicas, ni grilla de n,
+ni cálculo de sesgo, varianza, ECM o eficiencia relativa. Tampoco existen el bootstrap
+ni las pruebas de H1, H2 y H3. Hoy el proyecto solo tiene el Theil A y B anual y la
+descomposición.
+
+Lo que la propuesta fija y debe ir a `R/config.R` cuando se programe:
+- base 2024 completa;
+- 500 réplicas;
+- n ∈ {500, 2.000, 10.000, 50.000};
+- semilla fija;
+- métricas: sesgo, varianza, ECM y ER = ECM(A)/ECM(otro). Con ER < 1, A es mejor.
+
+### 3.4 El diseño de submuestreo decide qué gana
+
+Cuando n crece, cada estimador converge a su propio valor calculado sobre la
+"población" que representan las submuestras. Ese valor depende de **cómo** se sacan
+las submuestras.
+
+Los límites para la base 2024 (N = 152.213 respondientes) se pueden calcular sin
+simular, porque son el estimador sobre la población que las submuestras representan:
+
+| Estimador | Límite si se muestrea uniforme entre encuestados | Sesgo | Límite si se muestrea con prob. ∝ `fex_aj` | Sesgo |
+|---|---|---|---|---|
+| **Verdad** (A sobre la base completa) | 0,5043 | — | 0,5043 | — |
+| A (pesa con `fex_aj`) | 0,5043 | **0,000** | 0,5559 | +0,052 |
+| B | 0,4273 | −0,077 | 0,5043 | **0,000** |
+| C sin pesos | 0,5280 | +0,024 | 0,5921 | +0,088 |
+| C con pesos | 0,5921 | +0,088 | 0,6136 | +0,109 |
+| D sin pesos | 0,4264 | −0,078 | 0,4821 | −0,022 |
+| D con pesos | 0,4821 | −0,022 | 0,5149 | +0,011 |
+
+Qué se lee en la tabla:
+
+1. **Circularidad con muestreo uniforme.** Si la submuestra se saca uniformemente entre
+   los encuestados y la "verdad" es A sobre la base completa, A es insesgado *por
+   construcción*: con n = N, A reproduce exactamente la verdad.
+   - Con ese diseño, H1 solo prueba que "A converge a A". El sesgo de B (−0,077) es la
+     distancia entre el promedio ponderado y el no ponderado de la base.
+   - Eso sí es informativo: mide cuánto importan los pesos en la GEIH. Pero no es una
+     validación independiente de A.
+2. **Con probabilidad ∝ peso, el resultado se invierte.** La submuestra se "autopondera"
+   y ya representa a Colombia. B es insesgado, y A, que vuelve a aplicar los pesos,
+   cuenta los pesos dos veces y queda sesgado (+0,052). Este diseño prueba lo
+   contrario de H1 y no es una comparación justa para A.
+3. **C sin pesos "gana" por casualidad.** Con muestreo uniforme, C sin pesos tiene el
+   menor sesgo después de A (+0,024). Pero es por compensación de errores:
+   - no usar pesos baja el valor;
+   - la cola pesada, que no es lognormal, lo sube.
+   - Con pesos, C se aleja (+0,088).
+   - Por eso es importante la decisión D2: **sin pesos, la comparación de A contra C y D
+     mezcla dos problemas (diseño muestral y supuesto lognormal) que pueden cancelarse.**
+     Con pesos, C y D se comparan con A solo en el supuesto lognormal, y B ya cubre el
+     problema de los pesos.
+4. **D depende de la cola baja.** Al quitar los 665 ingresos menores de $50.000 (0,4 %
+   de los respondientes), D sin pesos pasa de 0,426 a 0,395, mientras que A solo pasa de
+   0,504 a 0,499 (decisión D4, Fase 2 §2.6).
+
+**Con o sin reemplazo.** Con n = 50.000 se toma el 32,8 % de la base.
+- **Sin reemplazo,** la varianza se multiplica por el factor de población finita
+  (1 − n/N) = 0,67. El ECM de n = 50.000 baja más de lo que bajaría en una población
+  grande, y la "consistencia" se ve más rápida de lo que es. En el límite n = N, la
+  varianza es 0.
+- **Con reemplazo,** cada réplica imita una muestra de una población infinita con la
+  distribución de la base. La varianza sigue la regla 1/n, y n = 50.000 no tiene nada
+  de especial.
+- En n = 500 y n = 2.000 la diferencia es despreciable: el factor es 0,997 y 0,987.
+
+### 3.5 Opciones de diseño (no elijo; es la decisión D5)
+
+| Opción | Cómo se hace | Verdad | Qué prueba | Qué no prueba | Costo |
+|---|---|---|---|---|---|
+| **O1. Muestreo uniforme de encuestados, sin reemplazo** (lo que sugiere la propuesta) | `sample(N, n)`. Cada persona lleva su `fex_aj` | A sobre la base 2024 | Cuánto se equivoca B por ignorar los pesos. Compara C y D con A | A no tiene competencia real (circular). La FPC exagera la consistencia en n = 50.000 | Mínimo |
+| **O2. Como O1, con reemplazo** | `sample(N, n, replace = TRUE)` | Igual | Lo mismo que O1, con varianza que sigue 1/n | Sigue siendo circular para A | Mínimo |
+| **O3. Probabilidad ∝ `fex_aj`, con reemplazo** | `sample(N, n, TRUE, prob = fex_aj)` | A sobre la base 2024 | Compara C y D contra B en una muestra autoponderada: aísla el supuesto lognormal | No sirve para A: aplicarle pesos a una muestra autoponderada lo sesga | Mínimo |
+| **O4. Pseudopoblación + muestreo desigual** | (i) Expandir cada respondiente unas `fex_aj / k` veces (con k ≈ 10, unos 2–3 millones de filas). (ii) Muestrear con prob. ∝ 1/`fex_aj`, como la GEIH, y darle a cada unidad el peso 1/π | El Theil de la pseudopoblación: un parámetro poblacional, no la salida de un estimador | Es la versión no circular de H1. A (Horvitz–Thompson/Hájek) debería ser consistente y B sesgado por diseño; C y D fallan solo por el supuesto lognormal | Ignora conglomerados y estratos de la GEIH. Redondear `fex_aj / k` introduce un pequeño error | Moderado (memoria y algo más de código) |
+
+Qué conviene decidir junto con D5:
+- Si se elige O1 u O2, el informe debe decir explícitamente que el sesgo de A es 0 por
+  construcción, y presentar el resultado de B como "el costo de ignorar los pesos".
+- La semilla, las réplicas y la grilla de n van a `R/config.R`. Junto a cada sesgo y
+  ECM hay que reportar el error estándar Monte Carlo (DE/√500). Si no, no se sabe si
+  una diferencia entre estimadores es real o es ruido de la simulación.
+- **Sobre la prueba t de H1.** Las réplicas son independientes, así que la prueba t
+  pareada es válida. Pero su potencia la fija el equipo al elegir R, no los datos: con
+  R suficientemente grande, cualquier diferencia de ECM sale significativa. Conviene
+  reportar primero la ER y el tamaño de la diferencia, y después el valor p.
+- **Bootstrap (D6).** El n efectivo de Kish es ≈ 52.000 de 152.000. Un bootstrap por
+  persona sin respetar los pesos ni las viviendas va a dar intervalos demasiado
+  estrechos.
+
+---
+
 ## Decisiones para el equipo
 
 Se van agregando a medida que avanza la auditoría. Ninguna se toma sin consultar.
@@ -543,10 +703,10 @@ Se van agregando a medida que avanza la auditoría. Ninguna se toma sin consulta
 | # | Decisión | Opciones | Origen |
 |---|---|---|---|
 | D1 | Estrato faltante (~3.500 respondientes por año, de menor ingreso) | (a) dejarlos fuera de todo (hoy); (b) categoría "Sin estrato"; (c) exigir estrato solo en su propia descomposición | ESTADO_PROYECTO, Fase 2 |
-| D2 | C y D con pesos o sin pesos | (a) sin pesos (hoy implícito); (b) con pesos, lo que aísla el supuesto lognormal | ESTADO_PROYECTO, Fase 3 |
+| D2 | C y D con pesos o sin pesos | (a) sin pesos (como en la propuesta): en 2024, C sin pesos tiene sesgo +0,024 por compensación de errores; (b) con pesos: aísla el supuesto lognormal (C +0,088, D −0,022) | ESTADO_PROYECTO, Fase 3 §3.4 |
 | D3 | Comparación de H3 | (a) 2018 vs 2026; (b) 2022 vs 2026 (mismo marco) como prueba principal y 2018 como referencia | ESTADO_PROYECTO |
 | D4 | Ingresos muy bajos | regla de recorte, o solo análisis de sensibilidad | ESTADO_PROYECTO, Fase 2 |
-| D5 | Diseño de muestreo de la simulación | se detalla en la Fase 3 | Fase 3 |
+| D5 | Diseño de muestreo de la simulación | O1 uniforme sin reemplazo; O2 uniforme con reemplazo; O3 prob. ∝ peso; O4 pseudopoblación + muestreo desigual | Fase 3 §3.5 |
 | D6 | Bootstrap por persona o por vivienda (`DIRECTORIO`) | | ESTADO_PROYECTO |
 | D7 | Tratamiento de 2018 por la no respuesta del 13 % | depende de la Fase 2 | Fase 1, hallazgo 1 |
 | D8 | Comparar S entre dimensiones con distinto número de grupos (H2) | (a) mantener S; (b) reportar además una medida que no dependa del número de grupos | Fase 1, hallazgo 2 |
