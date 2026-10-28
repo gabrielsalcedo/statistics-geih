@@ -91,13 +91,20 @@ docs/curso/        Guía del curso y entregas (LaTeX)
 
 ## 6. Orden de ejecución
 
-1. `scripts/00_verificar_datos.R`: comprueba que los datos estén completos.
-2. `scripts/01_base_cruda_anual.R`: `data/raw` → `data/final` (requiere los .dta).
-3. `scripts/02_base_analitica_anual.R`: `data/final` → `data/analitica`.
-4. `scripts/03_theil.R`: Theil A/B y descomposición → `data/resultados`.
-5. `scripts/04_estadistica_descriptiva.R`: → `outputs/descriptiva`.
+`source("run_all.R")` corre todo. Por defecto parte de `data/processed/`, que está
+versionada; con `desde_crudos <- TRUE` reconstruye antes las bases desde los `.dta`.
 
-(Se actualizará cuando exista `run_all.R`.)
+1. `scripts/01_base_cruda_anual.R`: `data/raw` → `data/final` (requiere los `.dta`).
+2. `scripts/02_base_analitica_anual.R`: `data/final` → `data/analitica`.
+3. `scripts/02b_exportar_procesados.R`: `data/analitica` → `data/processed/*.csv.gz`
+   y `data/checksums.txt` (MD5).
+4. `scripts/00_verificar_datos.R`: comprueba `data/processed/` (huellas, conteos, Theil A).
+5. Pruebas: `testthat::test_dir("tests/testthat")`.
+6. `scripts/03_theil.R`: Theil A/B y descomposición → `data/resultados`.
+7. `scripts/04_estadistica_descriptiva.R`: → `outputs/descriptiva`.
+
+Funciones en `R/`: `config.R` (constantes), `datos.R` (`cargar_analitica()`) y
+`theil.R` (estimadores A–D).
 
 ## 7. Reglas de Git
 
