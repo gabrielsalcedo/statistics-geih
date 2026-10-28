@@ -1,4 +1,4 @@
-# --- R / RStudio: archivos de sesión personales ---
+# --- R / RStudio: archivos de sesiÃ³n personales ---
 .Rproj.user/
 .RData
 .RDataTmp
@@ -16,7 +16,6 @@ data/afa/
 # --- Intermedios pesados y regenerables (los produce el pipeline) ---
 data/final/*.rds
 data/analitica/*.rds
-_revisar/
 
 # --- LaTeX: archivos auxiliares ---
 *.aux
