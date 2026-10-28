@@ -127,12 +127,24 @@ docs/curso/        Guía del curso y entregas (LaTeX)
 
 ## 9. Números de referencia
 
-Se llena en la Fase 2. Compara los números de la entrega vigente con una corrida nueva.
+Corrida nueva desde los `.dta` el 28-10-2026: idéntica a la anterior.
+Detalle en `docs/AUDITORIA.md` §2.11. Si alguna corrección cambia estos números, se
+actualiza esta tabla y se anota la razón.
 
-| Número | Entrega | Corrida actual | ¿Coincide? | Nota |
-|---|---|---|---|---|
-| Ocupados enero 2018 | 27.693 | | | |
-| Ocupados / población / entran al Theil, por año (Tabla 2) | ver entrega | | | |
-| % del FEX total por año | ver entrega | | | |
-| Theil A por año | — | | | |
-| Participación "entre" por dimensión | — | | | |
+Ocupados en enero de 2018: **27.693** (Cabecera 24.952 + Resto 2.741). Coincide con la entrega.
+
+| Año | Ocupados | Población | Entran al Theil | % FEX | T_A (`fex_aj`) | T_A (`FEX`) | T_B | S educ | S formal | S sexo | S región | S estrato |
+|---|---|---|---|---|---|---|---|---|---|---|---|---|
+| 2018 | 174.668 | 162.300 | 141.025 | 82,6 | 0,4392 | 0,4322 | 0,3891 | 24,2 | 22,4 | 0,6 | 5,1 | 31,3 |
+| 2019 | 168.441 | 156.616 | 151.283 | 87,6 | 0,4772 | 0,4733 | 0,4126 | 25,0 | 23,6 | 0,7 | 5,6 | 33,8 |
+| 2020 | 146.862 | 96.931 | 57.042 | 46,4 | — | — | — | — | — | — | — | — |
+| 2021 | 146.094 | 136.479 | 129.750 | 86,2 | 0,4739 | 0,4622 | 0,4150 | 26,3 | 27,2 | 0,1 | 5,4 | 32,6 |
+| 2022 | 194.647 | 168.270 | 160.946 | 85,3 | 0,5381 | 0,5314 | 0,4536 | 26,5 | 23,8 | 0,3 | 8,7 | 35,9 |
+| 2023 | 183.136 | 160.299 | 157.776 | 88,3 | 0,5135 | 0,5083 | 0,4382 | 27,0 | 25,2 | 0,3 | 8,3 | 37,9 |
+| 2024 | 178.204 | 156.063 | 152.213 | 86,9 | 0,5043 | 0,4981 | 0,4273 | 27,0 | 24,7 | 0,2 | 8,1 | 36,1 |
+| 2025 | 176.176 | 154.659 | 153.340 | 89,1 | 0,4609 | 0,4576 | 0,3916 | 25,6 | 24,6 | 0,2 | 7,6 | 35,4 |
+| 2026 | 177.195 | 155.262 | 154.657 | 89,0 | 0,4288 | 0,4279 | 0,3921 | 25,3 | 24,8 | 0,3 | 7,6 | 35,0 |
+
+S = participación "entre" (%) con `fex_aj`. Las columnas de ocupados, población,
+entran al Theil y % FEX corresponden a la Tabla 2 de la entrega; las de Theil y S
+todavía no aparecen en ninguna entrega.
