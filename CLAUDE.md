@@ -73,6 +73,11 @@ Diseño de muestreo de la simulación, C y D con o sin pesos, estrato faltante,
 
 ## 5. Estructura de carpetas (actual; la estructura objetivo se define en la Fase 6)
 
+Los microdatos crudos (62 GB) están hoy en
+`Documents\universidad\4 semestre\estadistica\statistics-geih\data\raw`, no en este
+clon. Solo los necesita `01_base_cruda_anual.R`. Los `.rds` intermedios sí están
+copiados aquí (los ignora Git).
+
 ```
 data/raw/          Microdatos DANE por mes (YYYYMM/*.dta). Ignorado por Git.
 data/final/        Etapa 1: base cruda unida por año (.rds ignorado) + reportes/
@@ -96,9 +101,16 @@ docs/curso/        Guía del curso y entregas (LaTeX)
 
 ## 7. Reglas de Git
 
+- **Copia de trabajo:** `C:\Users\GABRIEL\Documents\GitHub\statistics-geih`, el clon
+  que sigue GitHub Desktop (`origin` = `github.com/gabrielsalcedo/statistics-geih`,
+  compartido con el equipo).
+  - La carpeta `Documents\universidad\4 semestre\estadistica\statistics-geih` fue la
+    copia inicial de la auditoría. Su `.git` es un historial local paralelo, ya pasado a
+    este clon, y no se usa más.
 - Se trabaja en la rama `revision-general`. **Nunca** se hace commit en `main`.
 - Solo Git local: nada de push, nada de crear o cambiar remotos, nada de cambiar
-  `git config`. Gabriel revisa y publica desde GitHub Desktop.
+  `git config`. Gabriel revisa los commits y sincroniza `revision-general` con el
+  remote desde GitHub Desktop.
   - Git no está en el PATH; se usa
     `%LOCALAPPDATA%\GitHubDesktop\app-*\resources\app\git\cmd\git.exe`.
 - **Claude no hace commit** de cambios en la limpieza de datos, las funciones de Theil,
