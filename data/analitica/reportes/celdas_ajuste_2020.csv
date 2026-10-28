@@ -1,0 +1,233 @@
+"celda","nivel","n","n_resp","pct_resp","factor"
+"N1 | Asalariado privado | Formal | Media | Bogotá | Hombre","N1",463,229,49.5,1.94
+"N1 | Asalariado privado | Formal | Media | Bogotá | Mujer","N1",371,172,46.4,1.999
+"N1 | Asalariado privado | Formal | Media | Caribe | Hombre","N1",1558,844,54.2,1.739
+"N1 | Asalariado privado | Formal | Media | Caribe | Mujer","N1",699,400,57.2,1.607
+"N1 | Asalariado privado | Formal | Media | Central | Hombre","N1",2253,1255,55.7,1.637
+"N1 | Asalariado privado | Formal | Media | Central | Mujer","N1",1263,668,52.9,1.719
+"N1 | Asalariado privado | Formal | Media | Oriental | Hombre","N1",1169,661,56.5,1.526
+"N1 | Asalariado privado | Formal | Media | Oriental | Mujer","N1",677,352,52,1.713
+"N1 | Asalariado privado | Formal | Media | Pacífica | Hombre","N1",904,491,54.3,1.558
+"N1 | Asalariado privado | Formal | Media | Pacífica | Mujer","N1",603,324,53.7,1.68
+"N1 | Asalariado privado | Formal | Primaria | Bogotá | Hombre","N1",86,43,50,1.911
+"N1 | Asalariado privado | Formal | Primaria | Caribe | Hombre","N1",229,158,69,1.217
+"N1 | Asalariado privado | Formal | Primaria | Caribe | Mujer","N1",60,31,51.7,1.705
+"N1 | Asalariado privado | Formal | Primaria | Central | Hombre","N1",673,455,67.6,1.319
+"N1 | Asalariado privado | Formal | Primaria | Central | Mujer","N1",123,66,53.7,1.595
+"N1 | Asalariado privado | Formal | Primaria | Oriental | Hombre","N1",335,232,69.3,1.211
+"N1 | Asalariado privado | Formal | Primaria | Oriental | Mujer","N1",85,52,61.2,1.389
+"N1 | Asalariado privado | Formal | Primaria | Pacífica | Hombre","N1",194,132,68,1.251
+"N1 | Asalariado privado | Formal | Secundaria | Bogotá | Hombre","N1",81,53,65.4,1.458
+"N1 | Asalariado privado | Formal | Secundaria | Caribe | Hombre","N1",259,167,64.5,1.285
+"N1 | Asalariado privado | Formal | Secundaria | Caribe | Mujer","N1",69,44,63.8,1.415
+"N1 | Asalariado privado | Formal | Secundaria | Central | Hombre","N1",520,323,62.1,1.496
+"N1 | Asalariado privado | Formal | Secundaria | Central | Mujer","N1",163,98,60.1,1.607
+"N1 | Asalariado privado | Formal | Secundaria | Oriental | Hombre","N1",237,148,62.4,1.402
+"N1 | Asalariado privado | Formal | Secundaria | Oriental | Mujer","N1",82,48,58.5,1.525
+"N1 | Asalariado privado | Formal | Secundaria | Pacífica | Hombre","N1",146,84,57.5,1.523
+"N1 | Asalariado privado | Formal | Secundaria | Pacífica | Mujer","N1",66,41,62.1,1.487
+"N1 | Asalariado privado | Formal | Superior | Bogotá | Hombre","N1",556,260,46.8,2.05
+"N1 | Asalariado privado | Formal | Superior | Bogotá | Mujer","N1",662,300,45.3,2.03
+"N1 | Asalariado privado | Formal | Superior | Caribe | Hombre","N1",1930,967,50.1,2.07
+"N1 | Asalariado privado | Formal | Superior | Caribe | Mujer","N1",2278,1157,50.8,1.891
+"N1 | Asalariado privado | Formal | Superior | Central | Hombre","N1",2185,1193,54.6,1.768
+"N1 | Asalariado privado | Formal | Superior | Central | Mujer","N1",2697,1401,51.9,1.844
+"N1 | Asalariado privado | Formal | Superior | Oriental | Hombre","N1",970,497,51.2,1.885
+"N1 | Asalariado privado | Formal | Superior | Oriental | Mujer","N1",1285,657,51.1,1.851
+"N1 | Asalariado privado | Formal | Superior | Pacífica | Hombre","N1",860,454,52.8,1.833
+"N1 | Asalariado privado | Formal | Superior | Pacífica | Mujer","N1",1137,602,52.9,1.738
+"N1 | Asalariado privado | Informal | Media | Bogotá | Hombre","N1",111,67,60.4,1.59
+"N1 | Asalariado privado | Informal | Media | Bogotá | Mujer","N1",88,53,60.2,1.487
+"N1 | Asalariado privado | Informal | Media | Caribe | Hombre","N1",711,485,68.2,1.272
+"N1 | Asalariado privado | Informal | Media | Caribe | Mujer","N1",361,249,69,1.332
+"N1 | Asalariado privado | Informal | Media | Central | Hombre","N1",823,587,71.3,1.3
+"N1 | Asalariado privado | Informal | Media | Central | Mujer","N1",551,381,69.1,1.376
+"N1 | Asalariado privado | Informal | Media | Oriental | Hombre","N1",489,336,68.7,1.342
+"N1 | Asalariado privado | Informal | Media | Oriental | Mujer","N1",377,253,67.1,1.294
+"N1 | Asalariado privado | Informal | Media | Pacífica | Hombre","N1",393,272,69.2,1.333
+"N1 | Asalariado privado | Informal | Media | Pacífica | Mujer","N1",342,241,70.5,1.365
+"N1 | Asalariado privado | Informal | Ninguno/preescolar | Caribe | Hombre","N1",131,118,90.1,1.066
+"N1 | Asalariado privado | Informal | Ninguno/preescolar | Central | Hombre","N1",141,125,88.7,1.118
+"N1 | Asalariado privado | Informal | Ninguno/preescolar | Oriental | Hombre","N1",49,45,91.8,1.026
+"N1 | Asalariado privado | Informal | Ninguno/preescolar | Pacífica | Hombre","N1",50,40,80,1.232
+"N1 | Asalariado privado | Informal | Primaria | Caribe | Hombre","N1",430,333,77.4,1.101
+"N1 | Asalariado privado | Informal | Primaria | Caribe | Mujer","N1",76,53,69.7,1.296
+"N1 | Asalariado privado | Informal | Primaria | Central | Hombre","N1",1070,895,83.6,1.114
+"N1 | Asalariado privado | Informal | Primaria | Central | Mujer","N1",213,171,80.3,1.211
+"N1 | Asalariado privado | Informal | Primaria | Oriental | Hombre","N1",431,355,82.4,1.104
+"N1 | Asalariado privado | Informal | Primaria | Oriental | Mujer","N1",134,101,75.4,1.138
+"N1 | Asalariado privado | Informal | Primaria | Pacífica | Hombre","N1",341,256,75.1,1.193
+"N1 | Asalariado privado | Informal | Primaria | Pacífica | Mujer","N1",97,72,74.2,1.355
+"N1 | Asalariado privado | Informal | Secundaria | Caribe | Hombre","N1",345,246,71.3,1.19
+"N1 | Asalariado privado | Informal | Secundaria | Caribe | Mujer","N1",99,75,75.8,1.149
+"N1 | Asalariado privado | Informal | Secundaria | Central | Hombre","N1",599,472,78.8,1.193
+"N1 | Asalariado privado | Informal | Secundaria | Central | Mujer","N1",205,164,80,1.164
+"N1 | Asalariado privado | Informal | Secundaria | Oriental | Hombre","N1",261,195,74.7,1.155
+"N1 | Asalariado privado | Informal | Secundaria | Oriental | Mujer","N1",107,72,67.3,1.283
+"N1 | Asalariado privado | Informal | Secundaria | Pacífica | Hombre","N1",218,148,67.9,1.271
+"N1 | Asalariado privado | Informal | Secundaria | Pacífica | Mujer","N1",92,67,72.8,1.292
+"N1 | Asalariado privado | Informal | Superior | Bogotá | Hombre","N1",62,36,58.1,1.671
+"N1 | Asalariado privado | Informal | Superior | Bogotá | Mujer","N1",70,47,67.1,1.39
+"N1 | Asalariado privado | Informal | Superior | Caribe | Hombre","N1",274,170,62,1.547
+"N1 | Asalariado privado | Informal | Superior | Caribe | Mujer","N1",365,243,66.6,1.549
+"N1 | Asalariado privado | Informal | Superior | Central | Hombre","N1",310,214,69,1.432
+"N1 | Asalariado privado | Informal | Superior | Central | Mujer","N1",400,294,73.5,1.384
+"N1 | Asalariado privado | Informal | Superior | Oriental | Hombre","N1",172,110,64,1.704
+"N1 | Asalariado privado | Informal | Superior | Oriental | Mujer","N1",222,144,64.9,1.529
+"N1 | Asalariado privado | Informal | Superior | Pacífica | Hombre","N1",158,103,65.2,1.622
+"N1 | Asalariado privado | Informal | Superior | Pacífica | Mujer","N1",219,151,68.9,1.462
+"N1 | Cuenta propia | Formal | Media | Bogotá | Hombre","N1",65,36,55.4,1.76
+"N1 | Cuenta propia | Formal | Media | Caribe | Hombre","N1",147,92,62.6,1.499
+"N1 | Cuenta propia | Formal | Media | Caribe | Mujer","N1",67,37,55.2,1.354
+"N1 | Cuenta propia | Formal | Media | Central | Hombre","N1",368,174,47.3,1.992
+"N1 | Cuenta propia | Formal | Media | Central | Mujer","N1",112,61,54.5,1.816
+"N1 | Cuenta propia | Formal | Media | Oriental | Hombre","N1",174,92,52.9,1.558
+"N1 | Cuenta propia | Formal | Media | Oriental | Mujer","N1",87,44,50.6,1.838
+"N1 | Cuenta propia | Formal | Media | Pacífica | Hombre","N1",138,75,54.3,1.548
+"N1 | Cuenta propia | Formal | Media | Pacífica | Mujer","N1",75,33,44,1.647
+"N1 | Cuenta propia | Formal | Primaria | Caribe | Hombre","N1",56,32,57.1,1.43
+"N1 | Cuenta propia | Formal | Primaria | Central | Hombre","N1",162,92,56.8,1.83
+"N1 | Cuenta propia | Formal | Primaria | Oriental | Hombre","N1",89,53,59.6,1.611
+"N1 | Cuenta propia | Formal | Primaria | Pacífica | Hombre","N1",60,35,58.3,1.577
+"N1 | Cuenta propia | Formal | Secundaria | Central | Hombre","N1",137,71,51.8,1.685
+"N1 | Cuenta propia | Formal | Secundaria | Oriental | Hombre","N1",55,32,58.2,1.572
+"N1 | Cuenta propia | Formal | Superior | Bogotá | Hombre","N1",145,70,48.3,1.909
+"N1 | Cuenta propia | Formal | Superior | Bogotá | Mujer","N1",115,56,48.7,1.766
+"N1 | Cuenta propia | Formal | Superior | Caribe | Hombre","N1",465,233,50.1,1.859
+"N1 | Cuenta propia | Formal | Superior | Caribe | Mujer","N1",450,231,51.3,1.761
+"N1 | Cuenta propia | Formal | Superior | Central | Hombre","N1",595,300,50.4,1.842
+"N1 | Cuenta propia | Formal | Superior | Central | Mujer","N1",596,306,51.3,1.89
+"N1 | Cuenta propia | Formal | Superior | Oriental | Hombre","N1",279,116,41.6,2.178
+"N1 | Cuenta propia | Formal | Superior | Oriental | Mujer","N1",318,138,43.4,2.455
+"N1 | Cuenta propia | Formal | Superior | Pacífica | Hombre","N1",358,170,47.5,1.966
+"N1 | Cuenta propia | Formal | Superior | Pacífica | Mujer","N1",343,167,48.7,1.871
+"N1 | Cuenta propia | Informal | Media | Bogotá | Hombre","N1",261,119,45.6,2.13
+"N1 | Cuenta propia | Informal | Media | Bogotá | Mujer","N1",167,80,47.9,1.886
+"N1 | Cuenta propia | Informal | Media | Caribe | Hombre","N1",3472,1911,55,1.505
+"N1 | Cuenta propia | Informal | Media | Caribe | Mujer","N1",2066,1194,57.8,1.492
+"N1 | Cuenta propia | Informal | Media | Central | Hombre","N1",1414,769,54.4,1.569
+"N1 | Cuenta propia | Informal | Media | Central | Mujer","N1",1280,719,56.2,1.689
+"N1 | Cuenta propia | Informal | Media | Oriental | Hombre","N1",1129,635,56.2,1.651
+"N1 | Cuenta propia | Informal | Media | Oriental | Mujer","N1",963,507,52.6,1.796
+"N1 | Cuenta propia | Informal | Media | Pacífica | Hombre","N1",1093,660,60.4,1.38
+"N1 | Cuenta propia | Informal | Media | Pacífica | Mujer","N1",815,458,56.2,1.536
+"N1 | Cuenta propia | Informal | Ninguno/preescolar | Caribe | Hombre","N1",712,529,74.3,1.18
+"N1 | Cuenta propia | Informal | Ninguno/preescolar | Caribe | Mujer","N1",352,279,79.3,1.099
+"N1 | Cuenta propia | Informal | Ninguno/preescolar | Central | Hombre","N1",283,230,81.3,1.129
+"N1 | Cuenta propia | Informal | Ninguno/preescolar | Central | Mujer","N1",103,61,59.2,1.335
+"N1 | Cuenta propia | Informal | Ninguno/preescolar | Oriental | Hombre","N1",164,139,84.8,1.12
+"N1 | Cuenta propia | Informal | Ninguno/preescolar | Oriental | Mujer","N1",63,40,63.5,1.685
+"N1 | Cuenta propia | Informal | Ninguno/preescolar | Pacífica | Hombre","N1",186,148,79.6,1.159
+"N1 | Cuenta propia | Informal | Ninguno/preescolar | Pacífica | Mujer","N1",126,100,79.4,1.086
+"N1 | Cuenta propia | Informal | Primaria | Bogotá | Hombre","N1",178,86,48.3,1.904
+"N1 | Cuenta propia | Informal | Primaria | Bogotá | Mujer","N1",92,45,48.9,1.904
+"N1 | Cuenta propia | Informal | Primaria | Caribe | Hombre","N1",2605,1683,64.6,1.304
+"N1 | Cuenta propia | Informal | Primaria | Caribe | Mujer","N1",1311,840,64.1,1.291
+"N1 | Cuenta propia | Informal | Primaria | Central | Hombre","N1",1830,1268,69.3,1.244
+"N1 | Cuenta propia | Informal | Primaria | Central | Mujer","N1",1074,653,60.8,1.55
+"N1 | Cuenta propia | Informal | Primaria | Oriental | Hombre","N1",1444,1010,69.9,1.278
+"N1 | Cuenta propia | Informal | Primaria | Oriental | Mujer","N1",761,474,62.3,1.407
+"N1 | Cuenta propia | Informal | Primaria | Pacífica | Hombre","N1",1268,947,74.7,1.143
+"N1 | Cuenta propia | Informal | Primaria | Pacífica | Mujer","N1",774,523,67.6,1.254
+"N1 | Cuenta propia | Informal | Secundaria | Bogotá | Hombre","N1",139,67,48.2,1.966
+"N1 | Cuenta propia | Informal | Secundaria | Bogotá | Mujer","N1",89,48,53.9,1.754
+"N1 | Cuenta propia | Informal | Secundaria | Caribe | Hombre","N1",1904,1154,60.6,1.4
+"N1 | Cuenta propia | Informal | Secundaria | Caribe | Mujer","N1",927,566,61.1,1.394
+"N1 | Cuenta propia | Informal | Secundaria | Central | Hombre","N1",925,542,58.6,1.425
+"N1 | Cuenta propia | Informal | Secundaria | Central | Mujer","N1",641,377,58.8,1.583
+"N1 | Cuenta propia | Informal | Secundaria | Oriental | Hombre","N1",690,415,60.1,1.488
+"N1 | Cuenta propia | Informal | Secundaria | Oriental | Mujer","N1",436,246,56.4,1.514
+"N1 | Cuenta propia | Informal | Secundaria | Pacífica | Hombre","N1",628,409,65.1,1.343
+"N1 | Cuenta propia | Informal | Secundaria | Pacífica | Mujer","N1",350,220,62.9,1.423
+"N1 | Cuenta propia | Informal | Superior | Bogotá | Hombre","N1",126,54,42.9,2.07
+"N1 | Cuenta propia | Informal | Superior | Bogotá | Mujer","N1",118,56,47.5,2.015
+"N1 | Cuenta propia | Informal | Superior | Caribe | Hombre","N1",1535,836,54.5,1.571
+"N1 | Cuenta propia | Informal | Superior | Caribe | Mujer","N1",1396,788,56.4,1.639
+"N1 | Cuenta propia | Informal | Superior | Central | Hombre","N1",673,370,55,1.759
+"N1 | Cuenta propia | Informal | Superior | Central | Mujer","N1",725,390,53.8,1.839
+"N1 | Cuenta propia | Informal | Superior | Oriental | Hombre","N1",518,250,48.3,2.023
+"N1 | Cuenta propia | Informal | Superior | Oriental | Mujer","N1",519,257,49.5,1.976
+"N1 | Cuenta propia | Informal | Superior | Pacífica | Hombre","N1",512,282,55.1,1.902
+"N1 | Cuenta propia | Informal | Superior | Pacífica | Mujer","N1",493,261,52.9,1.665
+"N1 | Doméstico | Formal | Media | Central | Mujer","N1",45,33,73.3,1.31
+"N1 | Doméstico | Formal | Primaria | Central | Mujer","N1",59,39,66.1,1.381
+"N1 | Doméstico | Informal | Media | Caribe | Mujer","N1",371,257,69.3,1.437
+"N1 | Doméstico | Informal | Media | Central | Mujer","N1",121,92,76,1.367
+"N1 | Doméstico | Informal | Media | Oriental | Mujer","N1",92,55,59.8,1.582
+"N1 | Doméstico | Informal | Media | Pacífica | Mujer","N1",126,90,71.4,1.233
+"N1 | Doméstico | Informal | Ninguno/preescolar | Caribe | Mujer","N1",52,40,76.9,1.258
+"N1 | Doméstico | Informal | Primaria | Caribe | Mujer","N1",315,213,67.6,1.492
+"N1 | Doméstico | Informal | Primaria | Central | Mujer","N1",196,132,67.3,1.265
+"N1 | Doméstico | Informal | Primaria | Oriental | Mujer","N1",106,76,71.7,1.344
+"N1 | Doméstico | Informal | Primaria | Pacífica | Mujer","N1",146,108,74,1.162
+"N1 | Doméstico | Informal | Secundaria | Caribe | Mujer","N1",228,166,72.8,1.271
+"N1 | Doméstico | Informal | Secundaria | Central | Mujer","N1",125,85,68,1.299
+"N1 | Doméstico | Informal | Secundaria | Oriental | Mujer","N1",46,30,65.2,1.354
+"N1 | Doméstico | Informal | Secundaria | Pacífica | Mujer","N1",72,52,72.2,1.192
+"N1 | Doméstico | Informal | Superior | Caribe | Mujer","N1",81,61,75.3,1.19
+"N1 | Gobierno | Formal | Media | Caribe | Hombre","N1",166,82,49.4,1.604
+"N1 | Gobierno | Formal | Media | Central | Hombre","N1",190,95,50,1.887
+"N1 | Gobierno | Formal | Media | Oriental | Hombre","N1",125,69,55.2,1.993
+"N1 | Gobierno | Formal | Media | Pacífica | Hombre","N1",90,50,55.6,1.308
+"N1 | Gobierno | Formal | Superior | Bogotá | Hombre","N1",78,38,48.7,1.869
+"N1 | Gobierno | Formal | Superior | Bogotá | Mujer","N1",113,49,43.4,1.915
+"N1 | Gobierno | Formal | Superior | Caribe | Hombre","N1",588,273,46.4,1.939
+"N1 | Gobierno | Formal | Superior | Caribe | Mujer","N1",751,358,47.7,1.856
+"N1 | Gobierno | Formal | Superior | Central | Hombre","N1",711,319,44.9,2
+"N1 | Gobierno | Formal | Superior | Central | Mujer","N1",823,408,49.6,1.973
+"N1 | Gobierno | Formal | Superior | Oriental | Hombre","N1",360,164,45.6,2.17
+"N1 | Gobierno | Formal | Superior | Oriental | Mujer","N1",557,267,47.9,1.786
+"N1 | Gobierno | Formal | Superior | Pacífica | Hombre","N1",440,224,50.9,1.945
+"N1 | Gobierno | Formal | Superior | Pacífica | Mujer","N1",617,307,49.8,1.563
+"N1 | Patrón | Formal | Media | Central | Hombre","N1",73,38,52.1,2.401
+"N1 | Patrón | Formal | Superior | Caribe | Hombre","N1",101,50,49.5,2.289
+"N1 | Patrón | Formal | Superior | Central | Hombre","N1",154,81,52.6,1.722
+"N1 | Patrón | Formal | Superior | Central | Mujer","N1",83,47,56.6,1.71
+"N1 | Patrón | Formal | Superior | Oriental | Hombre","N1",85,42,49.4,1.667
+"N1 | Patrón | Formal | Superior | Pacífica | Hombre","N1",62,32,51.6,1.737
+"N1 | Patrón | Informal | Media | Caribe | Hombre","N1",123,63,51.2,2
+"N1 | Patrón | Informal | Media | Central | Hombre","N1",107,65,60.7,1.318
+"N1 | Patrón | Informal | Media | Oriental | Hombre","N1",77,39,50.6,1.731
+"N1 | Patrón | Informal | Media | Pacífica | Hombre","N1",70,43,61.4,1.477
+"N1 | Patrón | Informal | Primaria | Caribe | Hombre","N1",91,58,63.7,1.51
+"N1 | Patrón | Informal | Primaria | Central | Hombre","N1",149,123,82.6,1.182
+"N1 | Patrón | Informal | Primaria | Central | Mujer","N1",40,34,85,1.138
+"N1 | Patrón | Informal | Primaria | Oriental | Hombre","N1",108,85,78.7,1.222
+"N1 | Patrón | Informal | Primaria | Pacífica | Hombre","N1",63,41,65.1,1.423
+"N1 | Patrón | Informal | Secundaria | Caribe | Hombre","N1",54,33,61.1,1.589
+"N1 | Patrón | Informal | Secundaria | Central | Hombre","N1",52,35,67.3,1.255
+"N1 | Patrón | Informal | Superior | Caribe | Hombre","N1",111,66,59.5,1.439
+"N1 | Patrón | Informal | Superior | Central | Hombre","N1",85,55,64.7,1.415
+"N2 | Asalariado privado | Formal | Ninguno/preescolar | Central","N2",41,30,73.2,1.213
+"N2 | Asalariado privado | Informal | Secundaria | Bogotá","N2",74,42,56.8,1.657
+"N2 | Cuenta propia | Formal | Secundaria | Pacífica","N2",56,37,66.1,1.347
+"N2 | Patrón | Informal | Secundaria | Oriental","N2",58,33,56.9,1.663
+"N2 | Patrón | Informal | Secundaria | Pacífica","N2",40,30,75,1.297
+"N2 | Patrón | Informal | Superior | Oriental","N2",83,41,49.4,1.849
+"N2 | Patrón | Informal | Superior | Pacífica","N2",100,44,44,1.957
+"N3 | Asalariado privado | Formal | Ninguno/preescolar","N3",58,41,70.7,1.386
+"N3 | Asalariado privado | Formal | Primaria","N3",83,46,55.4,1.697
+"N3 | Asalariado privado | Informal | Ninguno/preescolar","N3",47,35,74.5,1.101
+"N3 | Cuenta propia | Formal | Primaria","N3",138,76,55.1,1.67
+"N3 | Cuenta propia | Formal | Secundaria","N3",116,69,59.5,1.759
+"N3 | Doméstico | Formal | Media","N3",116,86,74.1,1.435
+"N3 | Doméstico | Formal | Primaria","N3",106,70,66,1.271
+"N3 | Doméstico | Formal | Secundaria","N3",82,54,65.9,1.482
+"N3 | Doméstico | Informal | Media","N3",56,39,69.6,1.277
+"N3 | Doméstico | Informal | Ninguno/preescolar","N3",60,46,76.7,1.433
+"N3 | Doméstico | Informal | Primaria","N3",48,34,70.8,1.431
+"N3 | Doméstico | Informal | Superior","N3",110,80,72.7,1.256
+"N3 | Gobierno | Formal | Media","N3",242,107,44.2,1.954
+"N3 | Gobierno | Formal | Primaria","N3",57,33,57.9,1.645
+"N3 | Patrón | Formal | Media","N3",204,97,47.5,1.766
+"N3 | Patrón | Formal | Primaria","N3",98,59,60.2,1.733
+"N3 | Patrón | Formal | Secundaria","N3",58,34,58.6,1.377
+"N3 | Patrón | Formal | Superior","N3",158,69,43.7,2.179
+"N3 | Patrón | Informal | Media","N3",235,122,51.9,1.935
+"N3 | Patrón | Informal | Ninguno/preescolar","N3",61,54,88.5,1.054
+"N3 | Patrón | Informal | Primaria","N3",99,65,65.7,1.653
+"N3 | Patrón | Informal | Secundaria","N3",50,31,62,1.628
+"N3 | Patrón | Informal | Superior","N3",140,75,53.6,1.744
+"N4 | Doméstico | Formal","N4",59,36,61,1.959
+"N5 | Asalariado privado","N5",86,50,58.1,1.673
+"N6 | resto","N6",133,76,57.1,1.567

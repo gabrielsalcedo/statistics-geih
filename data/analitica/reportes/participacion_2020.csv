@@ -1,0 +1,20 @@
+"dimension","grupo","pct_original","pct_ajustado","diferencia_pp"
+"posicion","Asalariado privado",44.08,44.08,0
+"posicion","Cuenta propia",45.37,45.33,-0.0399999999999991
+"posicion","Doméstico",2.78,2.81,0.0300000000000002
+"posicion","Gobierno",4.35,4.35,0
+"posicion","Patrón",3.42,3.42,0
+"educ","Media",31.44,31.43,-0.0100000000000016
+"educ","Ninguno/preescolar",4.15,4.12,-0.0300000000000002
+"educ","Primaria",23.37,23.38,0.00999999999999801
+"educ","Secundaria",12.97,13,0.0299999999999994
+"educ","Superior",28.07,28.07,0
+"formal","Formal",39.92,39.91,-0.0100000000000051
+"formal","Informal",60.08,60.09,0.0100000000000051
+"sexo","Hombre",62.3,62.26,-0.0399999999999991
+"sexo","Mujer",37.7,37.74,0.0399999999999991
+"region","Bogotá",17.22,17.14,-0.0799999999999983
+"region","Caribe",23.47,23.51,0.0400000000000027
+"region","Central",24.16,24.19,0.0300000000000011
+"region","Oriental",18.57,18.55,-0.0199999999999996
+"region","Pacífica",16.58,16.61,0.0300000000000011

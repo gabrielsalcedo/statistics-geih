@@ -1,0 +1,8 @@
+"anio","paso","filas","pct_filas","pct_fex"
+2020,"0. Ocupados (base cruda)",146862,100,100
+2020,"1. Edad >= 15",146862,100,100
+2020,"2. Remunerados",142967,97.35,97.01
+2020,"3. Cobertura común (24 dptos.)",134691,91.71,96.23
+2020,"4. Sin ingreso igual a 0",133019,90.57,94.31
+2020,"5. Dimensiones completas",96931,66,70.4
+2020,"6. Responden ingreso (entran al Theil)",57042,38.84,46.42
