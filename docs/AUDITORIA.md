@@ -696,6 +696,84 @@ Qué conviene decidir junto con D5:
 
 ---
 
+## Fase 4 — Estadística descriptiva y alineación con el curso
+
+El checklist completo está en `docs/requisitos.md`. La tabla por sesión y las propuestas
+están en `docs/alineacion_curso.md`.
+
+### 4.1 Descriptiva frente a la guía
+
+| Pide la guía | `04_estadistica_descriptiva.R` | Comentario |
+|---|---|---|
+| Tipo y escala de cada variable | `diccionario_variables.csv`, `data/codebook.md` | Bien |
+| Frecuencias y gráficas univariadas | Tablas 02 (ingreso en SMMLV, edad y horas agrupadas) y 03 (cualitativas, muestra frente a población); figuras 03 (barras) y 07a (histograma) | Falta `tam_empresa`. Las clases de ingreso en salarios mínimos son una buena decisión y está justificada (`04:210–213`) |
+| Tablas cruzadas y bivariadas | 4 tablas cruzadas (% por fila), ingreso por grupo, boxplots y dispersión horas–ingreso | Bien |
+| Centro, posición, dispersión y forma | Tabla 01: media, mediana, moda, p10–p90, rango, RIC, DE, CV, asimetría y curtosis en exceso | Bien. La moda del ingreso en SMMLV depende de qué salario mínimo se use en enero (`04:177`) |
+| Interpretación de cada tabla y figura | No existe | Va en el texto. Hoy ninguna entrega incluye la descriptiva |
+
+**¿Está ponderada?** Sí. Todas las medidas, frecuencias y figuras usan `fex_aj`
+(`04:176`). En la dispersión se usa una submuestra de 4.000 sacada con probabilidad ∝ peso.
+Lo comprobé con un ejemplo de juguete:
+- el boxplot pondera: con peso 1.000 en un valor, la mediana pasa a ese valor;
+- el histograma también pondera.
+
+El texto debe decir explícitamente que las cifras describen a la población de ocupados y
+no a los encuestados.
+
+**Advertencia de `ggplot2`.** "Weight dropped" sale de la figura `07b`
+(`04:466–468`). La curva `stat_function` hereda `weight` y lo descarta; el histograma de
+esa figura sí pondera. Es cosmético y se corrige con `inherit.aes = FALSE` en
+`stat_function` (Fase 5).
+
+**Otros detalles:**
+- `06_evolucion.csv` llama "ocupados_millones" a la suma de `fex_aj` / 6 de la *población
+  de estudio* (20,2 M en 2018), no al total de ocupados (22,2 M). Conviene renombrarla.
+- Los CSV se escriben en UTF-8 sin BOM. Excel en Windows muestra mal las tildes
+  ("BogotÃ¡"); R y LaTeX los leen bien. Si alguien los abre en Excel, sirve
+  `write.csv(..., fileEncoding = "UTF-8-BOM")`.
+- Las figuras son PNG y las tablas CSV. Para el informe deben salir en PDF y en `.tex`
+  hacia `outputs/` (Fase 6/7).
+
+### 4.2 Lognormalidad de ln(ingreso), 2024
+
+Diagnóstico de solo lectura: submuestra de 5.000 con probabilidad ∝ `fex_aj`, semilla 2024.
+
+| Medida | Valor | Normal |
+|---|---|---|
+| Asimetría ponderada | −0,52 | 0 |
+| Curtosis en exceso | 2,30 | 0 |
+| P(\|z\| > 3) | 1,11 % | 0,27 % |
+| P(\|z\| > 4) | 0,19 % | 0,01 % |
+| Ingreso exactamente igual a 1 SMMLV | 15,4 % | 0 (distribución continua) |
+| Shapiro-Wilk, n = 5.000 | W = 0,954, p < 10⁻¹⁵ | — |
+| Shapiro-Wilk, n = 200 (200 submuestras) | rechaza en el 100 % | 5 % si fuera normal |
+
+- **El QQ-plot** muestra una cola baja mucho más larga que la normal (ingresos muy bajos),
+  una cola alta más pesada y un escalón en el salario mínimo.
+- **El rechazo no es solo un efecto de n grande:** aun con n = 200 se rechaza siempre.
+- **Qué significa para el proyecto.** C y D suponen que ln y es normal. Con este nivel de
+  desviación, se espera que converjan a un valor distinto del Theil, como ya mostró la
+  Fase 3: C +0,024 a +0,088 y D −0,022 a −0,078 según el diseño.
+- **Qué falta en `04`.** La figura 07b tiene el histograma con la curva normal, pero
+  falta el QQ-plot y la prueba sobre una submuestra (propuesta P7). No se agregó: es una
+  decisión de contenido.
+
+### 4.3 Brechas principales frente al curso
+
+1. **No hay ningún intervalo de confianza ni ninguna prueba de hipótesis implementados.**
+   Es requisito mínimo del corte 3.
+2. **No hay procedimientos clásicos (z, t, F, χ²) sobre los datos.** La t pareada de H1 es
+   sobre réplicas simuladas.
+3. **No hay regresión simple** (sesiones 26–27).
+4. **Formato del informe:** la entrega usa Latin Modern e interlineado doble. La guía pide
+   Times o Arial 12 e interlineado 1,5.
+5. **La descriptiva no aparece interpretada en ninguna entrega.** Era del corte 2.
+
+Las propuestas P1–P7 para cerrar 1 a 3 están en `docs/alineacion_curso.md` §2, y esperan
+aprobación del equipo.
+
+---
+
 ## Decisiones para el equipo
 
 Se van agregando a medida que avanza la auditoría. Ninguna se toma sin consultar.
@@ -712,3 +790,6 @@ Se van agregando a medida que avanza la auditoría. Ninguna se toma sin consulta
 | D8 | Comparar S entre dimensiones con distinto número de grupos (H2) | (a) mantener S; (b) reportar además una medida que no dependa del número de grupos | Fase 1, hallazgo 2 |
 | D9 | Ajuste por no respuesta sin estrato (la no respuesta crece con el estrato) | (a) dejarlo como está y reportar la sensibilidad; (b) agregar el estrato a las celdas; (c) calibrar `fex_aj` a los totales de FEX por estrato | Fase 2, §2.4 |
 | D10 | Código 7 de `P6430` desde 2022 (trabajadores pagados excluidos) | (a) recodificar por marco (corrección propuesta); (b) dejarlo y documentarlo | Fase 2, §2.9 |
+| D11 | Análisis clásicos para cumplir el corte 3 | Aprobar todas, algunas o ninguna de las propuestas P1–P7 | Fase 4, `alineacion_curso.md` §2 |
+| D12 | Cómo aplicar pruebas clásicas a una encuesta con pesos | (a) submuestra n = 2.000 con prob. ∝ `fex_aj` (simple, propuesta); (b) paquete `survey` (riguroso, nueva dependencia) | Fase 4 |
+| D13 | Interlineado del informe | 1,5 líneas (lectura probable de "1.5 cm" en la guía); confirmar con el profesor | Fase 4 |
