@@ -73,7 +73,7 @@ contradiga se reporta tal cual.
 Diseño de muestreo de la simulación, C y D con o sin pesos, estrato faltante,
 2018 vs. 2022 en H3, regla para ingresos muy bajos y bootstrap por vivienda.
 
-## 5. Estructura de carpetas (actual; la estructura objetivo se define en la Fase 6)
+## 5. Estructura de carpetas (aprobada en la Fase 6, 28-10-2026)
 
 Los microdatos crudos (62 GB) están hoy en
 `Documents\universidad\4 semestre\estadistica\statistics-geih\data\raw`, no en este
@@ -81,14 +81,22 @@ clon. Solo los necesita `01_base_cruda.R`. Los `.rds` intermedios sí están
 copiados aquí (los ignora Git).
 
 ```
-data/raw/          Microdatos DANE por mes (YYYYMM/*.dta). Ignorado por Git.
-data/final/        Etapa 1: base cruda unida por año (.rds ignorado) + reportes/
-data/analitica/    Etapa 2: base analítica por año (.rds ignorado) + reportes/
-data/resultados/   Etapa 3: Theil (CSV)
-outputs/descriptiva/  Etapa 4: tablas y figuras
-scripts/           00_ a 04_, en orden de ejecución
-docs/              Diccionario DANE, estado del proyecto y auditoría
-docs/curso/        Guía del curso y entregas (LaTeX)
+run_all.R                         Corre todo (desde data/processed o desde los .dta)
+renv.lock, renv/, .Rprofile       Versiones exactas de los paquetes (renv)
+R/                                Funciones: config.R, datos.R, theil.R, salidas.R
+scripts/                          01_ a 07_, el número es el orden de ejecución
+tests/testthat/                   Pruebas
+data/raw/                         Microdatos DANE (YYYYMM/*.dta). Ignorado salvo el README
+data/intermedia/etapa1_cruda/     Base cruda unida por año (.rds ignorado) + reportes/
+data/intermedia/etapa2_analitica/ Base analítica por año (.rds ignorado) + reportes/
+data/processed/                   Bases analíticas en CSV comprimido (versionadas)
+data/resultados/                  Theil por año, peso y dimensión (CSV)
+outputs/figuras/                  Figuras en PDF (para LaTeX)
+outputs/tablas/                   Tablas en .tex (para \input{}) y .csv
+report/  slides/  poster/         Informe, presentación y póster (LaTeX)
+docs/                             Auditoría, requisitos, alineación con el curso, diccionario DANE
+docs/curso/                       Guía del curso y entregas
+_revisar/                         Archivos dudosos pendientes de decisión
 ```
 
 ## 6. Orden de ejecución
@@ -96,16 +104,16 @@ docs/curso/        Guía del curso y entregas (LaTeX)
 `source("run_all.R")` corre todo. Por defecto parte de `data/processed/`, que está
 versionada; con `desde_crudos <- TRUE` reconstruye antes las bases desde los `.dta`.
 
-1. `scripts/01_base_cruda.R`: `data/raw` → `data/final` (requiere los `.dta`).
-2. `scripts/02_base_analitica.R`: `data/final` → `data/analitica`.
-3. `scripts/03_exportar_procesados.R`: `data/analitica` → `data/processed/*.csv.gz`
+1. `scripts/01_base_cruda.R`: `data/raw` → `data/intermedia/etapa1_cruda` (requiere los `.dta`).
+2. `scripts/02_base_analitica.R`: `data/intermedia/etapa1_cruda` → `data/intermedia/etapa2_analitica`.
+3. `scripts/03_exportar_procesados.R`: `data/intermedia/etapa2_analitica` → `data/processed/*.csv.gz`
    y `data/checksums.txt` (MD5).
 4. `scripts/04_verificar_datos.R`: comprueba `data/processed/` (huellas, conteos, Theil A).
    Después corren las pruebas: `testthat::test_dir("tests/testthat")`.
 5. `scripts/05_theil.R`: Theil A/B y descomposición → `data/resultados`.
-6. `scripts/06_descriptiva.R`: → `outputs/descriptiva`.
+6. `scripts/06_descriptiva.R`: → `outputs/tablas` (.tex y .csv) y `outputs/figuras` (.pdf).
 7. `scripts/07_inferencia_clasica.R`: P1–P7 sobre una submuestra ∝ `fex_aj` →
-   `outputs/inferencia`.
+   `outputs/tablas/p*` y `outputs/figuras/p*`.
 
 El número de cada script es su orden de ejecución (renombrados el 28-10-2026; los
 nombres antiguos aparecen en `docs/AUDITORIA.md` y `docs/ESTADO_PROYECTO.md`).

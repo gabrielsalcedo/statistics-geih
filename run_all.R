@@ -46,4 +46,4 @@ correr("05_theil.R")
 correr("06_descriptiva.R")
 correr("07_inferencia_clasica.R")
 
-cat("\nListo. Resultados en data/resultados/, outputs/descriptiva/ y outputs/inferencia/.\n")
+cat("\nListo. Resultados en data/resultados/, outputs/tablas/ y outputs/figuras/.\n")

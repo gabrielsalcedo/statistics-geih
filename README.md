@@ -14,10 +14,13 @@ laboral en Colombia, 2018–2026 (meses 1 a 6 de cada año).
 
 1. Clona el repositorio y abre `statistics_geih.Rproj` en RStudio. Así `here()` encuentra
    las carpetas.
-2. Instala los paquetes, una sola vez:
+2. Instala los paquetes, una sola vez. Al abrir el proyecto, `renv` se activa solo; con
+   esta línea instala las mismas versiones que usamos (están en `renv.lock`):
    ```r
-   install.packages(c("here", "dplyr", "tidyr", "ggplot2", "scales", "quantreg", "testthat"))
+   renv::restore()
    ```
+   Si `renv` da problemas, también sirve instalarlos a mano:
+   `install.packages(c("here", "dplyr", "tidyr", "ggplot2", "scales", "quantreg", "testthat"))`.
 3. Corre todo:
    ```r
    source("run_all.R")
@@ -65,13 +68,13 @@ La redacción completa está en `docs/curso/report/primera_entrega_corregida.tex
 
 | Paso | Script | Entrada | Salida | ¿Necesita los .dta? |
 |---|---|---|---|---|
-| 1 | `scripts/01_base_cruda.R` | `data/raw/` | `data/final/*.rds` + `reportes/` | Sí |
-| 2 | `scripts/02_base_analitica.R` | `data/final/` | `data/analitica/*.rds` + `reportes/` | Sí (usa el paso 1) |
-| 3 | `scripts/03_exportar_procesados.R` | `data/analitica/` | `data/processed/*.csv.gz`, `data/checksums.txt` | Sí (usa el paso 2) |
+| 1 | `scripts/01_base_cruda.R` | `data/raw/` | `data/intermedia/etapa1_cruda/*.rds` + `reportes/` | Sí |
+| 2 | `scripts/02_base_analitica.R` | `data/intermedia/etapa1_cruda/` | `data/intermedia/etapa2_analitica/*.rds` + `reportes/` | Sí (usa el paso 1) |
+| 3 | `scripts/03_exportar_procesados.R` | `data/intermedia/etapa2_analitica/` | `data/processed/*.csv.gz`, `data/checksums.txt` | Sí (usa el paso 2) |
 | 4 | `scripts/04_verificar_datos.R` | `data/processed/` | mensajes OK/FALLA | No |
 | 5 | `scripts/05_theil.R` | `data/processed/` | `data/resultados/theil_*.csv` | No |
-| 6 | `scripts/06_descriptiva.R` | `data/processed/` | `outputs/descriptiva/` | No |
-| 7 | `scripts/07_inferencia_clasica.R` | `data/processed/` | `outputs/inferencia/` | No |
+| 6 | `scripts/06_descriptiva.R` | `data/processed/` | `outputs/tablas/`, `outputs/figuras/` | No |
+| 7 | `scripts/07_inferencia_clasica.R` | `data/processed/` | `outputs/tablas/p*`, `outputs/figuras/p*` | No |
 
 `run_all.R` corre los pasos 4 a 7 y las pruebas (después del paso 4). Con
 `desde_crudos <- TRUE` corre antes los pasos 1 a 3.
@@ -81,22 +84,24 @@ La redacción completa está en `docs/curso/report/primera_entrega_corregida.tex
 ```
 statistics-geih/
 ├── run_all.R              Corre todo el proyecto
+├── renv.lock              Versiones exactas de los paquetes (renv::restore())
 ├── R/                     Funciones (sin efectos al cargarlas)
 │   ├── config.R           Años, dimensiones y demás constantes comunes
 │   ├── datos.R            Leer y escribir data/processed/
-│   └── theil.R            Estimadores A, B, C, D y descomposición
-├── scripts/               Pasos del análisis, en orden
+│   ├── theil.R            Estimadores A, B, C, D y descomposición
+│   └── salidas.R          Guardar tablas (.csv + .tex) y figuras (.pdf)
+├── scripts/               Pasos del análisis: el número es el orden de ejecución
 ├── tests/testthat/        Pruebas: testthat::test_dir("tests/testthat")
 ├── data/
 │   ├── raw/               Microdatos del DANE (NO están en GitHub; ver README de la carpeta)
-│   ├── final/reportes/    Etapa 1: controles de la unión de módulos
-│   ├── analitica/reportes/  Etapa 2: trazabilidad de filtros y celdas del ajuste
+│   ├── intermedia/etapa1_cruda/reportes/      Controles de la unión de módulos
+│   ├── intermedia/etapa2_analitica/reportes/  Trazabilidad de filtros y celdas del ajuste
 │   ├── processed/         Bases analíticas en CSV (versionadas)
 │   ├── resultados/        Theil por año, peso y dimensión
 │   ├── codebook.md        Libro de códigos
 │   └── checksums.txt      Huellas MD5 de data/processed/
-├── outputs/descriptiva/   Tablas (.csv) y figuras (.png) de la descriptiva
-├── outputs/inferencia/    Tablas y figuras de la inferencia clásica
+├── outputs/figuras/       Figuras en PDF (las incluye LaTeX con \includegraphics)
+├── outputs/tablas/        Tablas en .tex (las incluye LaTeX con \input) y en .csv
 ├── docs/                  Auditoría, estado del proyecto, diccionario DANE y entregas
 └── _revisar/              Archivos de prueba antiguos, pendientes de que el equipo decida
 ```
@@ -105,12 +110,12 @@ statistics-geih/
 
 | Resultado | Lo genera | Archivo |
 |---|---|---|
-| Tabla 2 de la entrega (trazabilidad) | `02_base_analitica.R` | `data/analitica/reportes/trazabilidad_<año>.csv` |
+| Tabla 2 de la entrega (trazabilidad) | `02_base_analitica.R` | `data/intermedia/etapa2_analitica/reportes/trazabilidad_<año>.csv` |
 | Theil A y B por año; porcentaje explicado por dimensión | `05_theil.R` | `data/resultados/theil_resumen.csv` |
 | Detalle por grupo de cada descomposición | `05_theil.R` | `data/resultados/theil_grupos.csv` |
-| Medidas, frecuencias, tablas cruzadas y evolución | `06_descriptiva.R` | `outputs/descriptiva/tablas/` |
-| Figuras de la descriptiva | `06_descriptiva.R` | `outputs/descriptiva/figuras/` |
-| Intervalos y pruebas clásicas (P1–P7): IC, t, F, χ², regresión, normalidad | `07_inferencia_clasica.R` | `outputs/inferencia/tablas/resumen_pruebas.csv` y figuras |
+| Medidas, frecuencias, tablas cruzadas y evolución | `06_descriptiva.R` | `outputs/tablas/01_…` a `06_…` (.tex y .csv) |
+| Figuras de la descriptiva | `06_descriptiva.R` | `outputs/figuras/03_…` a `07c_…` (.pdf) |
+| Intervalos y pruebas clásicas (P1–P7): IC, t, F, χ², regresión, normalidad | `07_inferencia_clasica.R` | `outputs/tablas/resumen_pruebas.tex`, `outputs/tablas/p*`, `outputs/figuras/p*` |
 
 Los números de referencia (para comprobar que obtienes lo mismo) están en `CLAUDE.md`,
 sección 9.

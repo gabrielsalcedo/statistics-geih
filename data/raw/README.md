@@ -40,9 +40,9 @@ source("run_all.R")   # con desde_crudos <- TRUE al inicio del archivo
 O paso a paso:
 
 ```r
-source("scripts/01_base_cruda.R")       # data/raw      -> data/final/*.rds   (~5 min)
-source("scripts/02_base_analitica.R")   # data/final    -> data/analitica/*.rds
-source("scripts/03_exportar_procesados.R")   # data/analitica -> data/processed/*.csv.gz
+source("scripts/01_base_cruda.R")       # data/raw      -> data/intermedia/etapa1_cruda/*.rds   (~5 min)
+source("scripts/02_base_analitica.R")   # data/intermedia/etapa1_cruda    -> data/intermedia/etapa2_analitica/*.rds
+source("scripts/03_exportar_procesados.R")   # data/intermedia/etapa2_analitica -> data/processed/*.csv.gz
 ```
 
 Si los archivos son los mismos, los CSV salen idénticos byte a byte y
