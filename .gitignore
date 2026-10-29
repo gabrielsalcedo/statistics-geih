@@ -1,0 +1,46 @@
+# --- R / RStudio: archivos de sesión personales ---
+.Rproj.user/
+.RData
+.RDataTmp
+.Rhistory
+*.Rhistory
+.Ruserdata
+
+# --- Microdatos del DANE (~62 GB). Cada quien los descarga (ver data/raw/README.md) ---
+data/raw/*
+!data/raw/README.md
+data/afa/
+*.dta
+*.DTA
+
+# --- Intermedios pesados y regenerables (los produce el pipeline) ---
+data/intermedia/etapa1_cruda/*.rds
+data/intermedia/etapa2_analitica/*.rds
+
+# --- LaTeX: PDF compilados (se regeneran al compilar) ---
+report/main.pdf
+slides/main.pdf
+poster/main.pdf
+
+# --- LaTeX: archivos auxiliares ---
+*.aux
+*.log
+*.out
+*.toc
+*.bbl
+*.bcf
+*.blg
+*.run.xml
+*.synctex.gz
+*.fdb_latexmk
+*.fls
+*.nav
+*.snm
+*.vrb
+
+# --- Sistema operativo ---
+Thumbs.db
+desktop.ini
+.DS_Store
+
+!outputs/.gitkeep
