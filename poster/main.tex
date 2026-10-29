@@ -21,6 +21,8 @@
 \setbeamercolor{block body}{bg=white}
 
 \graphicspath{{../outputs/figuras/}{../docs/curso/report/}}
+% Figura con alto máximo para que todo quepa en los 100 cm
+\newcommand{\figura}[1]{\includegraphics[width=\linewidth,height=0.15\paperheight,keepaspectratio]{#1}}
 \newcommand{\tabla}[1]{\input{../outputs/tablas/#1.tex}}
 \newcommand{\tablaancha}[1]{\resizebox{\linewidth}{!}{\tabla{#1}}}
 
@@ -65,12 +67,12 @@
 
       \begin{block}{¿Cómo es el ingreso laboral?}
         \centering
-        \includegraphics[width=\linewidth]{07a_histograma_ingreso}
+        \figura{07a_histograma_ingreso}
       \end{block}
 
       \begin{block}{¿Es lognormal?}
         \centering
-        \includegraphics[width=\linewidth]{p7_ln_ingreso_normalidad}
+        \figura{p7_ln_ingreso_normalidad}
       \end{block}
 
     \end{column}
@@ -100,8 +102,9 @@
       \end{block}
 
       \begin{block}{Referencias}
+        % Solo aparecen las obras citadas con \textcite{} o \parencite{} en el póster.
+        % Elegir 3 o 4: no cabe la lista completa.
         \small
-        \nocite{*}
         \printbibliography[heading=none]
       \end{block}
 
