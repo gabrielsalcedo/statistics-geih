@@ -65,6 +65,8 @@ contradiga se reporta tal cual.
 - Factor de expansión: `FEX_C_2011` para 2018–2021 y `FEX_C18` para 2022–2026.
 - Valor "verdadero" de la simulación: A sobre la base 2024 completa.
 - Simulación: 500 réplicas para cada n ∈ {500, 2.000, 10.000, 50.000}.
+- Inferencia clásica (P1–P7, aprobadas el 28-10-2026): pruebas sobre una submuestra de
+  n = 2.000 sacada con probabilidad ∝ `fex_aj` (decisiones D11 y D12).
 
 ### Decisiones abiertas (ver `docs/AUDITORIA.md`, §"Decisiones para el equipo")
 
@@ -102,6 +104,8 @@ versionada; con `desde_crudos <- TRUE` reconstruye antes las bases desde los `.d
 5. Pruebas: `testthat::test_dir("tests/testthat")`.
 6. `scripts/03_theil.R`: Theil A/B y descomposición → `data/resultados`.
 7. `scripts/04_estadistica_descriptiva.R`: → `outputs/descriptiva`.
+8. `scripts/05_inferencia_clasica.R`: P1–P7 sobre una submuestra ∝ `fex_aj` →
+   `outputs/inferencia`.
 
 Funciones en `R/`: `config.R` (constantes), `datos.R` (`cargar_analitica()`) y
 `theil.R` (estimadores A–D).

@@ -71,8 +71,9 @@ La redacción completa está en `docs/curso/report/primera_entrega_corregida.tex
 | 0 | `scripts/00_verificar_datos.R` | `data/processed/` | mensajes OK/FALLA | No |
 | 3 | `scripts/03_theil.R` | `data/processed/` | `data/resultados/theil_*.csv` | No |
 | 4 | `scripts/04_estadistica_descriptiva.R` | `data/processed/` | `outputs/descriptiva/` | No |
+| 5 | `scripts/05_inferencia_clasica.R` | `data/processed/` | `outputs/inferencia/` | No |
 
-`run_all.R` corre 0, las pruebas, 3 y 4. Con `desde_crudos <- TRUE` corre antes 1, 2 y 2b.
+`run_all.R` corre 0, las pruebas, 3, 4 y 5. Con `desde_crudos <- TRUE` corre antes 1, 2 y 2b.
 
 ## Estructura
 
@@ -94,6 +95,7 @@ statistics-geih/
 │   ├── codebook.md        Libro de códigos
 │   └── checksums.txt      Huellas MD5 de data/processed/
 ├── outputs/descriptiva/   Tablas (.csv) y figuras (.png) de la descriptiva
+├── outputs/inferencia/    Tablas y figuras de la inferencia clásica
 ├── docs/                  Auditoría, estado del proyecto, diccionario DANE y entregas
 └── _revisar/              Archivos de prueba antiguos, pendientes de que el equipo decida
 ```
@@ -107,6 +109,7 @@ statistics-geih/
 | Detalle por grupo de cada descomposición | `03_theil.R` | `data/resultados/theil_grupos.csv` |
 | Medidas, frecuencias, tablas cruzadas y evolución | `04_estadistica_descriptiva.R` | `outputs/descriptiva/tablas/` |
 | Figuras de la descriptiva | `04_estadistica_descriptiva.R` | `outputs/descriptiva/figuras/` |
+| Intervalos y pruebas clásicas (P1–P7): IC, t, F, χ², regresión, normalidad | `05_inferencia_clasica.R` | `outputs/inferencia/tablas/resumen_pruebas.csv` y figuras |
 
 Los números de referencia (para comprobar que obtienes lo mismo) están en `CLAUDE.md`,
 sección 9.
