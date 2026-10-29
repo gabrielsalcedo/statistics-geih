@@ -16,7 +16,7 @@
 % ---------- Página APA ----------
 \usepackage[margin=1in]{geometry}
 \usepackage{setspace}
-\doublespacing
+\onehalfspacing
 \setlength{\parindent}{0.5in}
 \setlength{\parskip}{0pt}
 
@@ -293,6 +293,152 @@ Con la ECH y la GEIH (2002--2015), el autor descompone el Theil entre y dentro d
 \subsection{\texorpdfstring{\textcite{ariza2017labour}}{Ariza y Montes-Rojas (2017)}}
 
 Con un panel de 13 ciudades (2002--2015), modelos de efectos fijos y variables instrumentales, los autores muestran que la informalidad aumenta significativamente la desigualdad del ingreso laboral, y que la desigualdad ocurre casi toda dentro de las ciudades.
+
+
+% ============================================================
+%  SECCIONES NUEVAS (informe final). Las figuras las generan los
+%  scripts de R en esta misma carpeta (scripts/correr_todo.R).
+%  Las cifras de las tablas están en outputs/*.csv.
+% ============================================================
+
+\section{Estadística descriptiva}
+
+% Todas las cifras están ponderadas con el factor de expansión ajustado (fex_aj).
+% Tablas: outputs/desc_medidas_cuantitativas.csv, desc_frecuencias_*.csv,
+% desc_cruzada_*.csv, desc_ingreso_por_grupo.csv.
+
+% TODO: interpretación
+
+\begin{figure}[htbp]
+  \singlespacing
+  \raggedright
+  {\bfseries Figura 1\par}
+  \vspace{0.5\baselineskip}
+  {\itshape Composición de los ocupados por dimensión, 2026\par}
+  \vspace{0.5\baselineskip}
+  \includegraphics[width=\textwidth]{fig_barras_cualitativas.png}
+\end{figure}
+
+% TODO: interpretación
+
+\begin{figure}[htbp]
+  \singlespacing
+  \raggedright
+  {\bfseries Figura 2\par}
+  \vspace{0.5\baselineskip}
+  {\itshape Distribución del ingreso laboral, 2026\par}
+  \vspace{0.5\baselineskip}
+  \includegraphics[width=\textwidth]{fig_histograma_ingreso.png}
+\end{figure}
+
+% TODO: interpretación
+
+\begin{figure}[htbp]
+  \singlespacing
+  \raggedright
+  {\bfseries Figura 3\par}
+  \vspace{0.5\baselineskip}
+  {\itshape Ingreso laboral por grupo, 2026\par}
+  \vspace{0.5\baselineskip}
+  \includegraphics[width=\textwidth]{fig_boxplot_ingreso_grupo.png}
+\end{figure}
+
+% TODO: interpretación
+
+\begin{figure}[htbp]
+  \singlespacing
+  \raggedright
+  {\bfseries Figura 4\par}
+  \vspace{0.5\baselineskip}
+  {\itshape Logaritmo del ingreso frente a una distribución normal, 2026\par}
+  \vspace{0.5\baselineskip}
+  \includegraphics[width=\textwidth]{fig_ln_ingreso_normal.png}
+\end{figure}
+
+% TODO: interpretación
+
+
+\section{Resultados del experimento}
+
+% Tablas: outputs/simulacion_resumen.csv (sesgo, varianza, ECM y eficiencia relativa).
+
+% TODO: interpretación
+
+\begin{figure}[htbp]
+  \singlespacing
+  \raggedright
+  {\bfseries Figura 5\par}
+  \vspace{0.5\baselineskip}
+  {\itshape Error cuadrático medio de cada estimador según el tamaño de muestra\par}
+  \vspace{0.5\baselineskip}
+  \includegraphics[width=\textwidth]{fig_simulacion_ecm.png}
+\end{figure}
+
+\begin{figure}[htbp]
+  \singlespacing
+  \raggedright
+  {\bfseries Figura 6\par}
+  \vspace{0.5\baselineskip}
+  {\itshape Distribución de las 500 estimaciones con n = 50.000\par}
+  \vspace{0.5\baselineskip}
+  \includegraphics[width=\textwidth]{fig_simulacion_distribucion.png}
+\end{figure}
+
+% TODO: interpretación
+
+
+\section{Theil anual y descomposición}
+
+% Tablas: outputs/theil_por_anio.csv, outputs/theil_participacion_entre.csv.
+
+% TODO: interpretación
+
+\begin{figure}[htbp]
+  \singlespacing
+  \raggedright
+  {\bfseries Figura 7\par}
+  \vspace{0.5\baselineskip}
+  {\itshape Índice de Theil del ingreso laboral, 2018--2026\par}
+  \vspace{0.5\baselineskip}
+  \includegraphics[width=\textwidth]{fig_theil_anual.png}
+\end{figure}
+
+\begin{figure}[htbp]
+  \singlespacing
+  \raggedright
+  {\bfseries Figura 8\par}
+  \vspace{0.5\baselineskip}
+  {\itshape Porcentaje de la desigualdad explicado por cada dimensión\par}
+  \vspace{0.5\baselineskip}
+  \includegraphics[width=\textwidth]{fig_descomposicion.png}
+\end{figure}
+
+% TODO: interpretación
+
+
+\section{Pruebas de hipótesis}
+
+% H1: outputs/simulacion_h1.csv. H2: outputs/bootstrap_h2.csv.
+% H3: outputs/bootstrap_h3.csv. IC: outputs/bootstrap_ic_theil.csv.
+
+% TODO: interpretación
+
+\begin{figure}[htbp]
+  \singlespacing
+  \raggedright
+  {\bfseries Figura 9\par}
+  \vspace{0.5\baselineskip}
+  {\itshape Índice de Theil con intervalo de confianza bootstrap del 95~\%\par}
+  \vspace{0.5\baselineskip}
+  \includegraphics[width=\textwidth]{fig_bootstrap_ic.png}
+\end{figure}
+
+% TODO: interpretación
+
+
+\section{Conclusiones}
+
+% TODO: interpretación
 
 
 % ---------------- Referencias ----------------

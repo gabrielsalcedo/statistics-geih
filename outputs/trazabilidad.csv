@@ -1,0 +1,64 @@
+"anio","paso","filas","pct_filas","pct_fex"
+2018,"0. Ocupados (base cruda)",174668,100,100
+2018,"1. Edad >= 15",173951,99.59,99.39
+2018,"2. Remunerados",168498,96.47,95.88
+2018,"3. Cobertura común (24 dptos.)",168498,96.47,95.88
+2018,"4. Sin ingreso igual a 0",165975,95.02,94.15
+2018,"5. Dimensiones completas",162300,92.92,90.77
+2018,"6. Responden ingreso (entran al Theil)",141025,80.74,82.58
+2019,"0. Ocupados (base cruda)",168441,100,100
+2019,"1. Edad >= 15",167894,99.68,99.47
+2019,"2. Remunerados",162799,96.65,96.12
+2019,"3. Cobertura común (24 dptos.)",162799,96.65,96.12
+2019,"4. Sin ingreso igual a 0",159923,94.94,94.15
+2019,"5. Dimensiones completas",156616,92.98,90.64
+2019,"6. Responden ingreso (entran al Theil)",151283,89.81,87.63
+2020,"0. Ocupados (base cruda)",146862,100,100
+2020,"1. Edad >= 15",146862,100,100
+2020,"2. Remunerados",142967,97.35,97.01
+2020,"3. Cobertura común (24 dptos.)",134691,91.71,96.23
+2020,"4. Sin ingreso igual a 0",133019,90.57,94.31
+2020,"5. Dimensiones completas",96931,66,70.4
+2020,"6. Responden ingreso (entran al Theil)",57042,38.84,46.42
+2021,"0. Ocupados (base cruda)",146094,100,100
+2021,"1. Edad >= 15",145702,99.73,99.59
+2021,"2. Remunerados",141586,96.91,96.55
+2021,"3. Cobertura común (24 dptos.)",141586,96.91,96.55
+2021,"4. Sin ingreso igual a 0",138916,95.09,94.32
+2021,"5. Dimensiones completas",136479,93.42,91.42
+2021,"6. Responden ingreso (entran al Theil)",129750,88.81,86.2
+2022,"0. Ocupados (base cruda)",194647,100,100
+2022,"1. Edad >= 15",194647,100,100
+2022,"2. Remunerados",187413,96.28,94.78
+2022,"3. Cobertura común (24 dptos.)",175684,90.26,93.89
+2022,"4. Sin ingreso igual a 0",173101,88.93,92.23
+2022,"5. Dimensiones completas",168270,86.45,89.04
+2022,"6. Responden ingreso (entran al Theil)",160946,82.69,85.3
+2023,"0. Ocupados (base cruda)",183136,100,100
+2023,"1. Edad >= 15",183136,100,100
+2023,"2. Remunerados",176083,96.15,95
+2023,"3. Cobertura común (24 dptos.)",166024,90.66,94.12
+2023,"4. Sin ingreso igual a 0",164242,89.68,92.96
+2023,"5. Dimensiones completas",160299,87.53,90.23
+2023,"6. Responden ingreso (entran al Theil)",157776,86.15,88.31
+2024,"0. Ocupados (base cruda)",178204,100,100
+2024,"1. Edad >= 15",178204,100,100
+2024,"2. Remunerados",170963,95.94,94.61
+2024,"3. Cobertura común (24 dptos.)",161348,90.54,93.73
+2024,"4. Sin ingreso igual a 0",159750,89.64,92.44
+2024,"5. Dimensiones completas",156063,87.58,89.7
+2024,"6. Responden ingreso (entran al Theil)",152213,85.42,86.91
+2025,"0. Ocupados (base cruda)",176176,100,100
+2025,"1. Edad >= 15",176176,100,100
+2025,"2. Remunerados",169256,96.07,94.79
+2025,"3. Cobertura común (24 dptos.)",159703,90.65,93.9
+2025,"4. Sin ingreso igual a 0",158359,89.89,92.96
+2025,"5. Dimensiones completas",154659,87.79,90.12
+2025,"6. Responden ingreso (entran al Theil)",153340,87.04,89.14
+2026,"0. Ocupados (base cruda)",177195,100,100
+2026,"1. Edad >= 15",177195,100,100
+2026,"2. Remunerados",170511,96.23,94.95
+2026,"3. Cobertura común (24 dptos.)",160887,90.8,94.06
+2026,"4. Sin ingreso igual a 0",159642,90.09,93.16
+2026,"5. Dimensiones completas",155262,87.62,89.56
+2026,"6. Responden ingreso (entran al Theil)",154657,87.28,89.03
