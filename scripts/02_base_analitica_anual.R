@@ -19,31 +19,22 @@ library(dplyr)
 
 
 # Parámetros ----
+# Vienen de R/config.R:
+#   anios, edad_min, min_resp_celda (mínimo de respondientes por celda),
+#   deptos_comunes (los 24 departamentos de la cobertura común; los 9 que agrega
+#   el marco 2018 solo entran en el análisis con cobertura nacional) y
+#   dimensiones (las cinco de la descomposición).
 
-anios <- 2018:2026
-
-edad_min       <- 15    # el marco 2018 define ocupados desde 15 años; se aplica a todos
-min_resp_celda <- 30    # mínimo de respondientes por celda en el ajuste de pesos
+source(here("R", "config.R"))
 
 dir.create(here("data", "analitica", "reportes"), showWarnings = FALSE, recursive = TRUE)
-
-
-# Cobertura geográfica común ----
-# Los 24 departamentos presentes en 201801 (marco antiguo). Los 9 departamentos
-# que agrega el marco 2018 (81, 85, 86, 88, 91, 94, 95, 97, 99) quedan fuera de
-# la serie comparable y solo entran en el análisis con cobertura nacional.
-
-deptos_comunes <- c(5, 8, 11, 13, 15, 17, 18, 19, 20, 23, 25, 27,
-                    41, 44, 47, 50, 52, 54, 63, 66, 68, 70, 73, 76)
 
 
 # Dimensiones de la descomposición por año ----
 # 2020: sin estrato (la recolección telefónica no incluyó el módulo de vivienda).
 
-dims_base <- c("educ", "formal", "sexo", "region", "estrato")
-
 dims_anio <- function(anio) {
-  if (anio == 2020) setdiff(dims_base, "estrato") else dims_base
+  if (anio == 2020) setdiff(dimensiones, "estrato") else dimensiones
 }
 
 
@@ -73,7 +64,8 @@ niveles_ajuste <- list(
 
 # Educación ----
 # Escala común = la del marco antiguo, que es la más gruesa.
-# PENDIENTE: confirmar con las etiquetas de P6210 que 9 = "no sabe".
+# Confirmado con las etiquetas del DANE: P6210 = 9 es "No sabe, no informa"
+# y P3042 = 99 también; ambos quedan en NA.
 
 niveles_educ <- c("Ninguno/preescolar", "Primaria", "Secundaria", "Media", "Superior")
 
@@ -106,7 +98,8 @@ eq_educ <- tribble(
 # Tamaño de la empresa ----
 # P3069 divide en dos la categoría superior de P6870; se agrupa en rangos
 # que existen en ambos marcos.
-# PENDIENTE: confirmar los rangos de P6870 con sus etiquetas.
+# Confirmado con las etiquetas del DANE: P6870 1 = solo, 2 = 2–3, 3 = 4–5,
+# 4 = 6–10, 5 = 11–19, 6 = 20–30, 7 = 31–50, 8 = 51–100, 9 = 101 o más.
 
 niveles_tam <- c("Trabaja solo", "2 a 5", "6 a 10", "11 a 50", "51 o más")
 
@@ -332,6 +325,8 @@ construir_analitica <- function(anio) {
       ),
       
       # Jornalero (8) se une a empleado particular: el marco 2018 casi no lo usa.
+      # OJO: desde 2022 el código 7 tiene ingreso (se comporta como jornalero);
+      # ver docs/AUDITORIA.md §2.9, decisión D10 pendiente.
       # "Otro" (9) se une a cuenta propia por su tamaño mínimo.
       posicion = factor(
         case_when(
@@ -346,7 +341,7 @@ construir_analitica <- function(anio) {
                    "Cuenta propia", "Patrón", "Sin remuneración")
       ),
       
-      # PROPUESTA DE REGLA: formal = cotiza a pensión o ya es pensionado.
+      # Regla decidida: formal = cotiza a pensión o ya es pensionado.
       formal = factor(
         case_when(P6920 %in% c(1, 3) ~ "Formal", P6920 == 2 ~ "Informal"),
         levels = c("Formal", "Informal")
@@ -434,8 +429,27 @@ construir_analitica <- function(anio) {
       DPTO, CLASE,
       starts_with("f_"), responde, en_poblacion, en_poblacion_nac
     )
-  
-  
+
+
+  # 6b. Validaciones antes de guardar ----
+  # Si alguna falla, el script se detiene y no se guarda una base mala.
+
+  pob <- base$en_poblacion
+  stopifnot(
+    "Hay personas repetidas (MES + llaves)" =
+      !anyDuplicated(base[c("MES", "DIRECTORIO", "SECUENCIA_P", "HOGAR", "ORDEN")]),
+    "Hay FEX faltantes o no positivos" = all(!is.na(base$FEX) & base$FEX > 0),
+    "Quien responde debe tener ingreso > 0" = all(base$ingreso[base$responde] > 0),
+    "fex_aj debe existir solo en la población" = all(is.na(base$fex_aj) == !pob),
+    "fex_aj no puede ser negativo" = all(base$fex_aj[pob] >= 0),
+    "Los no respondientes deben tener fex_aj = 0" = all(base$fex_aj[pob & !base$responde] == 0),
+    "fex_aj debe conservar el total del FEX" =
+      abs(sum(base$fex_aj[pob]) - sum(base$FEX[pob])) < 1e-8 * sum(base$FEX[pob]),
+    "Edad fuera de rango en la población" = all(base$edad[pob] >= edad_min),
+    "Departamento fuera de la cobertura común" = all(base$DPTO[pob] %in% deptos_comunes)
+  )
+
+
   # 7. Guardar ----
   
   ruta_rep <- here("data", "analitica", "reportes")

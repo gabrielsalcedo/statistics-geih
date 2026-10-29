@@ -22,12 +22,10 @@ library(haven)
 
 
 # Parámetros ----
+# anios, meses y anios_nacionales (años en un solo archivo nacional, sin
+# Área/Cabecera/Resto) vienen de R/config.R.
 
-anios <- 2018:2026
-meses <- 1:6
-
-# Años que vienen como un solo archivo nacional (sin Área/Cabecera/Resto)
-anios_nacionales <- c(2020, 2022:2026)
+source(here("R", "config.R"))
 
 guardar_dta <- FALSE   # TRUE si además quieres una copia en .dta
 
@@ -680,6 +678,8 @@ construir_anio <- function(anio) {
 # encontraron y con qué nombre, y cuáles faltan. Además lista las columnas
 # que contienen `buscar` (útil para encontrar el nombre real de una variable).
 # En años desagregados revisa el archivo de Cabecera.
+# No se ejecuta al correr el script; se llama a mano, por ejemplo:
+#   inventario(2020, 1, buscar = "FEX|FACTOR|EXP")
 
 inventario <- function(anio, mes, buscar = NULL) {
   
@@ -708,22 +708,6 @@ inventario <- function(anio, mes, buscar = NULL) {
   invisible(NULL)
 }
 
-inventario(2020, 1, buscar = "FEX|FACTOR|EXP")
-
-
-# =============================================================================
-# PRUEBA: un mes de cada tipo de archivo antes de procesar todo
-# =============================================================================
-
-# prueba <- unir_modulos_mes(2018, 1)   # marco antiguo, desagregado
-# prueba <- unir_modulos_mes(2020, 3)   # recolección telefónica
-# prueba_24 <- unir_modulos_mes(2024, 1)   # marco 2018
-# 
-# prueba$mapa        # en qué módulo y con qué nombre se encontró cada variable
-# prueba$uniones     # ocupados sin pareja en cada módulo
-# prueba$controles   # diferencias en FEX, DPTO y demás variables repetidas
-# summary(prueba$base)
-# 
 
 # =============================================================================
 # CONSTRUCCIÓN DE BASES

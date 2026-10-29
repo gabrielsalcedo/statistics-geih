@@ -29,14 +29,13 @@ library(tidyr)
 library(ggplot2)
 library(scales)
 
-source(here("R", "config.R"))   # anios_theil
+source(here("R", "config.R"))   # anios_theil, anio_ref, anio_base, smmlv, semilla
 source(here("R", "datos.R"))    # cargar_analitica()
 
 
 # Parámetros ----
+# anio_ref (año principal) y anio_base (año de comparación) vienen de R/config.R.
 
-anio_ref    <- 2026                       # año principal de la descriptiva
-anio_base   <- 2018                       # año de comparación
 anios_serie <- anios_theil                # sin 2020
 
 ruta_tab <- here("outputs", "descriptiva", "tablas")
@@ -46,16 +45,11 @@ dir.create(ruta_fig, showWarnings = FALSE, recursive = TRUE)
 
 
 # Salario mínimo (SMMLV) ----
-# Sirve para expresar el ingreso en salarios mínimos: así los años son
-# comparables sin deflactar y el valor tiene lectura económica directa.
+# La tabla smmlv está en R/config.R. Sirve para expresar el ingreso en
+# salarios mínimos: así los años son comparables sin deflactar y el valor
+# tiene lectura económica directa.
 # El ingreso de la GEIH es "el mes pasado": quien fue encuestado en enero
 # reporta diciembre del año anterior, por eso enero usa el SMMLV del año anterior.
-
-smmlv <- c(
-  "2017" =   737717, "2018" =   781242, "2019" =   828116, "2020" = 877803,
-  "2021" =   908526, "2022" =  1000000, "2023" =  1160000, "2024" = 1300000,
-  "2025" =  1423500, "2026" =  1750905
-)
 
 
 # =============================================================================
@@ -394,7 +388,7 @@ print(correlaciones, row.names = FALSE)
 
 # Dispersión: una submuestra de 4.000 personas seleccionada según su peso,
 # para que el gráfico represente a la población y sea legible.
-set.seed(2026)
+set.seed(semilla_descriptiva)
 muestra_graf <- d_ref %>% filter(!is.na(horas)) %>% slice_sample(n = 4000, weight_by = w)
 
 g_disp <- ggplot(muestra_graf, aes(x = horas, y = ln_ingreso)) +
@@ -419,7 +413,8 @@ evolucion <- bind_rows(lapply(anios_serie, function(a) {
   d <- cargar(a)
   data.frame(
     anio                = a,
-    ocupados_millones   = sum(d$w) / n_distinct(d$MES) / 1e6,
+    # Población de estudio (no el total de ocupados), promedio mensual
+    poblacion_estudio_millones = sum(d$w) / n_distinct(d$MES) / 1e6,
     media_smmlv         = w_media(d$ingreso_smmlv, d$w),
     mediana_smmlv       = w_cuantil(d$ingreso_smmlv, d$w, 0.5),
     pct_cerca_1_smmlv   = 100 * sum(d$w[d$ingreso_smmlv >= 0.95 & d$ingreso_smmlv < 1.05]) / sum(d$w),
@@ -469,7 +464,9 @@ s_ln <- w_sd(d_ref$ln_ingreso, d_ref$w)
 
 g_ln <- ggplot(d_ref, aes(x = ln_ingreso, weight = w)) +
   geom_histogram(aes(y = after_stat(density)), bins = 80, fill = "#a6bddb") +
-  stat_function(fun = dnorm, args = list(mean = m_ln, sd = s_ln), colour = "#e34a33", linewidth = 0.9) +
+  # inherit.aes = FALSE: la curva no usa los pesos (sin esto ggplot avisa que los descarta)
+  stat_function(fun = dnorm, args = list(mean = m_ln, sd = s_ln), colour = "#e34a33", linewidth = 0.9,
+                inherit.aes = FALSE) +
   labs(
     title    = paste0("ln(ingreso) frente a una distribución normal, ", anio_ref),
     subtitle = paste0("Curva roja: normal con la misma media y desviación. Asimetría = ",

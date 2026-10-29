@@ -44,5 +44,6 @@ cat("\n==================== pruebas (tests/testthat) ====================\n")
 testthat::test_dir(here::here("tests", "testthat"), stop_on_failure = TRUE)
 correr("03_theil.R")
 correr("04_estadistica_descriptiva.R")
+correr("05_inferencia_clasica.R")
 
-cat("\nListo. Resultados en data/resultados/ y outputs/descriptiva/.\n")
+cat("\nListo. Resultados en data/resultados/, outputs/descriptiva/ y outputs/inferencia/.\n")
