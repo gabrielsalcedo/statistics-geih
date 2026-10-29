@@ -894,6 +894,26 @@ Ninguna cifra se copia a mano:
 - las tablas se incluyen con `\tabla{nombre}`, que hace `\input{../outputs/tablas/nombre.tex}`;
 - las figuras se incluyen con `\includegraphics{nombre}`, buscadas en `../outputs/figuras/`.
 
+### 7.3 Compilación (28-10-2026, TinyTeX con pdfLaTeX + biber)
+
+Se instalaron en la TinyTeX de Gabriel (con su aprobación) los paquetes que faltaban:
+`biber`, `biblatex`, `biblatex-apa`, `newtx`, `tex-gyre`, `babel-spanish`, `beamerposter`,
+`setspace`, `csquotes`, `caption`, `enumitem`, `was` (icomma), `titlesec`, `fancyhdr`,
+`ulem`, `xpatch`, `carlisle`, `oberdiek`, `type1cm`, `listings` y sus dependencias.
+En Overleaf todos vienen instalados.
+
+| Documento | Resultado | Avisos |
+|---|---|---|
+| `report/main.tex` | ✅ 7 páginas | Bibliografía vacía (el esqueleto todavía no cita nada). Sin cajas desbordadas |
+| `slides/main.tex` | ✅ 14 diapositivas | Sustitución de tamaños de fuente (cosmético) |
+| `poster/main.tex` | ✅ 1 página de 70 × 100 cm | Al principio el contenido se pasaba 534 pt (≈ 19 cm) del alto. Se corrigió limitando el alto de las figuras (`\figura{}`) y quitando `\nocite{*}`: el póster debe listar solo 3 o 4 referencias citadas |
+| `docs/curso/report/primera_entrega_corregida.tex` | ✅ 10 páginas | Un desborde de 1 pt (líneas 131–132), invisible |
+| `docs/curso/report/primera_entrega_cambios.tex` | ✅ 13 páginas | Desbordes de 1 a 16 pt en tablas del latexdiff, sin importancia |
+
+Las entregas se compilaron en una copia temporal para no sobrescribir los PDF entregados.
+Los PDF de `report/`, `slides/` y `poster/` no se versionan (`.gitignore`): se regeneran
+al compilar.
+
 `05_theil.R` ahora también escribe `theil_por_anio` y `theil_participacion_entre` en
 `outputs/tablas/`. Los PDF de las figuras se generan con `pdf(timestamp = FALSE)`: si el
 gráfico no cambia, el archivo sale idéntico y Git no lo marca como modificado.
