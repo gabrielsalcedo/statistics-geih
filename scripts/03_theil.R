@@ -6,7 +6,7 @@
 # 2. Pruebas con los ejemplos hechos a mano (si fallan, el código se detiene).
 # 3. Aplicación a cada año (sin 2020), con tres pesos para sensibilidad.
 #
-# Entrada: data/analitica/analitica_<año>.rds  (etapa 2)
+# Entrada: data/processed/geih_<año>.csv.gz    (etapa 2, versionada en GitHub)
 # Salida:  data/resultados/theil_resumen.csv   (un renglón por año, peso y dimensión)
 #          data/resultados/theil_grupos.csv    (detalle de cada grupo)
 # =============================================================================
@@ -23,108 +23,18 @@ dir.create(here("data", "resultados"), showWarnings = FALSE, recursive = TRUE)
 # =============================================================================
 # 1. FUNCIÓN
 # =============================================================================
-# Argumentos:
-#   y: ingresos (> 0, sin NA)
-#   w: pesos (>= 0, sin NA). NULL = todos iguales a 1 (estimador B).
-#   g: grupos (sin NA). NULL = solo el Theil total.
-#
-# Devuelve una lista:
-#   $total:  T, n, W, mu, n_ef y, si hay g, T_B, T_W y S
-#   $grupos: por grupo: n, p_k, mu_k, s_k, T_k y su aporte al between y al within
-#
-# Cada línea corresponde a una columna del cálculo a mano.
+# theil_decomp() está en R/theil.R (junto con los estimadores C y D).
 
-theil_decomp <- function(y, w = NULL, g = NULL, tol = 1e-9) {
-  
-  
-  # Validaciones ----
-  
-  if (is.null(w)) w <- rep(1, length(y))
-  
-  if (!is.numeric(y) || !is.numeric(w)) stop("y y w deben ser numéricos.")
-  if (length(w) != length(y))           stop("y y w tienen longitudes distintas.")
-  if (anyNA(y) || anyNA(w))             stop("Hay NA en y o en w.")
-  if (any(y <= 0))                      stop("Todos los ingresos deben ser > 0 (ln(0) no existe).")
-  if (any(w < 0))                       stop("Hay pesos negativos.")
-  if (sum(w) == 0)                      stop("La suma de los pesos es 0.")
-  
-  if (!is.null(g)) {
-    if (length(g) != length(y)) stop("g y y tienen longitudes distintas.")
-    if (anyNA(g))               stop("Hay NA en g.")
-    g <- droplevels(as.factor(g))       # conserva el orden de los niveles y quita los vacíos
-  }
-  
-  
-  # Theil total ----
-  
-  W  <- sum(w)                  # población representada
-  mu <- sum(w * y) / W          # media ponderada
-  r  <- y / mu                  # ingreso relativo
-  T  <- sum(w * r * log(r)) / W # promedio ponderado de r·ln(r)
-  
-  total <- data.frame(
-    T    = T,
-    n    = length(y),
-    W    = W,
-    mu   = mu,
-    n_ef = W^2 / sum(w^2)       # tamaño de muestra efectivo de Kish
-  )
-  
-  if (is.null(g)) return(list(total = total))
-  
-  
-  # Resumen por grupo ----
-  
-  W_k  <- tapply(w, g, sum)
-  mu_k <- tapply(w * y, g, sum) / W_k
-  
-  T_k <- sapply(levels(g), function(k) {
-    i   <- g == k
-    r_k <- y[i] / mu_k[[k]]     # ingreso relativo a la media del grupo
-    sum(w[i] * r_k * log(r_k)) / W_k[[k]]
-  })
-  
-  p_k <- W_k / W                # participación en la población
-  s_k <- p_k * mu_k / mu        # participación en el ingreso
-  
-  
-  # Descomposición ----
-  
-  aporte_between <- s_k * log(mu_k / mu)
-  aporte_within  <- s_k * T_k
-  
-  T_B <- sum(aporte_between)
-  T_W <- sum(aporte_within)
-  
-  
-  # Chequeo: la descomposición debe ser exacta ----
-  
-  if (abs(T - (T_B + T_W)) > tol * max(1, T)) {
-    stop("La descomposición no cuadra: T = ", T, ", T_B + T_W = ", T_B + T_W)
-  }
-  
-  total$T_B <- T_B
-  total$T_W <- T_W
-  total$S   <- T_B / T
-  
-  grupos <- data.frame(
-    grupo          = levels(g),
-    n_k            = as.vector(table(g)),
-    p_k            = as.vector(p_k),
-    mu_k           = as.vector(mu_k),
-    s_k            = as.vector(s_k),
-    T_k            = as.vector(T_k),
-    aporte_between = as.vector(aporte_between),
-    aporte_within  = as.vector(aporte_within)
-  )
-  
-  list(total = total, grupos = grupos)
-}
+source(here("R", "theil.R"))
+source(here("R", "config.R"))   # anios_theil y dimensiones
+source(here("R", "datos.R"))    # cargar_analitica()
 
 
 # =============================================================================
 # 2. PRUEBAS CON LOS EJEMPLOS HECHOS A MANO
 # =============================================================================
+# Las pruebas completas están en tests/testthat/. Estas se dejan aquí para que
+# el script se detenga si la función se rompe.
 
 # Ejemplo 1: cuatro personas sin pesos ----
 # T = 0,173 | between = 0,131 | within = 0,043
@@ -179,9 +89,7 @@ cat("Pruebas de theil_decomp(): todas correctas.\n")
 # 3. APLICACIÓN A CADA AÑO
 # =============================================================================
 
-anios_theil <- setdiff(2018:2026, 2020)   # 2020 excluido: ingreso no registrado en la pandemia
-
-dimensiones <- c("educ", "formal", "sexo", "region", "estrato")
+# anios_theil (sin 2020) y dimensiones vienen de R/config.R
 
 # Pesos para el análisis de sensibilidad:
 #   fex_aj:    estimador A con ajuste por no respuesta (principal)
@@ -192,7 +100,7 @@ pesos <- c("fex_aj", "FEX", "sin_pesos")
 
 calcular_theil_anio <- function(anio) {
   
-  b <- readRDS(here("data", "analitica", paste0("analitica_", anio, ".rds"))) %>%
+  b <- cargar_analitica(anio) %>%
     filter(en_poblacion, responde) %>%
     mutate(sin_pesos = 1)
   

@@ -15,8 +15,9 @@
 # de ocupados, no a los encuestados. Población = en_poblacion & responde,
 # la misma sobre la que se calcula el Theil.
 #
-# Entrada: data/analitica/analitica_<año>.rds
-# Salida:  resultados/descriptiva/tablas/*.csv  y  resultados/descriptiva/figuras/*.png
+# Entrada: data/processed/geih_<año>.csv.gz  (versionada en GitHub)
+# Salida:  outputs/descriptiva/tablas/*.csv  y  outputs/descriptiva/figuras/*.png
+# El boxplot ponderado necesita el paquete quantreg instalado.
 # =============================================================================
 
 
@@ -28,12 +29,15 @@ library(tidyr)
 library(ggplot2)
 library(scales)
 
+source(here("R", "config.R"))   # anios_theil
+source(here("R", "datos.R"))    # cargar_analitica()
+
 
 # Parámetros ----
 
 anio_ref    <- 2026                       # año principal de la descriptiva
 anio_base   <- 2018                       # año de comparación
-anios_serie <- setdiff(2018:2026, 2020)
+anios_serie <- anios_theil                # sin 2020
 
 ruta_tab <- here("outputs", "descriptiva", "tablas")
 ruta_fig <- here("outputs", "descriptiva", "figuras")
@@ -170,7 +174,7 @@ etiquetas_dim <- c(
 )
 
 cargar <- function(anio) {
-  readRDS(here("data", "analitica", paste0("analitica_", anio, ".rds"))) %>%
+  cargar_analitica(anio) %>%
     filter(en_poblacion, responde) %>%
     mutate(
       w             = fex_aj,
