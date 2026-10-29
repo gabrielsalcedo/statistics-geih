@@ -1,0 +1,113 @@
+% ============================================================
+%  Póster 70 × 100 cm (vertical) — ¿Cómo estimar el índice de Theil con la GEIH?
+%  Proyecto de Estadística (73210011), Universidad del Rosario, 2026-II
+%
+%  Las tablas y figuras vienen de outputs/ (las genera R con run_all.R).
+%  Compilar desde esta carpeta: pdflatex -> biber -> pdflatex
+%  Regla práctica: poco texto, letra grande, una figura por bloque.
+% ============================================================
+\documentclass[final]{beamer}
+\usepackage[orientation=portrait, size=custom, width=70, height=100, scale=1.4]{beamerposter}
+
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage[spanish,es-nodecimaldot,es-noshorthands]{babel}
+\usepackage{newtxtext,newtxmath}
+\usepackage{icomma}
+\usepackage{booktabs}
+
+\setbeamertemplate{navigation symbols}{}
+\setbeamercolor{block title}{fg=white, bg=red!60!black}
+\setbeamercolor{block body}{bg=white}
+
+\graphicspath{{../outputs/figuras/}{../docs/curso/report/}}
+\newcommand{\tabla}[1]{\input{../outputs/tablas/#1.tex}}
+\newcommand{\tablaancha}[1]{\resizebox{\linewidth}{!}{\tabla{#1}}}
+
+\usepackage{csquotes}
+\usepackage[backend=biber,style=apa]{biblatex}
+\addbibresource{../report/references.bib}
+
+\begin{document}
+\begin{frame}[t]
+
+  % ---------------- Encabezado ----------------
+  \begin{columns}[c]
+    \begin{column}{0.18\paperwidth}
+      \includegraphics[width=\linewidth]{ur.png}
+    \end{column}
+    \begin{column}{0.72\paperwidth}
+      \centering
+      {\Huge\bfseries ¿Cómo estimar el índice de Theil con la GEIH?\par}
+      \vspace{0.5ex}
+      {\LARGE Desigualdad del ingreso laboral en Colombia, 2018--2026\par}
+      \vspace{0.5ex}
+      {\Large Gabriel Salcedo · Jerónimo Marín · Isaac Suarez · Santiago Velandia\par}
+      {\large Universidad del Rosario --- Estadística (73210011)\par}
+    \end{column}
+  \end{columns}
+
+  \vspace{1cm}
+
+  % ---------------- Cuerpo en dos columnas ----------------
+  \begin{columns}[t]
+
+    \begin{column}{0.45\paperwidth}
+
+      \begin{block}{Problema y pregunta}
+        % Dos o tres frases y la pregunta de investigación.
+      \end{block}
+
+      \begin{block}{Datos y método}
+        % GEIH, población, factor de expansión, los cuatro estimadores (A--D),
+        % diseño de la simulación.
+      \end{block}
+
+      \begin{block}{¿Cómo es el ingreso laboral?}
+        \centering
+        \includegraphics[width=\linewidth]{07a_histograma_ingreso}
+      \end{block}
+
+      \begin{block}{¿Es lognormal?}
+        \centering
+        \includegraphics[width=\linewidth]{p7_ln_ingreso_normalidad}
+      \end{block}
+
+    \end{column}
+
+    \begin{column}{0.45\paperwidth}
+
+      \begin{block}{Simulación Monte Carlo (H1)}
+        % Figura de ECM frente a n. PENDIENTE: la simulación todavía no existe.
+      \end{block}
+
+      \begin{block}{Desigualdad 2018--2026 (H3)}
+        \centering
+        \tabla{theil_por_anio}
+      \end{block}
+
+      \begin{block}{¿Qué explica la desigualdad? (H2)}
+        \centering
+        \tabla{theil_participacion_entre}
+      \end{block}
+
+      \begin{block}{Inferencia clásica}
+        \tablaancha{resumen_pruebas}
+      \end{block}
+
+      \begin{block}{Conclusiones}
+        % Tres viñetas.
+      \end{block}
+
+      \begin{block}{Referencias}
+        \small
+        \nocite{*}
+        \printbibliography[heading=none]
+      \end{block}
+
+    \end{column}
+
+  \end{columns}
+
+\end{frame}
+\end{document}
