@@ -857,6 +857,49 @@ Aprobado por Gabriel ("Sí, todo").
 
 ---
 
+## Fase 7 — LaTeX
+
+### 7.1 Entrega vigente (`docs/curso/report/primera_entrega_corregida.tex`)
+
+**Revisión mecánica.** No se editó el archivo, porque es lo que ya se entregó.
+- Las 10 citas tienen su entrada en `references.bib`.
+- `cowell1995much` está en el `.bib` pero no se cita; no afecta la compilación.
+- El logo `ur.png` existe.
+- No se pudo compilar localmente: la TinyTeX del equipo no tiene `biber`, `biblatex-apa`
+  ni el español de `babel`. Ver 7.3.
+
+**Propuestas de cambio de contenido** (para la próxima entrega o el informe final; el
+texto es del equipo):
+
+| Línea | Dice | Propuesta | Por qué |
+|---|---|---|---|
+| 60 | "Comparación de cuatro estimadores aplicado a" | "… aplicada a" | Concordancia con "comparación" |
+| 99–101 | Gini de 2000 = 0,545, con la marca "REVISAR" del equipo | Confirmar la cifra en la fuente o volver a la comparación con 2023 | El comentario del propio equipo dice que el boletín citado no parece reportarla |
+| 166 | "probabilística y de cobertura nacional" | "probabilística, estratificada, multietápica y por conglomerados, de cobertura nacional" | La guía pide el tipo de muestreo, y eso justifica el factor de expansión |
+| 166 | "más de 140.000 ocupados" | "entre 129.750 y 160.946 ocupados que entran al cálculo del Theil" | En 2021 entran 129.750 (Tabla 2) |
+| 212 | "el Theil y los estimadores lognormales usan logaritmos y ln 0 no está definido" | "el estimador D usa ln y, que no está definido en 0; para que los cuatro estimadores comparen la misma población se excluyen los ingresos iguales a 0" | En el Theil T, una persona con y = 0 aporta 0 (límite de y·ln y); solo D necesita y > 0 (§2.5) |
+| 280 | Limitaciones | Agregar la no respuesta que crece con el estrato y la sensibilidad de H3 (§2.4 y §2.8) | Cambia la magnitud de la diferencia 2018–2026 |
+| Preámbulo | `lmodern`, `\doublespacing` | `newtxtext,newtxmath`, `\onehalfspacing` | La guía pide Times o Arial 12 e interlineado 1,5 (D13) |
+
+### 7.2 Esqueletos finales
+
+| Archivo | Contenido |
+|---|---|
+| `report/main.tex` | Informe en Times 12, interlineado 1,5 y `biblatex` APA. Secciones según `docs/requisitos.md` y el presupuesto de páginas de `docs/alineacion_curso.md`: resumen ejecutivo, introducción, revisión, datos y metodología, descriptiva, simulación (H1), desigualdad 2018–2026 (H2, H3), inferencia clásica, discusión, conclusiones, roles, referencias y anexos. Las secciones están vacías y tienen comentarios sobre qué va en cada una |
+| `slides/main.tex` | Beamer 16:9, 13 diapositivas con la misma estructura |
+| `poster/main.tex` | `beamerposter` de 70 × 100 cm vertical, a dos columnas |
+| `report/references.bib` | Copia de `docs/curso/report/references.bib`. Desde ahora esta es la que se edita; la de `docs/curso/` queda como archivo de la entrega |
+
+Ninguna cifra se copia a mano:
+- las tablas se incluyen con `\tabla{nombre}`, que hace `\input{../outputs/tablas/nombre.tex}`;
+- las figuras se incluyen con `\includegraphics{nombre}`, buscadas en `../outputs/figuras/`.
+
+`05_theil.R` ahora también escribe `theil_por_anio` y `theil_participacion_entre` en
+`outputs/tablas/`. Los PDF de las figuras se generan con `pdf(timestamp = FALSE)`: si el
+gráfico no cambia, el archivo sale idéntico y Git no lo marca como modificado.
+
+---
+
 ## Decisiones para el equipo
 
 Se van agregando a medida que avanza la auditoría. Ninguna se toma sin consultar.
