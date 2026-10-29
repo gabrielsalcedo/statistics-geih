@@ -1,138 +1,98 @@
 # ¿Cómo estimar el índice de Theil con la GEIH?
 
-Proyecto de Estadística (73210011) — Universidad del Rosario, 2026-II
+Proyecto de Estadística — Universidad del Rosario, 2026-II
 Gabriel Salcedo, Jerónimo Marín, Isaac Suarez y Santiago Velandia
 
-Comparamos cuatro estimadores del índice de Theil con un experimento de simulación sobre la
-GEIH: A ponderado, B sin ponderar, C lognormal por momentos y D lognormal por máxima
-verosimilitud. Con el estimador validado medimos y descomponemos la desigualdad del ingreso
-laboral en Colombia, 2018–2026 (meses 1 a 6 de cada año).
-
----
-
-## Inicio rápido (sin descargar nada del DANE)
-
-1. Clona el repositorio y abre `statistics_geih.Rproj` en RStudio. Así `here()` encuentra
-   las carpetas.
-2. Instala los paquetes, una sola vez. Al abrir el proyecto, `renv` se activa solo; con
-   esta línea instala las mismas versiones que usamos (están en `renv.lock`):
-   ```r
-   renv::restore()
-   ```
-   Si `renv` da problemas, también sirve instalarlos a mano:
-   `install.packages(c("here", "dplyr", "tidyr", "ggplot2", "scales", "quantreg", "testthat"))`.
-3. Corre todo:
-   ```r
-   source("run_all.R")
-   ```
-   El script verifica los datos (debe decir "TODO CORRECTO"), corre las pruebas y genera
-   el Theil y la estadística descriptiva. Tarda unos minutos.
-
-Las bases ya están en el repositorio, en `data/processed/` (unos 51 MB en total). No hace
-falta descargar los microdatos del DANE (62 GB) a menos que quieras reconstruirlas desde
-cero (ver `data/raw/README.md`).
-
----
-
-## Pregunta e hipótesis
-
-**Pregunta.** De los cuatro estimadores, ¿cuál tiene mejores propiedades estadísticas
-(menor sesgo, menor ECM y consistencia) para estimar la desigualdad del ingreso laboral a
-partir de la GEIH?
-
-- **H1.** A es consistente y tiene el menor ECM cuando n crece; B, C y D no convergen al
-  valor verdadero. Se prueba con una t pareada sobre las réplicas de la simulación.
-- **H2.** En 2026, la educación explica más desigualdad (componente "entre") que cada una de
-  las otras cuatro dimensiones.
-- **H3.** La desigualdad del ingreso laboral fue menor en 2026 que en 2018.
-
-La redacción completa está en `docs/curso/report/primera_entrega_corregida.tex`.
-
-## Datos
-
-- **Fuente:** DANE, Gran Encuesta Integrada de Hogares (GEIH), microdatos mensuales,
-  <https://microdatos.dane.gov.co>.
-- **Población:** ocupados de 15 años o más, remunerados, con ingreso laboral positivo, en
-  los 24 departamentos comunes a todos los años.
-- **Bases:** `data/processed/geih_<año>.csv.gz`, una por año, con todos los ocupados y
-  los indicadores para elegir la población. Las variables están descritas en
-  `data/codebook.md`.
-- **Lectura:**
-  ```r
-  source("R/datos.R")
-  b <- cargar_analitica(2024)
-  b <- b[b$en_poblacion & b$responde, ]   # quienes entran al Theil; peso: fex_aj
-  ```
-
-## Orden de ejecución
-
-| Paso | Script | Entrada | Salida | ¿Necesita los .dta? |
-|---|---|---|---|---|
-| 1 | `scripts/01_base_cruda.R` | `data/raw/` | `data/intermedia/etapa1_cruda/*.rds` + `reportes/` | Sí |
-| 2 | `scripts/02_base_analitica.R` | `data/intermedia/etapa1_cruda/` | `data/intermedia/etapa2_analitica/*.rds` + `reportes/` | Sí (usa el paso 1) |
-| 3 | `scripts/03_exportar_procesados.R` | `data/intermedia/etapa2_analitica/` | `data/processed/*.csv.gz`, `data/checksums.txt` | Sí (usa el paso 2) |
-| 4 | `scripts/04_verificar_datos.R` | `data/processed/` | mensajes OK/FALLA | No |
-| 5 | `scripts/05_theil.R` | `data/processed/` | `data/resultados/theil_*.csv` | No |
-| 6 | `scripts/06_descriptiva.R` | `data/processed/` | `outputs/tablas/`, `outputs/figuras/` | No |
-| 7 | `scripts/07_inferencia_clasica.R` | `data/processed/` | `outputs/tablas/p*`, `outputs/figuras/p*` | No |
-
-`run_all.R` corre los pasos 4 a 7 y las pruebas (después del paso 4). Con
-`desde_crudos <- TRUE` corre antes los pasos 1 a 3.
+Comparamos cuatro estimadores del índice de Theil (A con factor de expansión, B sin
+factor, C lognormal por momentos y D lognormal por máxima verosimilitud) con un
+experimento de simulación, y usamos el mejor para medir y descomponer la desigualdad
+del ingreso laboral en Colombia entre 2018 y 2026 con la GEIH del DANE.
 
 ## Estructura
 
 ```
 statistics-geih/
-├── run_all.R              Corre todo el proyecto
-├── renv.lock              Versiones exactas de los paquetes (renv::restore())
-├── R/                     Funciones (sin efectos al cargarlas)
-│   ├── config.R           Años, dimensiones y demás constantes comunes
-│   ├── datos.R            Leer y escribir data/processed/
-│   ├── theil.R            Estimadores A, B, C, D y descomposición
-│   └── salidas.R          Guardar tablas (.csv + .tex) y figuras (.pdf)
-├── scripts/               Pasos del análisis: el número es el orden de ejecución
-├── tests/testthat/        Pruebas: testthat::test_dir("tests/testthat")
 ├── data/
-│   ├── raw/               Microdatos del DANE (NO están en GitHub; ver README de la carpeta)
-│   ├── intermedia/etapa1_cruda/reportes/      Controles de la unión de módulos
-│   ├── intermedia/etapa2_analitica/reportes/  Trazabilidad de filtros y celdas del ajuste
-│   ├── processed/         Bases analíticas en CSV (versionadas)
-│   ├── resultados/        Theil por año, peso y dimensión
-│   ├── codebook.md        Libro de códigos
-│   └── checksums.txt      Huellas MD5 de data/processed/
-├── outputs/figuras/       Figuras en PDF (las incluye LaTeX con \includegraphics)
-├── outputs/tablas/        Tablas en .tex (las incluye LaTeX con \input) y en .csv
-├── docs/                  Auditoría, estado del proyecto, diccionario DANE y entregas
-└── _revisar/              Archivos de prueba antiguos, pendientes de que el equipo decida
+│   ├── raw/      geih_cruda_<año>.csv.gz: todos los ocupados de enero a junio, tres módulos unidos
+│   └── final/    geih_<año>.csv.gz: bases depuradas, con el factor ajustado por no respuesta
+├── outputs/      tablas de resultados en CSV
+├── scripts/      código en R (00 a 06 y correr_todo.R)
+├── latex/        informe.tex, beamer.tex, references.bib, logo y figuras .png
+├── README.md
+└── statistics-geih.Rproj
 ```
 
-## Cómo se reproduce cada resultado
+| Script | Qué hace |
+|---|---|
+| `00_funciones.R` | Estimadores A, B, C y D, descomposición entre/dentro y lectura de las bases |
+| `01_extraer_crudas.R` | De los .dta del DANE a `data/raw` (opcional, ver abajo) |
+| `02_bases_finales.R` | De `data/raw` a `data/final`: armonización, depuración y ajuste por no respuesta |
+| `03_descriptiva.R` | Frecuencias, medidas, tablas cruzadas, histograma y diagramas de caja |
+| `04_theil_anual.R` | Theil por año y descomposición por cinco dimensiones |
+| `05_simulacion.R` | Experimento Monte Carlo (H1) |
+| `06_bootstrap.R` | Intervalos de confianza, H2 y H3 |
+| `correr_todo.R` | Corre 02 a 06 en orden |
 
-| Resultado | Lo genera | Archivo |
-|---|---|---|
-| Tabla 2 de la entrega (trazabilidad) | `02_base_analitica.R` | `data/intermedia/etapa2_analitica/reportes/trazabilidad_<año>.csv` |
-| Theil A y B por año; porcentaje explicado por dimensión | `05_theil.R` | `data/resultados/theil_resumen.csv` |
-| Detalle por grupo de cada descomposición | `05_theil.R` | `data/resultados/theil_grupos.csv` |
-| Medidas, frecuencias, tablas cruzadas y evolución | `06_descriptiva.R` | `outputs/tablas/01_…` a `06_…` (.tex y .csv) |
-| Figuras de la descriptiva | `06_descriptiva.R` | `outputs/figuras/03_…` a `07c_…` (.pdf) |
-| Intervalos y pruebas clásicas (P1–P7): IC, t, F, χ², regresión, normalidad | `07_inferencia_clasica.R` | `outputs/tablas/resumen_pruebas.tex`, `outputs/tablas/p*`, `outputs/figuras/p*` |
+## Cómo replicar
 
-Los números de referencia (para comprobar que obtienes lo mismo) están en `CLAUDE.md`,
-sección 9.
+No hace falta descargar nada del DANE: las crudas ya están en `data/raw`.
 
-## Decisiones que hay que conocer
+1. **Descargar el repositorio:** en GitHub, *Code > Download ZIP* (y descomprimir), o
+   clonarlo con GitHub Desktop.
+2. **Instalar R y RStudio.** Usamos R 4.5.2 (<https://cran.r-project.org>) y RStudio
+   (<https://posit.co/download/rstudio-desktop/>).
+3. **Instalar los paquetes** (una sola vez), en la consola de R:
+   ```r
+   install.packages(c("dplyr", "tidyr", "ggplot2", "scales", "quantreg"))
+   ```
+4. **Abrir `statistics-geih.Rproj`** (doble clic). Así R trabaja desde la carpeta del
+   proyecto. Luego, en la consola:
+   ```r
+   source("scripts/correr_todo.R")
+   ```
+5. **Qué se genera:**
+   - `data/final/geih_<año>.csv.gz`: las nueve bases finales.
+   - `outputs/*.csv`: trazabilidad de la depuración (Tabla 2), descriptivas, Theil,
+     simulación y bootstrap.
+   - `latex/fig_*.png`: las figuras del informe.
 
-- **Meses 1 a 6** de cada año.
-- **2020 se excluye del Theil:** en la recolección telefónica falta el ingreso de la
-  mayoría de los ocupados y no hay estrato.
-- **Cobertura común de 24 departamentos,** para que 2018–2021 (marco antiguo) y 2022–2026
-  (marco 2018) sean comparables.
-- **Factores de expansión de dos marcos:** `FEX_C_2011` hasta 2021 y `FEX_C18` desde 2022.
-  El salto del Theil entre 2021 y 2022 puede deberse en parte a ese cambio.
+   Tiempos aproximados: 02 ≈ 2 min, 03 ≈ 1 min, 04 ≈ 1 min,
+   05 (simulación) ≈ 0,5 min y 06 (bootstrap) ≈ 6 min. En total, unos 10 minutos.
+6. **Compilar el informe y la presentación:**
+   - Overleaf: subir la carpeta `latex/` completa y compilar `informe.tex` o `beamer.tex`
+     (Overleaf usa biber automáticamente).
+   - En el computador: dentro de `latex/`, `pdflatex → biber → pdflatex → pdflatex`.
+
+Los resultados son idénticos en cualquier computador: la simulación y el bootstrap usan
+semillas fijas.
+
+## Regenerar las crudas desde el DANE (opcional)
+
+1. Descargar los microdatos de la Gran Encuesta Integrada de Hogares desde el catálogo
+   del DANE: <https://microdatos.dane.gov.co>.
+2. Para cada año 2018–2026 y cada mes 1 a 6, guardar en una carpeta `AAAAMM/` (por
+   ejemplo `201801/`) los módulos, en formato Stata y con sus nombres originales:
+   - Ocupados;
+   - Características generales (personas);
+   - Datos del hogar y la vivienda ("Vivienda y Hogares" en los años antiguos).
+
+   En 2018, 2019 y 2021 cada módulo viene en tres archivos (Área, Cabecera y Resto).
+3. Poner la ruta de esa carpeta en la variable `carpeta_dta`, al inicio de
+   `scripts/01_extraer_crudas.R`, y correrlo: `source("scripts/01_extraer_crudas.R")`
+   (≈ 5 min). Necesita además el paquete `haven`.
+
+## Decisiones principales de la depuración
+
+- Meses 1 a 6 de cada año, 2018–2026. **2020 no entra al Theil:** en la recolección
+  telefónica falta el ingreso de la mayoría y no hay estrato.
+- **Población:** ocupados de 15 años o más, remunerados, con ingreso laboral positivo, en
+  los 24 departamentos comunes a todos los años.
+- **Ingreso:** `INGLABO`, en pesos corrientes (el Theil no depende de la escala).
+- **Factor de expansión:** `FEX_C_2011` en 2018–2021 y `FEX_C18` en 2022–2026.
 - **No respuesta de ingreso:** no se borra a nadie. Su peso se reparte entre quienes sí
   responden, dentro de celdas de posición, formalidad, educación, región y sexo (`fex_aj`).
 - **Formalidad:** cotiza a pensión o ya es pensionado (`P6920` = 1 o 3).
-- **Ingreso 0:** queda fuera de la población, para que los cuatro estimadores comparen la
-  misma población. El estimador D usa ln y, que no existe en 0.
+- **Educación:** cinco niveles comunes a los dos marcos.
 
-Las decisiones abiertas y los hallazgos de la revisión están en `docs/AUDITORIA.md`.
+**Fuente de los datos:** Departamento Administrativo Nacional de Estadística (DANE),
+Gran Encuesta Integrada de Hogares (GEIH), microdatos 2018–2026.
