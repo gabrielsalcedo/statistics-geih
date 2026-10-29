@@ -20,7 +20,12 @@ source(here("R", "datos.R"))
 source(here("R", "theil.R"))
 
 huellas <- read.table(here("data", "checksums.txt"), col.names = c("md5", "archivo"))
-resumen <- read.csv(here("data", "resultados", "theil_resumen.csv"))
+# El Theil guardado lo produce 05_theil.R. Si todavía no existe (por ejemplo,
+# si se borraron las salidas para correr todo desde cero), esa comparación se omite.
+ruta_resumen <- here("data", "resultados", "theil_resumen.csv")
+resumen <- if (file.exists(ruta_resumen)) read.csv(ruta_resumen) else NULL
+if (is.null(resumen)) cat("Aviso: no existe data/resultados/theil_resumen.csv; no se compara el Theil A.\n")
+
 llaves  <- c("MES", "DIRECTORIO", "SECUENCIA_P", "HOGAR", "ORDEN")
 ok_todo <- TRUE
 
@@ -59,12 +64,12 @@ for (anio in anios) {
   chequear(all(p$fex_aj[!p$responde] == 0), "no respondientes con fex_aj = 0")
 
   # 5. Theil total (estimador A) = resultado guardado
-  if (anio %in% anios_theil) {
+  if (anio %in% anios_theil && !is.null(resumen)) {
     d   <- a[a$en_poblacion & a$responde, ]
     T_A <- theil_A(d$ingreso, d$fex_aj)
     ref <- resumen$T[resumen$anio == anio & resumen$peso == "fex_aj" & resumen$dimension == "total"]
     chequear(abs(T_A - ref) < 1e-10, sprintf("Theil A = %.4f (guardado: %.4f)", T_A, ref))
-  } else {
+  } else if (!anio %in% anios_theil) {
     cat("  --    2020 excluido del Theil (ingreso faltante en la recolección telefónica)\n")
   }
 }
