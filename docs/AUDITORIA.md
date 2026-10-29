@@ -774,6 +774,53 @@ aprobación del equipo.
 
 ---
 
+## Fase 5 — Correcciones aplicadas (28-10-2026)
+
+Solo correcciones que no cambian decisiones metodológicas, más los análisis P1–P7
+aprobados por Gabriel. Las decisiones D1–D10 siguen abiertas: ninguna se aplicó.
+
+| Corrección | Archivos | Prioridad (§1.7) | ¿Cambia resultados? |
+|---|---|---|---|
+| Inferencia clásica P1–P7: IC t y z, t de Welch, F + Brown-Forsythe, χ² + V de Cramér, regresión simple con supuestos, Shapiro + QQ-plot | `scripts/05_inferencia_clasica.R` (nuevo), `run_all.R` | Crítica (corte 3) | Agrega `outputs/inferencia/` |
+| Las constantes pasan a `R/config.R`: años, meses, años nacionales, edad mínima, departamentos comunes, mínimo por celda, dimensiones, SMMLV, años de referencia, semillas y parámetros de la inferencia | `R/config.R`, `01`, `02`, `04` | Importante | No |
+| Se quita el diagnóstico `inventario(2020, …)`, que corría siempre, y el bloque de prueba comentado | `01_base_cruda_anual.R` | Crítica | No |
+| Validaciones antes de guardar cada base: sin duplicados, FEX > 0, ingreso > 0 en respondientes, `fex_aj` solo en la población, no negativo, 0 en no respondientes y con el total conservado, edad y departamentos válidos | `02_base_analitica_anual.R` | Importante | No (todas pasan) |
+| Comentarios "PENDIENTE" cerrados con las etiquetas del DANE (`P6210` 9 = no sabe; rangos de `P6870`); "PROPUESTA DE REGLA" pasa a "Regla decidida"; aviso de D10 junto al código de `P6430` | `02_base_analitica_anual.R` | Cosmética | No |
+| `stat_function(inherit.aes = FALSE)` en la figura 07b: elimina la advertencia de `ggplot2` | `04_estadistica_descriptiva.R` | Cosmética | No (la figura es idéntica) |
+| La columna `ocupados_millones` pasa a `poblacion_estudio_millones` | `04`, `06_evolucion.csv` | Cosmética | Solo el encabezado |
+| Las bases se leen de `data/processed/` con `cargar_analitica()`; checksums MD5 | `R/datos.R`, `00`, `03`, `04`, `02b` | Crítica (clon nuevo) | No |
+
+**Verificación.** Corrida completa desde los `.dta` con `run_all.R` (`desde_crudos <- TRUE`),
+en 12,6 minutos:
+- `01` tardó 4,9 min, `02` 0,7, `02b` 2,4, `00` 0,7, `03` 0,7, `04` 1,3 y `05` 0,7;
+- 199 pruebas pasan, 0 fallan;
+- los `data/processed/*.csv.gz` y `checksums.txt` son idénticos byte a byte, igual que
+  todos los reportes, `theil_*.csv`, las tablas y las figuras. Solo cambió el encabezado
+  de `06_evolucion.csv`.
+
+Por eso no hace falta la tabla "antes contra después" de n, suma de pesos y Theil A: no
+cambió nada. Los datos crudos se leyeron con *junctions* temporales hacia la carpeta de la
+universidad, que se eliminaron al terminar; los 710 `.dta` siguen intactos.
+
+**Optimización.** No se hizo. El Monte Carlo y el bootstrap, que son los bucles costosos,
+todavía no existen, y el resto del pipeline corre en unos 13 minutos desde los crudos y en
+unos 4 desde `data/processed/`.
+
+**Resultados de P1–P7** (`outputs/inferencia/tablas/resumen_pruebas.csv`; 2026,
+submuestra de 2.000 ∝ `fex_aj`):
+
+| | Análisis | Resultado |
+|---|---|---|
+| P1 | IC 95 % media de ln(ingreso) | 14,22 [14,18; 14,26]. La serie por año sube sobre todo por la inflación (pesos corrientes) |
+| P2 | IC 95 % proporción de informales | 0,511 [0,489; 0,532] |
+| P3 | t de Welch formal > informal | diferencia en ln = 1,07 (≈ 2,9 veces), t = 32,2, p < 10⁻¹⁰⁰ |
+| P4 | F de varianzas de ln(ingreso) | F = 0,41 [0,36; 0,47]: los informales son más desiguales. Brown-Forsythe lo confirma (F = 129,7) |
+| P5 | χ² educación × formalidad | χ² = 509 (4 gl), V de Cramér = 0,50 |
+| P6 | ln(ingreso) ~ horas | β₁ = 0,025 [0,022; 0,028], R² = 0,13. Residuos no normales y heterocedásticos (se reporta) |
+| P7 | Shapiro-Wilk de ln(ingreso), 2024, n = 5.000 | W = 0,954, p ≈ 10⁻³⁷ |
+
+---
+
 ## Decisiones para el equipo
 
 Se van agregando a medida que avanza la auditoría. Ninguna se toma sin consultar.
