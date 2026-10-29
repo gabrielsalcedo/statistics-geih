@@ -920,6 +920,34 @@ gráfico no cambia, el archivo sale idéntico y Git no lo marca como modificado.
 
 ---
 
+## Fase 8 — Verificación final (28-10-2026)
+
+**Reproducción como la haría un compañero.** Pasos en orden:
+1. `git clone` de la rama `revision-general` en una carpeta nueva: sin `.rds` ni `.dta`.
+2. `renv::restore()`: 66 paquetes en 0,3 minutos.
+3. Borrar `outputs/tablas`, `outputs/figuras` y `data/resultados`.
+4. `source("run_all.R")`: 3,1 minutos.
+
+Resultados:
+- "TODO CORRECTO";
+- pruebas: 190 pasan, 0 fallan, 1 se salta (compara con los `.rds`, que un clon no tiene);
+- las 32 tablas, las 8 figuras y los 2 CSV de resultados regenerados son **idénticos byte a
+  byte** a los versionados;
+- `report/main.tex` compila en el clon: 7 páginas.
+
+**Fallo encontrado y corregido.** `04_verificar_datos.R` leía
+`data/resultados/theil_resumen.csv`, que produce `05`, un paso posterior. Después de borrar
+las salidas, la verificación fallaba ("cannot open the connection"). Ahora, si ese archivo
+no existe, omite la comparación del Theil con un aviso.
+
+**Inventario.**
+- 169 archivos versionados, 51,5 MB (`.git` ocupa 58,8 MB).
+- El archivo más grande es `geih_2022.csv.gz`, de 6,6 MB.
+- 0 `.dta`, 0 `.rds`, 0 archivos de más de 50 MB y ninguna credencial (búsqueda de
+  password/token/key/secret).
+
+---
+
 ## Decisiones para el equipo
 
 Se van agregando a medida que avanza la auditoría. Ninguna se toma sin consultar.
