@@ -7,7 +7,7 @@ source(here::here("R", "datos.R"))
 
 test_that("cargar_analitica() reproduce cada .rds sin ninguna diferencia", {
   for (anio in 2018:2026) {
-    rds <- here::here("data", "analitica", paste0("analitica_", anio, ".rds"))
+    rds <- here::here("data", "intermedia", "etapa2_analitica", paste0("analitica_", anio, ".rds"))
     skip_if_not(file.exists(rds), "No están las bases .rds.")
     expect_true(isTRUE(all.equal(cargar_analitica(anio), readRDS(rds), tolerance = 0)), info = anio)
   }
