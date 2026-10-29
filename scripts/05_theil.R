@@ -142,8 +142,13 @@ write.csv(theil_grupos,  here("data", "resultados", "theil_grupos.csv"),  row.na
 
 
 # =============================================================================
-# 4. TABLAS PARA REVISAR
+# 4. TABLAS PARA REVISAR Y PARA EL INFORME
 # =============================================================================
+# Se guardan en outputs/tablas/ (.csv y .tex) para que el informe las incluya
+# con \input{} sin copiar números a mano.
+
+source(here("R", "salidas.R"))  # guardar_tabla()
+
 
 # Theil total por año con los tres pesos (sensibilidad) ----
 
@@ -153,6 +158,7 @@ theil_resumen %>%
   select(anio, peso, T) %>%
   mutate(T = round(T, 4)) %>%
   tidyr::pivot_wider(names_from = peso, values_from = T) %>%
+  guardar_tabla("theil_por_anio", digitos = 4) %>%
   print()
 
 
@@ -164,6 +170,7 @@ theil_resumen %>%
   select(anio, dimension, S) %>%
   mutate(S = round(100 * S, 1)) %>%
   tidyr::pivot_wider(names_from = dimension, values_from = S) %>%
+  guardar_tabla("theil_participacion_entre") %>%
   print()
 
 

@@ -37,27 +37,30 @@ a_latex <- function(x) {
 # Número a texto en formato colombiano (coma decimal, punto de miles) ----
 # Los valores p muy pequeños se escriben en notación científica.
 
-formatear <- function(x) {
+formatear <- function(x, digitos = 3) {
   ifelse(
     is.na(x), "—",
     ifelse(is.infinite(x), ifelse(x > 0, "$\\infty$", "$-\\infty$"),   # IC unilaterales
     ifelse(
       x != 0 & abs(x) < 1e-3,
       paste0("$", sub("e", " \\\\times 10^{", formatC(x, format = "e", digits = 2, decimal.mark = ",")), "}$"),
-      formatC(x, format = "f", digits = 3, big.mark = ".", decimal.mark = ",", drop0trailing = TRUE)
+      formatC(x, format = "f", digits = digitos, big.mark = ".", decimal.mark = ",", drop0trailing = TRUE)
     ))
   )
 }
 
 
 # Tabla ----
+# digitos: decimales máximos en el .tex (el .csv conserva todos).
+# Las columnas de años se escriben como texto para que 2018 no salga "2.018".
 
-guardar_tabla <- function(t, nombre) {
+guardar_tabla <- function(t, nombre, digitos = 3) {
 
   write.csv(t, file.path(ruta_tablas, paste0(nombre, ".csv")), row.names = FALSE)
 
   d <- as.data.frame(t)
-  celdas <- sapply(d, function(col) if (is.numeric(col)) formatear(col) else a_latex(ifelse(is.na(col), "—", col)))
+  for (v in intersect(names(d), c("anio", "ANIO"))) d[[v]] <- as.character(d[[v]])
+  celdas <- sapply(d, function(col) if (is.numeric(col)) formatear(col, digitos) else a_latex(ifelse(is.na(col), "—", col)))
   celdas <- matrix(celdas, nrow = nrow(d))   # una sola fila también queda como matriz
 
   alineacion <- paste(ifelse(sapply(d, is.numeric), "r", "l"), collapse = "")
@@ -79,15 +82,19 @@ guardar_tabla <- function(t, nombre) {
 
 
 # Figuras ----
-# cairo_pdf conserva las tildes y símbolos como ≈ en los títulos.
+# pdf() con timestamp = FALSE: el archivo no guarda la fecha, así que si el
+# gráfico no cambia, el PDF sale idéntico y Git no lo marca como modificado.
+# Admite tildes y ñ; no admite símbolos como ≈ en los textos de las figuras.
+
+pdf_reproducible <- function(filename, ...) grDevices::pdf(filename, ..., timestamp = FALSE)
 
 guardar_figura <- function(g, nombre, ancho = 8, alto = 5) {
   ggplot2::ggsave(file.path(ruta_figuras, paste0(nombre, ".pdf")), g,
-                  width = ancho, height = alto, device = grDevices::cairo_pdf)
+                  width = ancho, height = alto, device = pdf_reproducible)
   invisible(g)   # invisible: si no, R imprime el gráfico y crea un Rplots.pdf suelto
 }
 
 # Para gráficos de R base: abrir_pdf("nombre"); plot(...); dev.off()
 abrir_pdf <- function(nombre, ancho = 10, alto = 5) {
-  grDevices::cairo_pdf(file.path(ruta_figuras, paste0(nombre, ".pdf")), width = ancho, height = alto)
+  pdf_reproducible(file.path(ruta_figuras, paste0(nombre, ".pdf")), width = ancho, height = alto)
 }
