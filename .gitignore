@@ -17,6 +17,11 @@ data/afa/
 data/intermedia/etapa1_cruda/*.rds
 data/intermedia/etapa2_analitica/*.rds
 
+# --- LaTeX: PDF compilados (se regeneran al compilar) ---
+report/main.pdf
+slides/main.pdf
+poster/main.pdf
+
 # --- LaTeX: archivos auxiliares ---
 *.aux
 *.log
