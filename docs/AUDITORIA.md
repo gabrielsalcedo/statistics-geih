@@ -833,6 +833,30 @@ submuestra de 2.000 ∝ `fex_aj`):
 
 ---
 
+## Fase 6 — Bases versionadas y estructura del repositorio (28-10-2026)
+
+Aprobado por Gabriel ("Sí, todo").
+
+| Cambio | Detalle |
+|---|---|
+| Bases versionadas | `data/processed/geih_<año>.csv.gz`: 9 archivos de 3,7 a 6,9 MB (51 MB en total). Reproducen exactamente los `.rds`. Integridad con `data/checksums.txt` (MD5, porque viene en R base) |
+| Documentación de datos | `data/codebook.md`; `data/raw/README.md` (cómo descargar los datos del DANE y regenerar las bases) |
+| Scripts renumerados | El número es el orden de ejecución: `01_base_cruda`, `02_base_analitica`, `03_exportar_procesados`, `04_verificar_datos`, `05_theil`, `06_descriptiva`, `07_inferencia_clasica` |
+| Datos intermedios | `data/final` → `data/intermedia/etapa1_cruda`; `data/analitica` → `data/intermedia/etapa2_analitica`. Los 78 reportes movidos son idénticos byte a byte |
+| Salidas para LaTeX | `outputs/tablas/` (.tex con `booktabs` y .csv) y `outputs/figuras/` (.pdf con `cairo_pdf`), a través de `R/salidas.R`. Reemplaza a `outputs/descriptiva/` y `outputs/inferencia/` (PNG) |
+| `renv` | `renv.lock` con 66 paquetes y R 4.5.2. `.renvignore` excluye `_revisar/` y `docs/`. Se instala con `renv::restore()` |
+| `run_all.R` | Corre los pasos 4 a 7 y las pruebas; con `desde_crudos <- TRUE`, también los pasos 1 a 3 |
+| `Rplots.pdf` suelto | `guardar_figura()` devolvía el gráfico de forma visible y `Rscript` lo imprimía. Ahora devuelve `invisible()` |
+
+**Verificación** (con `renv` activo, desde los `.dta`): 13,2 minutos. `01` tardó 5,5 min,
+`02` 0,7, `03` 2,6, `04` 0,7, `05` 0,7, `06` 1,2 y `07` 0,4.
+- "TODO CORRECTO";
+- 199 pruebas pasan, 0 fallan;
+- los `data/processed/*.csv.gz`, `checksums.txt`, `theil_*.csv`, todos los reportes y
+  todas las tablas CSV son idénticos a los de antes de la Fase 6.
+
+---
+
 ## Decisiones para el equipo
 
 Se van agregando a medida que avanza la auditoría. Ninguna se toma sin consultar.
