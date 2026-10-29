@@ -6,7 +6,7 @@
 # Theil y la descriptiva sin descargar los 62 GB de microdatos del DANE.
 #
 # cargar_analitica() devuelve exactamente la misma base que
-# data/analitica/analitica_<año>.rds (lo verifica tests/testthat/test-datos.R).
+# data/intermedia/etapa2_analitica/analitica_<año>.rds (lo verifica tests/testthat/test-datos.R).
 # =============================================================================
 
 
@@ -16,7 +16,7 @@ ruta_procesada <- function(anio) {
 
 
 # Categorías de las variables cualitativas ----
-# Deben coincidir con las de scripts/02_base_analitica_anual.R. En un CSV los
+# Deben coincidir con las de scripts/02_base_analitica.R. En un CSV los
 # factores se guardan como texto; estas listas devuelven el orden original.
 
 niveles <- list(

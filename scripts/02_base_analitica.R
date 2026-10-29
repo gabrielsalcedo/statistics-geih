@@ -1,7 +1,7 @@
 # =============================================================================
 # ETAPA 2 — Base analítica anual GEIH (una base por año)
 #
-# Parte de las bases crudas de la etapa 1 (data/final/base_<año>.rds) y:
+# Parte de las bases crudas de la etapa 1 (data/intermedia/etapa1_cruda/base_<año>.rds) y:
 #   1. Construye las variables armonizadas entre marcos (tablas de equivalencias).
 #   2. Marca la población de estudio con indicadores. No borra ninguna fila.
 #   3. Ajusta el factor de expansión por no respuesta de INGLABO (celdas).
@@ -27,7 +27,7 @@ library(dplyr)
 
 source(here("R", "config.R"))
 
-dir.create(here("data", "analitica", "reportes"), showWarnings = FALSE, recursive = TRUE)
+dir.create(here("data", "intermedia", "etapa2_analitica", "reportes"), showWarnings = FALSE, recursive = TRUE)
 
 
 # Dimensiones de la descomposición por año ----
@@ -292,7 +292,7 @@ construir_analitica <- function(anio) {
   
   cat("\n=============================== ", anio, " ===============================\n")
   
-  base <- readRDS(here("data", "final", paste0("base_", anio, ".rds")))
+  base <- readRDS(here("data", "intermedia", "etapa1_cruda", paste0("base_", anio, ".rds")))
   dims <- dims_anio(anio)
   
   
@@ -452,9 +452,9 @@ construir_analitica <- function(anio) {
 
   # 7. Guardar ----
   
-  ruta_rep <- here("data", "analitica", "reportes")
+  ruta_rep <- here("data", "intermedia", "etapa2_analitica", "reportes")
   
-  saveRDS(base, here("data", "analitica", paste0("analitica_", anio, ".rds")))
+  saveRDS(base, here("data", "intermedia", "etapa2_analitica", paste0("analitica_", anio, ".rds")))
   write.csv(trazabilidad,  file.path(ruta_rep, paste0("trazabilidad_",  anio, ".csv")), row.names = FALSE)
   write.csv(aj$resumen,    file.path(ruta_rep, paste0("celdas_ajuste_", anio, ".csv")), row.names = FALSE)
   write.csv(participacion, file.path(ruta_rep, paste0("participacion_", anio, ".csv")), row.names = FALSE)
@@ -500,7 +500,7 @@ diccionario <- tribble(
   "tam_empresa", "Cualitativa",              "Ordinal",  "Tamaño de la empresa (5 rangos)"
 )
 
-write.csv(diccionario, here("data", "analitica", "diccionario_variables.csv"), row.names = FALSE)
+write.csv(diccionario, here("data", "intermedia", "etapa2_analitica", "diccionario_variables.csv"), row.names = FALSE)
 
 
 # =============================================================================

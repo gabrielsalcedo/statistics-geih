@@ -29,7 +29,7 @@ source(here("R", "config.R"))
 
 guardar_dta <- FALSE   # TRUE si además quieres una copia en .dta
 
-dir.create(here("data", "final", "reportes"), showWarnings = FALSE, recursive = TRUE)
+dir.create(here("data", "intermedia", "etapa1_cruda", "reportes"), showWarnings = FALSE, recursive = TRUE)
 
 
 # Llaves ----
@@ -644,7 +644,7 @@ construir_anio <- function(anio) {
     row.names = NULL
   )
   
-  ruta_rep <- here("data", "final", "reportes")
+  ruta_rep <- here("data", "intermedia", "etapa1_cruda", "reportes")
   write.csv(rep_vars,    file.path(ruta_rep, paste0("variables_", anio, ".csv")), row.names = FALSE)
   write.csv(rep_union,   file.path(ruta_rep, paste0("uniones_",   anio, ".csv")), row.names = FALSE)
   write.csv(rep_control, file.path(ruta_rep, paste0("controles_", anio, ".csv")), row.names = FALSE)
@@ -653,8 +653,8 @@ construir_anio <- function(anio) {
   
   # Guardar ----
   
-  saveRDS(base, here("data", "final", paste0("base_", anio, ".rds")))
-  if (guardar_dta) write_dta(base, here("data", "final", paste0("base_", anio, ".dta")))
+  saveRDS(base, here("data", "intermedia", "etapa1_cruda", paste0("base_", anio, ".rds")))
+  if (guardar_dta) write_dta(base, here("data", "intermedia", "etapa1_cruda", paste0("base_", anio, ".dta")))
   
   
   # Resumen en consola ----

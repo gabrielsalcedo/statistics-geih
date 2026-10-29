@@ -1,7 +1,7 @@
 # =============================================================================
 # ETAPA 2b — Exportar las bases analíticas a CSV comprimido
 #
-# Entrada: data/analitica/analitica_<año>.rds  (etapa 2)
+# Entrada: data/intermedia/etapa2_analitica/analitica_<año>.rds  (etapa 2)
 # Salida:  data/processed/geih_<año>.csv.gz    (versionados en GitHub)
 #          data/checksums.txt                  (huella MD5 de cada archivo)
 #
@@ -23,7 +23,7 @@ source(here("R", "datos.R"))
 
 for (anio in anios) {
 
-  base <- readRDS(here("data", "analitica", paste0("analitica_", anio, ".rds")))
+  base <- readRDS(here("data", "intermedia", "etapa2_analitica", paste0("analitica_", anio, ".rds")))
   exportar_analitica(base, anio)
 
   # El CSV debe devolver la misma base, columna por columna y sin diferencias
@@ -38,7 +38,7 @@ for (anio in anios) {
 
 # Huellas MD5 ----
 # Permiten comprobar que nadie tiene una copia dañada o incompleta
-# (lo revisa scripts/00_verificar_datos.R).
+# (lo revisa scripts/04_verificar_datos.R).
 
 archivos <- ruta_procesada(anios)
 writeLines(

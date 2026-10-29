@@ -13,7 +13,7 @@
 #   tal cual, sin pesos. Limitación: ignora los conglomerados de la encuesta.
 #
 # Entrada: data/processed/geih_<año>.csv.gz
-# Salida:  outputs/inferencia/tablas/*.csv  y  outputs/inferencia/figuras/*.png
+# Salida:  outputs/tablas/p*_*.csv y .tex,  outputs/figuras/p*_*.pdf
 # =============================================================================
 
 
@@ -24,16 +24,7 @@ library(dplyr)
 
 source(here("R", "config.R"))
 source(here("R", "datos.R"))
-
-ruta_tab <- here("outputs", "inferencia", "tablas")
-ruta_fig <- here("outputs", "inferencia", "figuras")
-dir.create(ruta_tab, showWarnings = FALSE, recursive = TRUE)
-dir.create(ruta_fig, showWarnings = FALSE, recursive = TRUE)
-
-guardar_tabla <- function(t, nombre) {
-  write.csv(t, file.path(ruta_tab, paste0(nombre, ".csv")), row.names = FALSE)
-  t
-}
+source(here("R", "salidas.R"))  # guardar_tabla() y abrir_pdf()
 
 
 # Submuestra proporcional al peso ----
@@ -188,7 +179,7 @@ bp <- n_inferencia * summary(lm(residuals(m6)^2 ~ s$horas))$r.squared
 agregar("P6b", "Supuesto: homocedasticidad (Breusch-Pagan)", "varianza constante",
         bp, 1, pchisq(bp, df = 1, lower.tail = FALSE), NA)
 
-png(file.path(ruta_fig, "p6_residuos.png"), width = 1600, height = 800, res = 150)
+abrir_pdf("p6_residuos")
 par(mfrow = c(1, 2))
 plot(fitted(m6), residuals(m6), pch = 16, cex = 0.4, col = "#2c7fb880",
      xlab = "Valores ajustados", ylab = "Residuos", main = "Residuos frente a ajustados")
@@ -211,7 +202,7 @@ sw7 <- shapiro.test(s7$ln_ingreso)
 agregar("P7", paste("Shapiro-Wilk: ln(ingreso) normal,", anio_normalidad), "ln(ingreso) normal",
         unname(sw7$statistic), NA, sw7$p.value, NA)
 
-png(file.path(ruta_fig, "p7_ln_ingreso_normalidad.png"), width = 1600, height = 800, res = 150)
+abrir_pdf("p7_ln_ingreso_normalidad")
 par(mfrow = c(1, 2))
 hist(s7$ln_ingreso, breaks = 60, freq = FALSE, col = "#a6bddb", border = "white",
      main = paste0("ln(ingreso), ", anio_normalidad), xlab = "ln(ingreso laboral)", ylab = "Densidad")
@@ -233,4 +224,4 @@ resumen <- bind_rows(resumen) %>%
 cat("\nInferencia clásica (submuestra de", n_inferencia, "∝ fex_aj,", anio_ref, "):\n")
 print(resumen %>% select(id, analisis, estadistico, valor_p, estimacion, ic_inf, ic_sup, efecto, decision),
       row.names = FALSE)
-cat("\nListo. Tablas en", ruta_tab, "y figuras en", ruta_fig, "\n")
+cat("\nListo. Tablas en", ruta_tablas, "y figuras en", ruta_figuras, "\n")

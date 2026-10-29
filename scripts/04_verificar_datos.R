@@ -10,7 +10,7 @@
 #   5. Da el mismo Theil A que data/resultados/theil_resumen.csv.
 #
 # Si todo sale "OK", tienes exactamente los mismos datos con los que se
-# calcularon los resultados y puedes correr 03_theil.R y 04_estadistica_descriptiva.R.
+# calcularon los resultados y puedes correr 05_theil.R y 06_descriptiva.R.
 # =============================================================================
 
 library(here)
@@ -41,7 +41,7 @@ for (anio in anios) {
   if (!file.exists(archivo)) next
 
   a    <- cargar_analitica(anio)
-  traz <- read.csv(here("data", "analitica", "reportes", paste0("trazabilidad_", anio, ".csv")))
+  traz <- read.csv(here("data", "intermedia", "etapa2_analitica", "reportes", paste0("trazabilidad_", anio, ".csv")))
 
   # 2. Sin duplicados
   chequear(!anyDuplicated(a[llaves]), "sin duplicados (MES + llaves de persona)")

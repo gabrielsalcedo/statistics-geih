@@ -7,7 +7,7 @@
 # theil_C(), theil_D(): estimadores lognormales (momentos y máxima verosimilitud).
 #
 # Sin efectos colaterales: este archivo solo define funciones. Lo usan
-# scripts/03_theil.R y las pruebas de tests/testthat/.
+# scripts/05_theil.R y las pruebas de tests/testthat/.
 # =============================================================================
 
 

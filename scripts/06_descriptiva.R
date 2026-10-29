@@ -16,8 +16,7 @@
 # la misma sobre la que se calcula el Theil.
 #
 # Entrada: data/processed/geih_<año>.csv.gz  (versionada en GitHub)
-# Salida:  outputs/descriptiva/tablas/*.csv  y  outputs/descriptiva/figuras/*.png
-# El boxplot ponderado necesita el paquete quantreg instalado.
+# Salida:  outputs/tablas/<nombre>.csv y .tex,  outputs/figuras/<nombre>.pdf
 # =============================================================================
 
 
@@ -29,19 +28,18 @@ library(tidyr)
 library(ggplot2)
 library(scales)
 
+# El boxplot ponderado (aes(weight = ...)) usa quantreg por dentro
+stopifnot("Falta el paquete quantreg" = requireNamespace("quantreg", quietly = TRUE))
+
 source(here("R", "config.R"))   # anios_theil, anio_ref, anio_base, smmlv, semilla
 source(here("R", "datos.R"))    # cargar_analitica()
+source(here("R", "salidas.R"))  # guardar_tabla() y guardar_figura()
 
 
 # Parámetros ----
 # anio_ref (año principal) y anio_base (año de comparación) vienen de R/config.R.
 
 anios_serie <- anios_theil                # sin 2020
-
-ruta_tab <- here("outputs", "descriptiva", "tablas")
-ruta_fig <- here("outputs", "descriptiva", "figuras")
-dir.create(ruta_tab, showWarnings = FALSE, recursive = TRUE)
-dir.create(ruta_fig, showWarnings = FALSE, recursive = TRUE)
 
 
 # Salario mínimo (SMMLV) ----
@@ -144,15 +142,7 @@ tabla_frecuencias <- function(d, var) {
     )
 }
 
-guardar_tabla <- function(t, nombre) {
-  write.csv(t, file.path(ruta_tab, paste0(nombre, ".csv")), row.names = FALSE)
-  t
-}
-
-guardar_figura <- function(g, nombre, ancho = 8, alto = 5) {
-  ggsave(file.path(ruta_fig, paste0(nombre, ".png")), g, width = ancho, height = alto, dpi = 300)
-  g
-}
+# guardar_tabla() y guardar_figura() están en R/salidas.R
 
 tema <- theme_minimal(base_size = 11) +
   theme(plot.title = element_text(face = "bold"), panel.grid.minor = element_blank())
@@ -502,4 +492,4 @@ g_pond <- freq_cuali %>%
 guardar_figura(g_pond, "07c_muestra_vs_poblacion", ancho = 10, alto = 5)
 
 
-cat("\nListo. Tablas en", ruta_tab, "y figuras en", ruta_fig, "\n")
+cat("\nListo. Tablas en", ruta_tablas, "y figuras en", ruta_figuras, "\n")
