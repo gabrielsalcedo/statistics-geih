@@ -14,8 +14,8 @@ data/afa/
 *.DTA
 
 # --- Intermedios pesados y regenerables (los produce el pipeline) ---
-data/final/*.rds
-data/analitica/*.rds
+data/intermedia/etapa1_cruda/*.rds
+data/intermedia/etapa2_analitica/*.rds
 
 # --- LaTeX: archivos auxiliares ---
 *.aux
