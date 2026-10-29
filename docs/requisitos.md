@@ -36,7 +36,7 @@ Leyenda: ✅ cumplido · 🟡 parcial · ❌ pendiente
 
 | Requisito | Estado | Evidencia / qué falta |
 |---|---|---|
-| Tablas de frecuencias y gráficas univariadas (barras, histogramas, cajas), interpretadas | 🟡 | Las genera `04_estadistica_descriptiva.R` (tablas 02–03, figuras 03, 07a). **No están en la entrega ni interpretadas en el texto.** Falta la frecuencia de `tam_empresa` |
+| Tablas de frecuencias y gráficas univariadas (barras, histogramas, cajas), interpretadas | 🟡 | Las genera `06_descriptiva.R` (tablas 02–03, figuras 03, 07a). **No están en la entrega ni interpretadas en el texto.** Falta la frecuencia de `tam_empresa` |
 | Tablas cruzadas y gráficas bivariadas, interpretadas | 🟡 | Tablas 04 (educ×formal, sexo×formal, región×formal, estrato×educ), boxplots por grupo y dispersión horas–ingreso. Falta la interpretación en el texto |
 | Medidas de tendencia central, localización, variabilidad y forma de cada variable | 🟡 | Tabla 01 para ingreso, ln(ingreso), edad y horas: media, mediana, moda, cuantiles, DE, CV, asimetría y curtosis. Faltan interpretaciones y una medida descriptiva para cada cualitativa (moda, proporciones) |
 | Ponderadas por el factor de expansión | ✅ | Todo con `fex_aj`. El código lo dice; **el texto también debe decirlo** |

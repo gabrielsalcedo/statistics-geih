@@ -4,7 +4,7 @@ Esta carpeta guarda los microdatos originales del DANE: unos 62 GB y 710 archivo
 No se suben a GitHub, porque varios archivos pesan más de 100 MB. **Para correr el Theil y la
 descriptiva no hacen falta:** basta con `data/processed/`.
 
-Solo se necesitan para reconstruir las bases desde cero (`scripts/01_base_cruda_anual.R`).
+Solo se necesitan para reconstruir las bases desde cero (`scripts/01_base_cruda.R`).
 
 ## Fuente
 
@@ -40,10 +40,10 @@ source("run_all.R")   # con desde_crudos <- TRUE al inicio del archivo
 O paso a paso:
 
 ```r
-source("scripts/01_base_cruda_anual.R")       # data/raw      -> data/final/*.rds   (~5 min)
-source("scripts/02_base_analitica_anual.R")   # data/final    -> data/analitica/*.rds
-source("scripts/02b_exportar_procesados.R")   # data/analitica -> data/processed/*.csv.gz
+source("scripts/01_base_cruda.R")       # data/raw      -> data/final/*.rds   (~5 min)
+source("scripts/02_base_analitica.R")   # data/final    -> data/analitica/*.rds
+source("scripts/03_exportar_procesados.R")   # data/analitica -> data/processed/*.csv.gz
 ```
 
 Si los archivos son los mismos, los CSV salen idénticos byte a byte y
-`scripts/00_verificar_datos.R` termina en "TODO CORRECTO".
+`scripts/04_verificar_datos.R` termina en "TODO CORRECTO".

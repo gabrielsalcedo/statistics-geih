@@ -8,6 +8,18 @@ Rama `revision-general`. Este documento se completa por fases:
 
 Las referencias `archivo:línea` corresponden al commit `6c25cd9`.
 
+**Los scripts cambiaron de nombre en la Fase 6.** Este documento usa los nombres antiguos:
+
+| Antiguo | Actual |
+|---|---|
+| `00_verificar_datos.R` | `04_verificar_datos.R` |
+| `01_base_cruda_anual.R` | `01_base_cruda.R` |
+| `02_base_analitica_anual.R` | `02_base_analitica.R` |
+| `02b_exportar_procesados.R` | `03_exportar_procesados.R` |
+| `03_theil.R` | `05_theil.R` |
+| `04_estadistica_descriptiva.R` | `06_descriptiva.R` |
+| `05_inferencia_clasica.R` | `07_inferencia_clasica.R` |
+
 ---
 
 ## Fase 1 — Inventario

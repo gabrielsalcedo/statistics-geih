@@ -24,7 +24,7 @@ test_that("una persona con todo el ingreso entre n => T = ln(n)", {
 })
 
 
-# 2. Ejemplos hechos a mano (antes estaban en scripts/03_theil.R) ----
+# 2. Ejemplos hechos a mano (antes estaban en scripts/05_theil.R) ----
 
 test_that("ejemplo 1: cuatro personas sin pesos", {
   # T = 0,173 | between = 0,131 | within = 0,043

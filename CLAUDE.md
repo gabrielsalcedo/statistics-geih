@@ -77,7 +77,7 @@ Diseño de muestreo de la simulación, C y D con o sin pesos, estrato faltante,
 
 Los microdatos crudos (62 GB) están hoy en
 `Documents\universidad\4 semestre\estadistica\statistics-geih\data\raw`, no en este
-clon. Solo los necesita `01_base_cruda_anual.R`. Los `.rds` intermedios sí están
+clon. Solo los necesita `01_base_cruda.R`. Los `.rds` intermedios sí están
 copiados aquí (los ignora Git).
 
 ```
@@ -96,16 +96,19 @@ docs/curso/        Guía del curso y entregas (LaTeX)
 `source("run_all.R")` corre todo. Por defecto parte de `data/processed/`, que está
 versionada; con `desde_crudos <- TRUE` reconstruye antes las bases desde los `.dta`.
 
-1. `scripts/01_base_cruda_anual.R`: `data/raw` → `data/final` (requiere los `.dta`).
-2. `scripts/02_base_analitica_anual.R`: `data/final` → `data/analitica`.
-3. `scripts/02b_exportar_procesados.R`: `data/analitica` → `data/processed/*.csv.gz`
+1. `scripts/01_base_cruda.R`: `data/raw` → `data/final` (requiere los `.dta`).
+2. `scripts/02_base_analitica.R`: `data/final` → `data/analitica`.
+3. `scripts/03_exportar_procesados.R`: `data/analitica` → `data/processed/*.csv.gz`
    y `data/checksums.txt` (MD5).
-4. `scripts/00_verificar_datos.R`: comprueba `data/processed/` (huellas, conteos, Theil A).
-5. Pruebas: `testthat::test_dir("tests/testthat")`.
-6. `scripts/03_theil.R`: Theil A/B y descomposición → `data/resultados`.
-7. `scripts/04_estadistica_descriptiva.R`: → `outputs/descriptiva`.
-8. `scripts/05_inferencia_clasica.R`: P1–P7 sobre una submuestra ∝ `fex_aj` →
+4. `scripts/04_verificar_datos.R`: comprueba `data/processed/` (huellas, conteos, Theil A).
+   Después corren las pruebas: `testthat::test_dir("tests/testthat")`.
+5. `scripts/05_theil.R`: Theil A/B y descomposición → `data/resultados`.
+6. `scripts/06_descriptiva.R`: → `outputs/descriptiva`.
+7. `scripts/07_inferencia_clasica.R`: P1–P7 sobre una submuestra ∝ `fex_aj` →
    `outputs/inferencia`.
+
+El número de cada script es su orden de ejecución (renombrados el 28-10-2026; los
+nombres antiguos aparecen en `docs/AUDITORIA.md` y `docs/ESTADO_PROYECTO.md`).
 
 Funciones en `R/`: `config.R` (constantes), `datos.R` (`cargar_analitica()`) y
 `theil.R` (estimadores A–D).

@@ -34,16 +34,16 @@ correr <- function(script) {
 }
 
 if (desde_crudos) {
-  correr("01_base_cruda_anual.R")
-  correr("02_base_analitica_anual.R")
-  correr("02b_exportar_procesados.R")
+  correr("01_base_cruda.R")
+  correr("02_base_analitica.R")
+  correr("03_exportar_procesados.R")
 }
 
-correr("00_verificar_datos.R")
+correr("04_verificar_datos.R")
 cat("\n==================== pruebas (tests/testthat) ====================\n")
 testthat::test_dir(here::here("tests", "testthat"), stop_on_failure = TRUE)
-correr("03_theil.R")
-correr("04_estadistica_descriptiva.R")
-correr("05_inferencia_clasica.R")
+correr("05_theil.R")
+correr("06_descriptiva.R")
+correr("07_inferencia_clasica.R")
 
 cat("\nListo. Resultados en data/resultados/, outputs/descriptiva/ y outputs/inferencia/.\n")

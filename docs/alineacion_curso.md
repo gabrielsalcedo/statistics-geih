@@ -9,7 +9,7 @@ agregarlo para confirmar los números. Estado al 28-10-2026.
 | Tema / requisito | Sesión | ¿Cubierto? | Dónde | Qué falta |
 |---|---|---|---|---|
 | Tipos de variables y escalas | 1–6 | ✅ | `data/codebook.md`, Tabla 1 de la entrega | — |
-| Tablas de frecuencias y gráficas univariadas | 1–6 | 🟡 | `04_estadistica_descriptiva.R`: tablas 02–03, figuras 03 y 07a | Interpretación en el texto; frecuencia de `tam_empresa` |
+| Tablas de frecuencias y gráficas univariadas | 1–6 | 🟡 | `06_descriptiva.R`: tablas 02–03, figuras 03 y 07a | Interpretación en el texto; frecuencia de `tam_empresa` |
 | Tablas cruzadas y gráficas bivariadas | 1–6 | 🟡 | Tablas 04, figuras 04 y 05 | Interpretación en el texto |
 | Tendencia central, posición, dispersión y forma | 1–6 | 🟡 | Tabla 01 (ponderada) | Interpretación; moda y proporciones de las cualitativas |
 | Valores atípicos | 1–6 | 🟡 | `AUDITORIA.md` §2.6 (ingresos de $1, más de 100 horas) | Llevarlo a la descriptiva: regla del boxplot (1,5·RIC) y decisión D4 |
@@ -69,7 +69,7 @@ probabilidad proporcional a `fex_aj`** (con semilla fija).
 **Alternativa para P6.** Una regresión ln(ingreso) ~ años de educación sería más
 interesante (es la ecuación de Mincer), pero la base no tiene años de educación: solo los
 5 niveles. Agregarla exige extraer el último grado aprobado (`P6210S1` / `P3042S1`) en
-`01_base_cruda_anual.R`. Eso cambia la limpieza y requiere aprobación.
+`01_base_cruda.R`. Eso cambia la limpieza y requiere aprobación.
 
 **Notas:**
 - En P3 a P5, el valor p sale prácticamente 0 incluso con n = 2.000. Lo importante es el
@@ -77,7 +77,7 @@ interesante (es la ecuación de Mincer), pero la base no tiene años de educaci�
   decirlo. Así se cubre el tema de error tipo I, potencia y valor p.
 - Las siete propuestas caben en una tabla de media página en el informe. El detalle va
   en un anexo.
-- Dónde irían: un script nuevo `scripts/05_inferencia_clasica.R` y la semilla y el n de la
+- Dónde irían: un script nuevo `scripts/07_inferencia_clasica.R` y la semilla y el n de la
   submuestra en `R/config.R`.
 
 ## 3. ¿Cabe todo en 10 páginas?

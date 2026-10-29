@@ -6,8 +6,8 @@ estudio se elige con los indicadores `f_*`, `en_poblacion` y `responde`.
 
 - **Fuente:** Departamento Administrativo Nacional de Estadística (DANE), Gran Encuesta
   Integrada de Hogares (GEIH), microdatos mensuales. Cómo obtenerlos: `data/raw/README.md`.
-- **Construcción:** `scripts/01_base_cruda_anual.R` → `02_base_analitica_anual.R` →
-  `02b_exportar_procesados.R`.
+- **Construcción:** `scripts/01_base_cruda.R` → `02_base_analitica.R` →
+  `03_exportar_procesados.R`.
 - **Lectura en R:** `source("R/datos.R"); b <- cargar_analitica(2024)`. Devuelve los factores
   con sus categorías en orden.
 - **Formato:** CSV en UTF-8 comprimido con gzip, separador coma y faltantes como `NA`.

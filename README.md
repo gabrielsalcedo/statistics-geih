@@ -65,15 +65,16 @@ La redacción completa está en `docs/curso/report/primera_entrega_corregida.tex
 
 | Paso | Script | Entrada | Salida | ¿Necesita los .dta? |
 |---|---|---|---|---|
-| 1 | `scripts/01_base_cruda_anual.R` | `data/raw/` | `data/final/*.rds` + `reportes/` | Sí |
-| 2 | `scripts/02_base_analitica_anual.R` | `data/final/` | `data/analitica/*.rds` + `reportes/` | Sí (usa el paso 1) |
-| 2b | `scripts/02b_exportar_procesados.R` | `data/analitica/` | `data/processed/*.csv.gz`, `data/checksums.txt` | Sí (usa el paso 2) |
-| 0 | `scripts/00_verificar_datos.R` | `data/processed/` | mensajes OK/FALLA | No |
-| 3 | `scripts/03_theil.R` | `data/processed/` | `data/resultados/theil_*.csv` | No |
-| 4 | `scripts/04_estadistica_descriptiva.R` | `data/processed/` | `outputs/descriptiva/` | No |
-| 5 | `scripts/05_inferencia_clasica.R` | `data/processed/` | `outputs/inferencia/` | No |
+| 1 | `scripts/01_base_cruda.R` | `data/raw/` | `data/final/*.rds` + `reportes/` | Sí |
+| 2 | `scripts/02_base_analitica.R` | `data/final/` | `data/analitica/*.rds` + `reportes/` | Sí (usa el paso 1) |
+| 3 | `scripts/03_exportar_procesados.R` | `data/analitica/` | `data/processed/*.csv.gz`, `data/checksums.txt` | Sí (usa el paso 2) |
+| 4 | `scripts/04_verificar_datos.R` | `data/processed/` | mensajes OK/FALLA | No |
+| 5 | `scripts/05_theil.R` | `data/processed/` | `data/resultados/theil_*.csv` | No |
+| 6 | `scripts/06_descriptiva.R` | `data/processed/` | `outputs/descriptiva/` | No |
+| 7 | `scripts/07_inferencia_clasica.R` | `data/processed/` | `outputs/inferencia/` | No |
 
-`run_all.R` corre 0, las pruebas, 3, 4 y 5. Con `desde_crudos <- TRUE` corre antes 1, 2 y 2b.
+`run_all.R` corre los pasos 4 a 7 y las pruebas (después del paso 4). Con
+`desde_crudos <- TRUE` corre antes los pasos 1 a 3.
 
 ## Estructura
 
@@ -104,12 +105,12 @@ statistics-geih/
 
 | Resultado | Lo genera | Archivo |
 |---|---|---|
-| Tabla 2 de la entrega (trazabilidad) | `02_base_analitica_anual.R` | `data/analitica/reportes/trazabilidad_<año>.csv` |
-| Theil A y B por año; porcentaje explicado por dimensión | `03_theil.R` | `data/resultados/theil_resumen.csv` |
-| Detalle por grupo de cada descomposición | `03_theil.R` | `data/resultados/theil_grupos.csv` |
-| Medidas, frecuencias, tablas cruzadas y evolución | `04_estadistica_descriptiva.R` | `outputs/descriptiva/tablas/` |
-| Figuras de la descriptiva | `04_estadistica_descriptiva.R` | `outputs/descriptiva/figuras/` |
-| Intervalos y pruebas clásicas (P1–P7): IC, t, F, χ², regresión, normalidad | `05_inferencia_clasica.R` | `outputs/inferencia/tablas/resumen_pruebas.csv` y figuras |
+| Tabla 2 de la entrega (trazabilidad) | `02_base_analitica.R` | `data/analitica/reportes/trazabilidad_<año>.csv` |
+| Theil A y B por año; porcentaje explicado por dimensión | `05_theil.R` | `data/resultados/theil_resumen.csv` |
+| Detalle por grupo de cada descomposición | `05_theil.R` | `data/resultados/theil_grupos.csv` |
+| Medidas, frecuencias, tablas cruzadas y evolución | `06_descriptiva.R` | `outputs/descriptiva/tablas/` |
+| Figuras de la descriptiva | `06_descriptiva.R` | `outputs/descriptiva/figuras/` |
+| Intervalos y pruebas clásicas (P1–P7): IC, t, F, χ², regresión, normalidad | `07_inferencia_clasica.R` | `outputs/inferencia/tablas/resumen_pruebas.csv` y figuras |
 
 Los números de referencia (para comprobar que obtienes lo mismo) están en `CLAUDE.md`,
 sección 9.
