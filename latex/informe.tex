@@ -296,18 +296,20 @@ Con un panel de 13 ciudades (2002--2015), modelos de efectos fijos y variables i
 
 
 % ============================================================
-%  SECCIONES NUEVAS (informe final). Las figuras las generan los
-%  scripts de R en esta misma carpeta (scripts/correr_todo.R).
-%  Las cifras de las tablas están en outputs/*.csv.
+%  SECCIONES DEL INFORME FINAL
+%  Las figuras las generan los scripts de R en esta carpeta
+%  (scripts/correr_todo.R). Las cifras de las tablas vienen de
+%  outputs/*.csv; si se vuelven a correr los scripts, revisar que
+%  coincidan.
 % ============================================================
 
 \section{Estadística descriptiva}
 
-% Todas las cifras están ponderadas con el factor de expansión ajustado (fex_aj).
-% Tablas: outputs/desc_medidas_cuantitativas.csv, desc_frecuencias_*.csv,
-% desc_cruzada_*.csv, desc_ingreso_por_grupo.csv.
+Todas las cifras de esta sección están ponderadas con el factor de expansión ajustado por no respuesta, así que describen a la población de ocupados y no a los encuestados. En el primer semestre de 2026, las 154.657 personas que entran al análisis representan, en promedio, 21,6 millones de ocupados por mes.
 
-% TODO: interpretación
+\subsection{Variables cualitativas}
+
+La Figura 1 muestra la composición de los ocupados en 2026. El 57~\% son hombres; el 38~\% tiene educación superior y el 35~\% educación media; la mitad es informal (50,6~\%), y dos de cada tres viven en estrato 1 o 2 (67,9~\%). La comparación con la muestra deja ver por qué hay que ponderar: Bogotá es el 4,4~\% de los encuestados pero el 19,6~\% de los ocupados, mientras que el Caribe pasa del 27,1~\% de la muestra al 19,5~\% de la población. Un estimador que no use el factor de expansión le da a cada región un peso que no corresponde a su tamaño real.
 
 \begin{figure}[htbp]
   \singlespacing
@@ -319,7 +321,40 @@ Con un panel de 13 ciudades (2002--2015), modelos de efectos fijos y variables i
   \includegraphics[width=\textwidth]{fig_barras_cualitativas.png}
 \end{figure}
 
-% TODO: interpretación
+Las tablas cruzadas (\texttt{outputs/desc\_cruzada\_*.csv}) muestran que las dimensiones están muy relacionadas entre sí. La informalidad cae de 95,2~\% entre quienes no tienen educación a 21,9~\% entre quienes tienen educación superior; es de 30,5~\% en Bogotá y de 65,3~\% en el Caribe. En el estrato 6 el 88~\% tiene educación superior, frente al 16,6~\% en el estrato 1. En cambio, la formalidad casi no cambia entre hombres (48,1~\%) y mujeres (51,2~\%).
+
+\subsection{Variables cuantitativas}
+
+La Tabla 3 resume las variables cuantitativas. El ingreso laboral es muy asimétrico: en 2026 la media (\$2.314.067) supera ampliamente a la mediana (\$1.750.000), el coeficiente de variación es 133~\%, la asimetría es 9,9 y la curtosis en exceso es 199. La Figura 2 muestra el rasgo más llamativo de la distribución: un pico en el salario mínimo. El 15,5~\% de los ocupados gana alrededor de un salario mínimo (entre 0,95 y 1,05), el 39,5~\% gana menos de 0,95 y solo el 4,3~\% gana más de cuatro. La edad y las horas trabajadas, en cambio, son casi simétricas: la edad media es 41 años y la jornada mediana es de 44 horas semanales.
+
+\begin{table}[htbp]
+  \singlespacing
+  \raggedright
+  {\bfseries Tabla 3\par}
+  \vspace{0.5\baselineskip}
+  {\itshape Medidas descriptivas ponderadas de las variables cuantitativas\par}
+  \vspace{0.5\baselineskip}
+  \small
+  \renewcommand{\arraystretch}{1.2}
+  \begin{tabular}{@{}llrrrrrr@{}}
+    \toprule
+    Año & Variable & Media & Mediana & Desv. est. & CV (\%) & Asimetría & Curtosis \\
+    \midrule
+    2018 & Ingreso (\$)   & 1.057.786 & 781.242   & 1.451.715 & 137,2 & 10,23 & 253,3 \\
+         & ln(ingreso)    & 13,46     & 13,57     & 0,93      & 6,9   & $-$0,59 & 2,26 \\
+         & Edad (años)    & 39,6      & 38        & 13,9      & 35,1  & 0,48  & $-$0,43 \\
+         & Horas semanales& 45,2      & 48        & 15,4      & 34,0  & 0,03  & 1,64 \\
+    \addlinespace
+    2026 & Ingreso (\$)   & 2.314.067 & 1.750.000 & 3.083.758 & 133,3 & 9,91  & 198,9 \\
+         & ln(ingreso)    & 14,24     & 14,38     & 0,95      & 6,6   & $-$0,77 & 4,11 \\
+         & Edad (años)    & 41,0      & 40        & 13,7      & 33,4  & 0,42  & $-$0,48 \\
+         & Horas semanales& 43,0      & 44        & 13,0      & 30,2  & 0,05  & 2,57 \\
+    \bottomrule
+  \end{tabular}
+
+  \vspace{0.3\baselineskip}
+  {\itshape Nota.} Ponderado con el factor de expansión ajustado. Curtosis en exceso (0 = normal). El ingreso está en pesos corrientes, sin deflactar. Fuente: \texttt{outputs/desc\_medidas\_cuantitativas.csv}.
+\end{table}
 
 \begin{figure}[htbp]
   \singlespacing
@@ -331,7 +366,9 @@ Con un panel de 13 ciudades (2002--2015), modelos de efectos fijos y variables i
   \includegraphics[width=\textwidth]{fig_histograma_ingreso.png}
 \end{figure}
 
-% TODO: interpretación
+\subsection{Ingreso por grupo}
+
+La Figura 3 compara el ingreso de los grupos de cada dimensión. Las brechas más grandes son las de estrato y educación: en 2026 el ingreso medio del estrato 6 es 4,2 veces el promedio y el del estrato 1 es 0,56 veces; quienes tienen educación superior son el 38~\% de los ocupados pero reciben el 60,5~\% del ingreso, y ganan en promedio 1,6 veces la media. Los formales ganan 1,46 veces la media y los informales 0,55 veces. Entre hombres y mujeres la diferencia es pequeña (1,05 frente a 0,94). Estas brechas son, precisamente, lo que mide el componente \emph{entre} de la descomposición.
 
 \begin{figure}[htbp]
   \singlespacing
@@ -343,7 +380,9 @@ Con un panel de 13 ciudades (2002--2015), modelos de efectos fijos y variables i
   \includegraphics[width=\textwidth]{fig_boxplot_ingreso_grupo.png}
 \end{figure}
 
-% TODO: interpretación
+\subsection{¿Es lognormal el ingreso?}
+
+Los estimadores C y D suponen que el logaritmo del ingreso sigue una distribución normal. La Figura 4 muestra que no es así: el logaritmo del ingreso tiene asimetría negativa ($-$0,77) y curtosis en exceso de 4,1, con colas más pesadas que la normal y un pico en el salario mínimo. Con este tamaño de muestra cualquier prueba formal rechazaría la normalidad, así que la evidencia principal es gráfica. Este resultado anticipa que C y D no deberían converger al índice de Theil verdadero.
 
 \begin{figure}[htbp]
   \singlespacing
@@ -355,14 +394,52 @@ Con un panel de 13 ciudades (2002--2015), modelos de efectos fijos y variables i
   \includegraphics[width=\textwidth]{fig_ln_ingreso_normal.png}
 \end{figure}
 
-% TODO: interpretación
-
 
 \section{Resultados del experimento}
 
-% Tablas: outputs/simulacion_resumen.csv (sesgo, varianza, ECM y eficiencia relativa).
+El valor de referencia es el estimador A sobre la base de 2024 completa: $T = 0,5043$. Para cada tamaño de muestra se sacaron 500 submuestras por muestreo aleatorio simple sin reemplazo, y cada persona conservó su factor de expansión. La Tabla 4 resume el sesgo, el ECM y la eficiencia relativa de cada estimador.
 
-% TODO: interpretación
+\begin{table}[htbp]
+  \singlespacing
+  \raggedright
+  {\bfseries Tabla 4\par}
+  \vspace{0.5\baselineskip}
+  {\itshape Sesgo, error cuadrático medio y eficiencia relativa según el tamaño de muestra\par}
+  \vspace{0.5\baselineskip}
+  \small
+  \renewcommand{\arraystretch}{1.2}
+  \begin{tabular}{@{}lrrrr@{}}
+    \toprule
+    Estimador & $n = 500$ & $n = 2.000$ & $n = 10.000$ & $n = 50.000$ \\
+    \midrule
+    \multicolumn{5}{@{}l}{\itshape Sesgo} \\
+    A (ponderado)        & $-$0,0321 & $-$0,0095 & $-$0,0020 & 0,0003 \\
+    B (sin ponderar)     & $-$0,0847 & $-$0,0795 & $-$0,0775 & $-$0,0766 \\
+    C (lognormal, momentos) & $-$0,0275 & 0,0032 & 0,0195 & 0,0243 \\
+    D (lognormal, MV)    & $-$0,0773 & $-$0,0777 & $-$0,0778 & $-$0,0780 \\
+    \addlinespace
+    \multicolumn{5}{@{}l}{\itshape ECM ($\times 10^{3}$)} \\
+    A & 23,89 & 7,49 & 1,83 & 0,25 \\
+    B & 13,43 & 8,16 & 6,40 & 5,93 \\
+    C & 21,95 & 9,87 & 2,98 & 0,97 \\
+    D & 7,62  & 6,43 & 6,13 & 6,09 \\
+    \addlinespace
+    \multicolumn{5}{@{}l}{\itshape Eficiencia relativa: ECM(A) / ECM(j)} \\
+    B & 1,78 & 0,92 & 0,29 & 0,04 \\
+    C & 1,09 & 0,76 & 0,61 & 0,26 \\
+    D & 3,14 & 1,17 & 0,30 & 0,04 \\
+    \bottomrule
+  \end{tabular}
+
+  \vspace{0.3\baselineskip}
+  {\itshape Nota.} 500 réplicas por tamaño de muestra. Valor de referencia: $T = 0,5043$ (estimador A sobre la GEIH 2024 completa). Una eficiencia relativa menor que 1 indica que A tiene menor ECM que el competidor. Fuente: \texttt{outputs/simulacion\_resumen.csv}.
+\end{table}
+
+Tres resultados se destacan. Primero, \textbf{solo A es consistente}: su sesgo pasa de $-$0,032 con $n = 500$ a prácticamente cero con $n = 50.000$, y su ECM cae de forma sostenida a medida que crece la muestra (Figura 5). El sesgo negativo de A en muestras pequeñas se explica porque los ingresos muy altos son pocos y una submuestra pequeña rara vez los incluye, así que el Theil sale más bajo de lo que es.
+
+Segundo, \textbf{B y D convergen a un valor equivocado}. Los dos se estabilizan alrededor de 0,427, cerca de 0,078 por debajo del valor de referencia (un 15~\% menos), y ese sesgo no desaparece aunque la muestra crezca. En B el error viene de ignorar el factor de expansión; en D, del supuesto lognormal. C también tiene un sesgo que no desaparece, pero hacia arriba ($+$0,024 con $n = 50.000$).
+
+Tercero, \textbf{con muestras pequeñas A no es el mejor}. Con $n = 500$, D tiene un ECM tres veces menor que el de A (eficiencia relativa de 3,14), porque su varianza es muy baja aunque esté sesgado. Desde $n = 10.000$ el sesgo de los competidores domina y A pasa a tener el menor ECM; con $n = 50.000$ su ECM es entre 4 y 24 veces menor que el de los demás. La Figura 6 muestra que, con $n = 50.000$, las 500 estimaciones de A se concentran alrededor del valor de referencia, mientras que las de B, C y D quedan lejos de él.
 
 \begin{figure}[htbp]
   \singlespacing
@@ -384,14 +461,42 @@ Con un panel de 13 ciudades (2002--2015), modelos de efectos fijos y variables i
   \includegraphics[width=\textwidth]{fig_simulacion_distribucion.png}
 \end{figure}
 
-% TODO: interpretación
+Hay que leer este resultado con una precaución: como el valor de referencia es el propio estimador A calculado sobre la base completa, el experimento muestra que A converge al Theil ponderado de la GEIH, y mide cuánto se alejan de él los demás estimadores. Por eso, en la aplicación usamos A, que además es el único que usa la información del diseño muestral.
 
 
 \section{Theil anual y descomposición}
 
-% Tablas: outputs/theil_por_anio.csv, outputs/theil_participacion_entre.csv.
+La Tabla 5 y la Figura 7 muestran el índice de Theil de cada año con el estimador A. La desigualdad subió de 0,439 en 2018 a 0,477 en 2019, se mantuvo en 2021 y saltó a 0,538 en 2022, el valor más alto de la serie. Desde entonces bajó cada año hasta 0,429 en 2026, el más bajo. El salto de 2022 coincide con el cambio del marco muestral y del factor de expansión, y también aparece en el estimador B, que no usa pesos; por eso, al menos una parte de ese salto puede ser metodológica y no un cambio real de la desigualdad.
 
-% TODO: interpretación
+\begin{table}[htbp]
+  \singlespacing
+  \raggedright
+  {\bfseries Tabla 5\par}
+  \vspace{0.5\baselineskip}
+  {\itshape Índice de Theil del ingreso laboral por año\par}
+  \vspace{0.5\baselineskip}
+  \small
+  \renewcommand{\arraystretch}{1.2}
+  \begin{tabular}{@{}lrcrr@{}}
+    \toprule
+    Año & A (principal) & IC 95~\% bootstrap & A sin ajuste & B (sin pesos) \\
+    \midrule
+    2018 & 0,4392 & [0,4220; 0,4553] & 0,4322 & 0,3891 \\
+    2019 & 0,4772 & [0,4597; 0,4955] & 0,4733 & 0,4126 \\
+    2021 & 0,4739 & [0,4540; 0,4968] & 0,4622 & 0,4150 \\
+    2022 & 0,5381 & [0,5097; 0,5725] & 0,5314 & 0,4536 \\
+    2023 & 0,5135 & [0,4932; 0,5345] & 0,5083 & 0,4382 \\
+    2024 & 0,5043 & [0,4842; 0,5257] & 0,4981 & 0,4273 \\
+    2025 & 0,4609 & [0,4426; 0,4804] & 0,4576 & 0,3916 \\
+    2026 & 0,4288 & [0,4124; 0,4459] & 0,4279 & 0,3921 \\
+    \bottomrule
+  \end{tabular}
+
+  \vspace{0.3\baselineskip}
+  {\itshape Nota.} A: factor de expansión ajustado por no respuesta. A sin ajuste: factor de expansión original. B: sin factor de expansión. 2020 no se calcula. Intervalos por bootstrap de personas, 500 réplicas. Fuentes: \texttt{outputs/theil\_por\_anio.csv} y \texttt{outputs/bootstrap\_ic\_theil.csv}.
+\end{table}
+
+En todos los años B es menor que A, entre 0,04 y 0,08 puntos (entre 0,037 y 0,085): ignorar el factor de expansión subestima la desigualdad, lo mismo que mostró la simulación. El ajuste por no respuesta, en cambio, cambia poco el resultado (A sin ajuste es como máximo 0,012 menor).
 
 \begin{figure}[htbp]
   \singlespacing
@@ -403,6 +508,36 @@ Con un panel de 13 ciudades (2002--2015), modelos de efectos fijos y variables i
   \includegraphics[width=\textwidth]{fig_theil_anual.png}
 \end{figure}
 
+La Tabla 6 y la Figura 8 muestran qué parte de la desigualdad se explica por las diferencias \emph{entre} los grupos de cada dimensión. El estrato es la dimensión que más explica en todos los años (entre 31~\% y 38~\%), seguido por la educación (24--27~\%) y la formalidad (22--27~\%), que van casi a la par. La región explica entre 5~\% y 9~\%, y el sexo menos del 1~\%. En todos los casos la mayor parte de la desigualdad ocurre \emph{dentro} de los grupos: incluso con el estrato, cerca de dos tercios de la desigualdad se da entre personas del mismo estrato. Como las dimensiones están relacionadas entre sí (Sección de estadística descriptiva), sus porcentajes no se pueden sumar.
+
+\begin{table}[htbp]
+  \singlespacing
+  \raggedright
+  {\bfseries Tabla 6\par}
+  \vspace{0.5\baselineskip}
+  {\itshape Porcentaje de la desigualdad explicado por cada dimensión (componente entre)\par}
+  \vspace{0.5\baselineskip}
+  \small
+  \renewcommand{\arraystretch}{1.2}
+  \begin{tabular}{@{}lrrrrr@{}}
+    \toprule
+    Año & Educación & Formalidad & Sexo & Región & Estrato \\
+    \midrule
+    2018 & 24,2 & 22,4 & 0,6 & 5,1 & 31,3 \\
+    2019 & 25,0 & 23,6 & 0,7 & 5,6 & 33,8 \\
+    2021 & 26,3 & 27,2 & 0,1 & 5,4 & 32,6 \\
+    2022 & 26,5 & 23,8 & 0,3 & 8,7 & 35,9 \\
+    2023 & 27,0 & 25,2 & 0,3 & 8,3 & 37,9 \\
+    2024 & 27,0 & 24,7 & 0,2 & 8,1 & 36,1 \\
+    2025 & 25,6 & 24,6 & 0,2 & 7,6 & 35,4 \\
+    2026 & 25,3 & 24,8 & 0,3 & 7,6 & 35,0 \\
+    \bottomrule
+  \end{tabular}
+
+  \vspace{0.3\baselineskip}
+  {\itshape Nota.} $S = T_{\text{entre}} / T \times 100$, con el estimador A. Fuente: \texttt{outputs/theil\_participacion\_entre.csv}.
+\end{table}
+
 \begin{figure}[htbp]
   \singlespacing
   \raggedright
@@ -413,15 +548,43 @@ Con un panel de 13 ciudades (2002--2015), modelos de efectos fijos y variables i
   \includegraphics[width=\textwidth]{fig_descomposicion.png}
 \end{figure}
 
-% TODO: interpretación
-
 
 \section{Pruebas de hipótesis}
 
-% H1: outputs/simulacion_h1.csv. H2: outputs/bootstrap_h2.csv.
-% H3: outputs/bootstrap_h3.csv. IC: outputs/bootstrap_ic_theil.csv.
+\subsection{H1: el estimador ponderado es el mejor}
 
-% TODO: interpretación
+Para cada competidor $j$ calculamos, en cada una de las 500 réplicas con $n = 50.000$, la diferencia de pérdidas $d_j = (\hat{T}_A - T)^2 - (\hat{T}_j - T)^2$, y aplicamos una prueba $t$ pareada unilateral (Tabla 7). Se rechaza $H_0$ frente a los tres competidores con valores $p$ prácticamente nulos, así que \textbf{los datos respaldan H1}: con muestras grandes, A tiene un ECM significativamente menor que B, C y D, y es el único consistente (Tabla 4). La diferencia es mucho mayor frente a B y D que frente a C. Como el número de réplicas lo fija el investigador, la significancia por sí sola dice poco; lo importante es el tamaño de la diferencia, que se ve en la eficiencia relativa.
+
+\begin{table}[htbp]
+  \singlespacing
+  \raggedright
+  {\bfseries Tabla 7\par}
+  \vspace{0.5\baselineskip}
+  {\itshape Prueba de H1: prueba t pareada unilateral sobre las diferencias de pérdidas (n = 50.000)\par}
+  \vspace{0.5\baselineskip}
+  \small
+  \renewcommand{\arraystretch}{1.2}
+  \begin{tabular}{@{}lrrrrl@{}}
+    \toprule
+    Competidor & Media de $d_j$ & $t$ & gl & Valor $p$ & Decisión \\
+    \midrule
+    B & $-$0,00567 & $-$109,41 & 499 & $< 0,001$ & Se rechaza $H_0$ \\
+    C & $-$0,00071 & $-$14,89  & 499 & $< 0,001$ & Se rechaza $H_0$ \\
+    D & $-$0,00584 & $-$219,18 & 499 & $< 0,001$ & Se rechaza $H_0$ \\
+    \bottomrule
+  \end{tabular}
+
+  \vspace{0.3\baselineskip}
+  {\itshape Nota.} $H_0: \bar{d}_j \geq 0$ frente a $H_1: \bar{d}_j < 0$, con $\alpha = 0,05$. Fuente: \texttt{outputs/simulacion\_h1.csv}.
+\end{table}
+
+\subsection{H2: la educación explica más que las demás dimensiones}
+
+Con 500 réplicas bootstrap de 2026 calculamos, para cada dimensión $k$, la diferencia $S^*_{edu} - S^*_k$. La educación explica más que el sexo (percentil 5 de la diferencia: 0,235) y que la región (0,165), pero no más que la formalidad, con la que está prácticamente empatada (diferencia media 0,004; percentil 5: $-$0,003), ni más que el estrato, que explica unos 10 puntos más (percentil 5: $-$0,113). Como el percentil 5 no es positivo para todas las dimensiones, \textbf{no se rechaza $H_0$: los datos no respaldan H2}. En 2026 la dimensión que más explica la desigualdad es el estrato, y la educación y la formalidad están empatadas en el segundo lugar.
+
+\subsection{H3: la desigualdad fue menor en 2026 que en 2018}
+
+El Theil de 2026 (0,4288) es 0,010 menor que el de 2018 (0,4392). Sin embargo, el percentil 95 de la diferencia bootstrap $T^*_{2026} - T^*_{2018}$ es 0,0085, mayor que cero, así que \textbf{no se rechaza $H_0$: la reducción no es estadísticamente significativa}. Los intervalos de confianza de los dos años se superponen (Figura 9). La comparación tiene además una limitación: 2018 y 2026 se miden con marcos muestrales y factores de expansión distintos. Dentro del mismo marco, la caída entre 2022 (0,538) y 2026 (0,429) es grande y los intervalos no se superponen.
 
 \begin{figure}[htbp]
   \singlespacing
@@ -433,13 +596,17 @@ Con un panel de 13 ciudades (2002--2015), modelos de efectos fijos y variables i
   \includegraphics[width=\textwidth]{fig_bootstrap_ic.png}
 \end{figure}
 
-% TODO: interpretación
-
 
 \section{Conclusiones}
 
-% TODO: interpretación
+De los cuatro estimadores del índice de Theil, el ponderado (A) es el que debe usarse con la GEIH. Es el único consistente y, con muestras grandes, tiene un error cuadrático medio entre 4 y 24 veces menor que el de los demás. Ignorar el factor de expansión (B) o suponer que el ingreso es lognormal (C y D) produce sesgos que no desaparecen al aumentar la muestra: B y D subestiman la desigualdad en cerca de un 15~\% y C la sobreestima en cerca de un 5~\%. El supuesto lognormal falla porque el ingreso laboral en Colombia tiene un pico en el salario mínimo y colas más pesadas que las de una lognormal. Solo con muestras pequeñas (500 personas) los estimadores con menos varianza, como D, pueden tener menor error, a costa de estar sesgados.
 
+Con el estimador A, la desigualdad del ingreso laboral subió hasta 2022 y desde entonces bajó cada año, hasta llegar en 2026 a su nivel más bajo del periodo. Aun así, la diferencia entre 2026 y 2018 no es estadísticamente significativa, así que no se puede afirmar que la desigualdad sea menor que en 2018 (H3). El estrato es la dimensión que más explica la desigualdad, seguido por la educación y la formalidad, casi empatadas; el sexo casi no explica nada. Por eso los datos no respaldan H2. En todas las dimensiones, la mayor parte de la desigualdad ocurre dentro de los grupos.
+
+\textbf{Limitaciones.} El valor de referencia de la simulación es la propia GEIH 2024 calculada con A, de modo que el experimento compara a los demás estimadores con el Theil ponderado y no con la población colombiana. El cambio de marco muestral en 2022 impide separar el cambio real de la desigualdad del cambio metodológico. El ajuste por no respuesta no usa el estrato, y quienes no reportan ingreso son más frecuentes en los estratos altos (sobre todo en 2018), lo que puede subestimar la desigualdad de los primeros años. El bootstrap remuestrea personas e ignora los conglomerados de la encuesta, así que los intervalos pueden ser algo estrechos. Por último, los resultados describen asociaciones, no relaciones causales.
+% REVISAR (equipo): en 2022--2026 el código 7 de P6430 tiene ingreso en los datos y hoy
+% se clasifica como "sin remuneración" (unos 3.400 ocupados por año quedan fuera).
+% Decidir si se corrige o si se menciona como limitación.
 
 % ---------------- Referencias ----------------
 \clearpage
