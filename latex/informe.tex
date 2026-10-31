@@ -163,47 +163,12 @@ C despeja $\sigma^2$ igualando la media y la varianza muestrales del ingreso con
 
 \subsection{Fuente}
 
-Se usa la \textbf{Gran Encuesta Integrada de Hogares (GEIH)} del \textcite{dane2026geih}: encuesta mensual, probabilística y de cobertura nacional, con una muestra de cerca de 315.000 hogares al año \parencite{dane2023metodologia}. Es la única fuente que reúne ingreso laboral y factores de expansión. Esto es clave, porque sin factores de expansión no se podría construir el estimador A ni evaluar el sesgo de B. Para cada año se unen los meses de enero a junio de tres módulos (ocupados, características generales y datos del hogar y la vivienda), lo que da nueve bases anuales (2018--2026). Cada una tiene \textbf{más de 140.000 ocupados y 12 variables} (Tabla 1), por lo que cumple los requisitos.
+Se usa la \textbf{Gran Encuesta Integrada de Hogares (GEIH)} del \textcite{dane2026geih}: encuesta mensual, probabilística y de cobertura nacional, con una muestra de cerca de 315.000 hogares al año \parencite{dane2023metodologia}. Es la única fuente que reúne ingreso laboral y factores de expansión. Esto es clave, porque sin factores de expansión no se podría construir el estimador A ni evaluar el sesgo de B. Para cada año se unen los meses de enero a junio de tres módulos (ocupados, características generales y datos del hogar y la vivienda), lo que da nueve bases anuales (2018--2026). Cada una tiene \textbf{más de 140.000 ocupados y 12 variables} (Tabla A1, en el Anexo A), por lo que cumple los requisitos.
 
-% ---------------- Tabla 1 ----------------
-\begin{table}[htbp]
-  \singlespacing
-  \raggedright
-  {\bfseries Tabla 1\par}
-  \vspace{0.5\baselineskip}
-  {\itshape Variables seleccionadas de la GEIH\par}
-  \vspace{0.5\baselineskip}
-  \small
-  \renewcommand{\arraystretch}{1.35}
-  \begin{tabular}{@{}>{\raggedright\arraybackslash}p{1.45in}
-                    >{\raggedright\arraybackslash}p{1.45in}
-                    >{\raggedright\arraybackslash}p{1.35in}
-                    >{\raggedright\arraybackslash}p{1.65in}@{}}
-    \toprule
-    Variable & Código GEIH & Tipo / escala & Uso \\
-    \midrule
-    Ingreso laboral mensual & INGLABO & Continua / razón & Cálculo del Theil \\
-    Factor de expansión & FEX\_C\_2011 (2018--2021); FEX\_C18 (2022--2026) & Continua / razón & Ponderación (estimador A) \\
-    Nivel educativo & P3042 (antes P6210) & Cualitativa / ordinal & Dimensión 1 \\
-    Cotización a pensión & P6920 & Cualitativa / nominal & Formalidad (dimensión 2) \\
-    Estrato & P4030S1A1 & Cualitativa / ordinal & Dimensión 3 \\
-    Departamento & DPTO & Cualitativa / nominal & Región (dimensión 4) \\
-    Sexo & P3271 (antes P6020) & Cualitativa / nominal & Dimensión 5 \\
-    Posición ocupacional & P6430 & Cualitativa / nominal & Filtro (remunerados) y ajuste por no respuesta \\
-    Edad & P6040 & Discreta / razón & Filtro ($\geq$ 15 años) \\
-    Zona & CLASE & Cualitativa / nominal & Descripción \\
-    Horas trabajadas & P6800 & Discreta / razón & Descripción \\
-    Tamaño de la empresa & P3069 (antes P6870) & Cualitativa / ordinal & Descripción \\
-    \bottomrule
-  \end{tabular}
-
-  \vspace{0.3\baselineskip}
-  {\itshape Nota.} Los códigos cambian entre el marco muestral antiguo (2018--2021) y el Marco 2018 (2022--2026); el código guarda, para cada año, el nombre original de cada variable.
-\end{table}
 
 \subsection{Depuración}
 
-El principio de la depuración es \emph{marcar, no borrar}: la base de cada año conserva a todos los ocupados, y cada criterio se guarda como un indicador. Así se puede verificar cuántas personas excluye cada paso (Tabla 2). Los criterios son:
+El principio de la depuración es \emph{marcar, no borrar}: la base de cada año conserva a todos los ocupados, y cada criterio se guarda como un indicador. Así se puede verificar cuántas personas excluye cada paso (Tabla A2, en el Anexo A). Los criterios son:
 
 \begin{itemize}[leftmargin=0.75in]
   \item \textbf{Edad:} ocupados de 15 años o más.
@@ -216,37 +181,8 @@ El principio de la depuración es \emph{marcar, no borrar}: la base de cada año
 
 Las dimensiones se definen así. \textbf{Educación:} cinco niveles armonizados entre marcos (ninguno o preescolar, primaria, secundaria, media y superior). \textbf{Formalidad:} es formal quien cotiza a pensión o ya está pensionado (P6920). \textbf{Estrato:} 1 a 6. \textbf{Región:} cinco regiones dentro de la cobertura común (Bogotá, Caribe, Oriental, Central y Pacífica). \textbf{Sexo:} hombre o mujer.
 
-El año 2020 se excluye del cálculo del Theil: por la recolección telefónica durante la pandemia, falta el ingreso de la mayoría de los ocupados y no se recogió el estrato (Tabla 2). Por eso el análisis aplicado usa ocho años.
+El año 2020 se excluye del cálculo del Theil: por la recolección telefónica durante la pandemia, falta el ingreso de la mayoría de los ocupados y no se recogió el estrato (Tabla A2, en el Anexo A). Por eso el análisis aplicado usa ocho años.
 
-% ---------------- Tabla 2 ----------------
-\begin{table}[htbp]
-  \singlespacing
-  \raggedright
-  {\bfseries Tabla 2\par}
-  \vspace{0.5\baselineskip}
-  {\itshape Trazabilidad de la depuración por año (enero--junio)\par}
-  \vspace{0.5\baselineskip}
-  \small
-  \renewcommand{\arraystretch}{1.25}
-  \begin{tabular}{@{}lrrrr@{}}
-    \toprule
-    Año & Ocupados & Población de estudio & Entran al Theil & \% del FEX total \\
-    \midrule
-    2018 & 174.668 & 162.300 & 141.025 & 82,6 \\
-    2019 & 168.441 & 156.616 & 151.283 & 87,6 \\
-    2020 & 146.862 &  96.931 &  57.042 & 46,4 \\
-    2021 & 146.094 & 136.479 & 129.750 & 86,2 \\
-    2022 & 194.647 & 168.270 & 160.946 & 85,3 \\
-    2023 & 183.136 & 160.299 & 157.776 & 88,3 \\
-    2024 & 178.204 & 156.063 & 152.213 & 86,9 \\
-    2025 & 176.176 & 154.659 & 153.340 & 89,1 \\
-    2026 & 177.195 & 155.262 & 154.657 & 89,0 \\
-    \bottomrule
-  \end{tabular}
-
-  \vspace{0.3\baselineskip}
-  {\itshape Nota.} \emph{Población de estudio}: cumple todos los criterios de la depuración. \emph{Entran al Theil}: además reportan ingreso positivo. \emph{\% del FEX total}: porcentaje del factor de expansión de todos los ocupados que representan quienes entran al Theil, antes del ajuste por no respuesta. 2020 no se usa en el Theil.
-\end{table}
 
 
 \section{Hipótesis}
@@ -279,58 +215,264 @@ Se rechaza $H_0$ si el percentil 95 de las diferencias $T_{2026}^{*b} - T_{2018}
 
 \textbf{Limitaciones.} El valor verdadero del experimento es la propia GEIH 2024, no la población colombiana, así que la simulación evalúa los estimadores bajo un diseño que imita el real pero lo simplifica. Los factores de expansión de 2018--2021 provienen del marco muestral antiguo y los de 2022--2026 del Marco 2018, y el cuestionario también cambió; por eso parte de la diferencia entre 2018 y 2026 puede deberse al cambio metodológico y no a un cambio real de la desigualdad. El bootstrap remuestrea personas e ignora el muestreo por conglomerados, por lo que los intervalos pueden quedar algo estrechos. Las dimensiones están correlacionadas entre sí, los ingresos altos suelen subreportarse, y los resultados aplicados indican asociación, no causalidad.
 
-\section{Resumen de artículos relacionados}
-
-\subsection{\texorpdfstring{\textcite{mills1997statistical}}{Mills y Zandvakili (1997)}}
-
-Proponen el bootstrap para construir intervalos y pruebas sobre el Gini y el Theil y sus descomposiciones, con datos de panel de Estados Unidos. Muestran que diferencias aparentes entre grupos pueden no ser significativas incluso con muestras grandes. Tratan el índice de desigualdad como lo que es, un estimador con distribución muestral.
-
-\subsection{\texorpdfstring{\textcite{sanchez2017desigualdad}}{Sánchez-Torres (2017)}}
-
-Con la ECH y la GEIH (2002--2015), el autor descompone el Theil entre y dentro de departamentos y el Gini por fuentes de ingreso. Encuentra que cerca del 88~\% de la desigualdad ocurre dentro de los departamentos, que Chocó y La Guajira están entre los más desiguales y que el ingreso de los asalariados es la fuente que más aporta.
-
-
-\subsection{\texorpdfstring{\textcite{ariza2017labour}}{Ariza y Montes-Rojas (2017)}}
-
-Con un panel de 13 ciudades (2002--2015), modelos de efectos fijos y variables instrumentales, los autores muestran que la informalidad aumenta significativamente la desigualdad del ingreso laboral, y que la desigualdad ocurre casi toda dentro de las ciudades.
-
-
 % ============================================================
 %  SECCIONES DEL INFORME FINAL
 %  Las figuras las generan los scripts de R en esta carpeta
 %  (scripts/correr_todo.R). Las cifras de las tablas vienen de
 %  outputs/*.csv; si se vuelven a correr los scripts, revisar que
-%  coincidan.
+%  coincidan. Las tablas y figuras complementarias están en el Anexo A.
 % ============================================================
 
 \section{Estadística descriptiva}
 
-Todas las cifras de esta sección están ponderadas con el factor de expansión ajustado por no respuesta, así que describen a la población de ocupados y no a los encuestados. En el primer semestre de 2026, las 154.657 personas que entran al análisis representan, en promedio, 21,6 millones de ocupados por mes.
+Todas las cifras están ponderadas con el factor de expansión ajustado, así que describen a la población de ocupados y no a los encuestados. En el primer semestre de 2026, las 154.657 personas del análisis representan, en promedio, 21,6 millones de ocupados por mes. Ponderar importa: Bogotá es el 4,4~\% de los encuestados pero el 19,6~\% de los ocupados (Figura A1). El 57~\% de los ocupados son hombres, el 38~\% tiene educación superior, la mitad es informal (50,6~\%) y dos de cada tres viven en estrato 1 o 2. Las dimensiones están muy relacionadas: la informalidad es de 95,2~\% sin educación y de 21,9~\% con educación superior, y en el estrato 6 el 88~\% tiene educación superior, frente al 16,6~\% en el estrato 1.
 
-\subsection{Variables cualitativas}
+El ingreso laboral es muy asimétrico (Tabla A3): en 2026 la media (\$2.314.067) supera a la mediana (\$1.750.000), el coeficiente de variación es 133~\% y la asimetría es 9,9. La Figura 1 muestra un pico en el salario mínimo: el 15,5~\% de los ocupados gana alrededor de un salario mínimo, el 39,5~\% gana menos y solo el 4,3~\% gana más de cuatro. Las brechas entre grupos son grandes (Figura A2): el ingreso medio del estrato 6 es 4,2 veces el promedio y el del estrato 1, 0,56 veces; quienes tienen educación superior son el 38~\% de los ocupados y reciben el 60,5~\% del ingreso. Por último, el logaritmo del ingreso no es normal: tiene asimetría negativa ($-$0,77), colas más pesadas que la normal y un pico en el salario mínimo (Figura A3). Esto anticipa que los estimadores lognormales C y D no deberían converger al índice verdadero.
 
-La Figura 1 muestra la composición de los ocupados en 2026. El 57~\% son hombres; el 38~\% tiene educación superior y el 35~\% educación media; la mitad es informal (50,6~\%), y dos de cada tres viven en estrato 1 o 2 (67,9~\%). La comparación con la muestra deja ver por qué hay que ponderar: Bogotá es el 4,4~\% de los encuestados pero el 19,6~\% de los ocupados, mientras que el Caribe pasa del 27,1~\% de la muestra al 19,5~\% de la población. Un estimador que no use el factor de expansión le da a cada región un peso que no corresponde a su tamaño real.
-
-\begin{figure}[htbp]
+\begin{figure}[!ht]
   \singlespacing
   \raggedright
   {\bfseries Figura 1\par}
   \vspace{0.5\baselineskip}
-  {\itshape Composición de los ocupados por dimensión, 2026\par}
+  {\itshape Distribución del ingreso laboral, 2026\par}
   \vspace{0.5\baselineskip}
-  \includegraphics[width=\textwidth]{fig_barras_cualitativas.png}
+  \includegraphics[width=0.7\textwidth]{fig_histograma_ingreso.png}
 \end{figure}
 
-Las tablas cruzadas (\texttt{outputs/desc\_cruzada\_*.csv}) muestran que las dimensiones están muy relacionadas entre sí. La informalidad cae de 95,2~\% entre quienes no tienen educación a 21,9~\% entre quienes tienen educación superior; es de 30,5~\% en Bogotá y de 65,3~\% en el Caribe. En el estrato 6 el 88~\% tiene educación superior, frente al 16,6~\% en el estrato 1. En cambio, la formalidad casi no cambia entre hombres (48,1~\%) y mujeres (51,2~\%).
 
-\subsection{Variables cuantitativas}
+\section{Resultados del experimento}
 
-La Tabla 3 resume las variables cuantitativas. El ingreso laboral es muy asimétrico: en 2026 la media (\$2.314.067) supera ampliamente a la mediana (\$1.750.000), el coeficiente de variación es 133~\%, la asimetría es 9,9 y la curtosis en exceso es 199. La Figura 2 muestra el rasgo más llamativo de la distribución: un pico en el salario mínimo. El 15,5~\% de los ocupados gana alrededor de un salario mínimo (entre 0,95 y 1,05), el 39,5~\% gana menos de 0,95 y solo el 4,3~\% gana más de cuatro. La edad y las horas trabajadas, en cambio, son casi simétricas: la edad media es 41 años y la jornada mediana es de 44 horas semanales.
+El valor de referencia es el estimador A sobre la base de 2024 completa: $T = 0,5043$. Para cada tamaño de muestra se sacaron 500 submuestras por muestreo aleatorio simple sin reemplazo, y cada persona conservó su factor de expansión (Tabla 1).
+
+\begin{table}[!ht]
+  \singlespacing
+  \raggedright
+  {\bfseries Tabla 1\par}
+  \vspace{0.5\baselineskip}
+  {\itshape Sesgo, error cuadrático medio y eficiencia relativa según el tamaño de muestra\par}
+  \vspace{0.5\baselineskip}
+  \small
+  \renewcommand{\arraystretch}{1.15}
+  \begin{tabular}{@{}lrrrr@{}}
+    \toprule
+    Estimador & $n = 500$ & $n = 2.000$ & $n = 10.000$ & $n = 50.000$ \\
+    \midrule
+    \multicolumn{5}{@{}l}{\itshape Sesgo} \\
+    A (ponderado)           & $-$0,0321 & $-$0,0095 & $-$0,0020 & 0,0003 \\
+    B (sin ponderar)        & $-$0,0847 & $-$0,0795 & $-$0,0775 & $-$0,0766 \\
+    C (lognormal, momentos) & $-$0,0275 & 0,0032    & 0,0195    & 0,0243 \\
+    D (lognormal, MV)       & $-$0,0773 & $-$0,0777 & $-$0,0778 & $-$0,0780 \\
+    \addlinespace
+    \multicolumn{5}{@{}l}{\itshape ECM ($\times 10^{3}$)} \\
+    A & 23,89 & 7,49 & 1,83 & 0,25 \\
+    B & 13,43 & 8,16 & 6,40 & 5,93 \\
+    C & 21,95 & 9,87 & 2,98 & 0,97 \\
+    D & 7,62  & 6,43 & 6,13 & 6,09 \\
+    \addlinespace
+    \multicolumn{5}{@{}l}{\itshape Eficiencia relativa: ECM(A) / ECM(j)} \\
+    B & 1,78 & 0,92 & 0,29 & 0,04 \\
+    C & 1,09 & 0,76 & 0,61 & 0,26 \\
+    D & 3,14 & 1,17 & 0,30 & 0,04 \\
+    \bottomrule
+  \end{tabular}
+
+  \vspace{0.3\baselineskip}
+  {\itshape Nota.} 500 réplicas por tamaño. Una eficiencia relativa menor que 1 indica que A tiene menor ECM que el competidor. Fuente: \texttt{outputs/simulacion\_resumen.csv}.
+\end{table}
+
+\textbf{Solo A es consistente}: su sesgo pasa de $-$0,032 con $n = 500$ a prácticamente cero con $n = 50.000$, y su ECM cae de forma sostenida (Figura 2). En muestras pequeñas A subestima porque los ingresos muy altos son pocos y una submuestra pequeña rara vez los incluye. \textbf{B y D convergen a un valor equivocado}, cerca de 0,427 (un 15~\% por debajo del valor de referencia): B por ignorar el factor de expansión y D por el supuesto lognormal. C también conserva un sesgo, hacia arriba ($+$0,024). \textbf{Con muestras pequeñas A no es el mejor}: con $n = 500$, D tiene un ECM tres veces menor porque su varianza es muy baja, aunque esté sesgado. Desde $n = 10.000$ A tiene el menor ECM, y con $n = 50.000$ su ECM es entre 4 y 24 veces menor que el de los demás (Figura A4).
+
+\begin{figure}[!ht]
+  \singlespacing
+  \raggedright
+  {\bfseries Figura 2\par}
+  \vspace{0.5\baselineskip}
+  {\itshape Error cuadrático medio de cada estimador según el tamaño de muestra\par}
+  \vspace{0.5\baselineskip}
+  \includegraphics[width=0.7\textwidth]{fig_simulacion_ecm.png}
+\end{figure}
+
+Como el valor de referencia es el propio estimador A sobre la base completa, el experimento muestra que A converge al Theil ponderado de la GEIH y mide cuánto se alejan de él los demás. Por eso, en la aplicación usamos A, que además es el único que incorpora el diseño muestral.
+
+
+\section{Theil anual y descomposición}
+
+Con el estimador A, la desigualdad subió de 0,439 en 2018 a 0,477 en 2019 y saltó a 0,538 en 2022, el valor más alto; desde entonces bajó cada año hasta 0,429 en 2026, el más bajo (Tabla 2 y Figura 4). El salto de 2022 coincide con el cambio del marco muestral y del factor de expansión, y también aparece en B, que no usa pesos, así que parte de él puede ser metodológica. En todos los años B es entre 0,04 y 0,08 menor que A: ignorar el factor de expansión subestima la desigualdad, como mostró la simulación (Figura A5).
+
+\begin{table}[!ht]
+  \singlespacing
+  \raggedright
+  {\bfseries Tabla 2\par}
+  \vspace{0.5\baselineskip}
+  {\itshape Índice de Theil del ingreso laboral por año\par}
+  \vspace{0.5\baselineskip}
+  \small
+  \renewcommand{\arraystretch}{1.15}
+  \begin{tabular}{@{}lrcrr@{}}
+    \toprule
+    Año & A (principal) & IC 95~\% bootstrap & A sin ajuste & B (sin pesos) \\
+    \midrule
+    2018 & 0,4392 & [0,4220; 0,4553] & 0,4322 & 0,3891 \\
+    2019 & 0,4772 & [0,4597; 0,4955] & 0,4733 & 0,4126 \\
+    2021 & 0,4739 & [0,4540; 0,4968] & 0,4622 & 0,4150 \\
+    2022 & 0,5381 & [0,5097; 0,5725] & 0,5314 & 0,4536 \\
+    2023 & 0,5135 & [0,4932; 0,5345] & 0,5083 & 0,4382 \\
+    2024 & 0,5043 & [0,4842; 0,5257] & 0,4981 & 0,4273 \\
+    2025 & 0,4609 & [0,4426; 0,4804] & 0,4576 & 0,3916 \\
+    2026 & 0,4288 & [0,4124; 0,4459] & 0,4279 & 0,3921 \\
+    \bottomrule
+  \end{tabular}
+
+  \vspace{0.3\baselineskip}
+  {\itshape Nota.} A: factor de expansión ajustado por no respuesta. A sin ajuste: factor original. B: sin factor. Intervalos por bootstrap de personas (500 réplicas). Fuentes: \texttt{outputs/theil\_por\_anio.csv} y \texttt{outputs/bootstrap\_ic\_theil.csv}.
+\end{table}
+
+El estrato es la dimensión que más explica la desigualdad en todos los años (entre 31~\% y 38~\% del Theil), seguido por la educación (24--27~\%) y la formalidad (22--27~\%), que van casi a la par; la región explica entre 5~\% y 9~\% y el sexo menos del 1~\% (Figura 3 y Tabla A4). En todos los casos la mayor parte de la desigualdad ocurre \emph{dentro} de los grupos: incluso con el estrato, unos dos tercios se dan entre personas del mismo estrato. Como las dimensiones están relacionadas, sus porcentajes no se suman.
+
+\begin{figure}[!ht]
+  \singlespacing
+  \raggedright
+  {\bfseries Figura 3\par}
+  \vspace{0.5\baselineskip}
+  {\itshape Porcentaje de la desigualdad explicado por cada dimensión (componente entre)\par}
+  \vspace{0.5\baselineskip}
+  \includegraphics[width=0.7\textwidth]{fig_descomposicion.png}
+\end{figure}
+
+
+\section{Pruebas de hipótesis}
+
+\textbf{H1.} En cada una de las 500 réplicas con $n = 50.000$ calculamos $d_j = (\hat{T}_A - T)^2 - (\hat{T}_j - T)^2$ y aplicamos una prueba $t$ pareada unilateral (Tabla 3). Se rechaza $H_0$ frente a B, C y D: \textbf{los datos respaldan H1}. Con muestras grandes A tiene un ECM significativamente menor y es el único consistente (Tabla 1). Como el número de réplicas lo fija el investigador, lo importante es el tamaño de la diferencia, que muestra la eficiencia relativa.
+
+\begin{table}[!ht]
+  \singlespacing
+  \raggedright
+  {\bfseries Tabla 3\par}
+  \vspace{0.5\baselineskip}
+  {\itshape Prueba de H1: prueba t pareada unilateral sobre las diferencias de pérdidas (n = 50.000)\par}
+  \vspace{0.5\baselineskip}
+  \small
+  \renewcommand{\arraystretch}{1.15}
+  \begin{tabular}{@{}lrrrrl@{}}
+    \toprule
+    Competidor & Media de $d_j$ & $t$ & gl & Valor $p$ & Decisión \\
+    \midrule
+    B & $-$0,00567 & $-$109,41 & 499 & $< 0,001$ & Se rechaza $H_0$ \\
+    C & $-$0,00071 & $-$14,89  & 499 & $< 0,001$ & Se rechaza $H_0$ \\
+    D & $-$0,00584 & $-$219,18 & 499 & $< 0,001$ & Se rechaza $H_0$ \\
+    \bottomrule
+  \end{tabular}
+
+  \vspace{0.3\baselineskip}
+  {\itshape Nota.} $H_0: \bar{d}_j \geq 0$ frente a $H_1: \bar{d}_j < 0$, $\alpha = 0,05$. Fuente: \texttt{outputs/simulacion\_h1.csv}.
+\end{table}
+
+\textbf{H2.} Con 500 réplicas bootstrap de 2026, la educación explica más que el sexo (percentil 5 de $S^*_{edu} - S^*_k$: 0,235) y que la región (0,165), pero empata con la formalidad (percentil 5: $-$0,003) y explica unos 10 puntos menos que el estrato (percentil 5: $-$0,113). Como el percentil 5 no es positivo para todas las dimensiones, \textbf{no se rechaza $H_0$: los datos no respaldan H2}.
+
+\textbf{H3.} El Theil de 2026 (0,4288) es 0,010 menor que el de 2018 (0,4392), pero el percentil 95 de $T^*_{2026} - T^*_{2018}$ es 0,0085, mayor que cero: \textbf{no se rechaza $H_0$, la reducción no es significativa} y los intervalos de los dos años se superponen (Figura 4). Dentro del mismo marco muestral, en cambio, la caída entre 2022 (0,538) y 2026 (0,429) es grande y los intervalos no se superponen.
+
+\begin{figure}[!ht]
+  \singlespacing
+  \raggedright
+  {\bfseries Figura 4\par}
+  \vspace{0.5\baselineskip}
+  {\itshape Índice de Theil con intervalo de confianza bootstrap del 95~\%\par}
+  \vspace{0.5\baselineskip}
+  \includegraphics[width=0.7\textwidth]{fig_bootstrap_ic.png}
+\end{figure}
+
+
+\section{Conclusiones}
+
+El estimador ponderado (A) es el que debe usarse con la GEIH: es el único consistente y, con muestras grandes, su error cuadrático medio es entre 4 y 24 veces menor que el de los demás. Ignorar el factor de expansión (B) o suponer que el ingreso es lognormal (C y D) produce sesgos que no desaparecen al aumentar la muestra: B y D subestiman la desigualdad en cerca de un 15~\% y C la sobreestima en cerca de un 5~\%. El supuesto lognormal falla porque el ingreso laboral tiene un pico en el salario mínimo y colas pesadas.
+
+Con el estimador A, la desigualdad del ingreso laboral subió hasta 2022 y desde entonces bajó cada año, hasta su nivel más bajo en 2026; aun así, la diferencia con 2018 no es significativa (H3). El estrato es la dimensión que más explica la desigualdad, seguido por la educación y la formalidad, casi empatadas, por lo que los datos no respaldan H2. En todas las dimensiones la mayor parte de la desigualdad ocurre dentro de los grupos.
+
+A las limitaciones señaladas en la sección de hipótesis se suman dos. El valor de referencia de la simulación es el propio estimador A sobre la GEIH 2024, así que el experimento compara a los demás estimadores con el Theil ponderado y no con la población colombiana. Y el ajuste por no respuesta no usa el estrato, aunque quienes no reportan ingreso son más frecuentes en los estratos altos (sobre todo en 2018), lo que puede subestimar la desigualdad de los primeros años.
+% REVISAR (equipo): en 2022--2026 el código 7 de P6430 tiene ingreso en los datos y hoy
+% se clasifica como "sin remuneración" (unos 3.400 ocupados por año quedan fuera).
+% Decidir si se corrige o si se menciona como limitación.
+
+% ---------------- Referencias ----------------
+\clearpage
+\section{Referencias}
+
+\printbibliography[heading=none]
+
+% ---------------- Anexos ----------------
+\clearpage
+\section{Anexo A. Tablas y figuras complementarias}
+
+% ---------------- Tabla 1 ----------------
+\begin{table}[htbp]
+  \singlespacing
+  \raggedright
+  {\bfseries Tabla A1\par}
+  \vspace{0.5\baselineskip}
+  {\itshape Variables seleccionadas de la GEIH\par}
+  \vspace{0.5\baselineskip}
+  \small
+  \renewcommand{\arraystretch}{1.35}
+  \begin{tabular}{@{}>{\raggedright\arraybackslash}p{1.45in}
+                    >{\raggedright\arraybackslash}p{1.45in}
+                    >{\raggedright\arraybackslash}p{1.35in}
+                    >{\raggedright\arraybackslash}p{1.65in}@{}}
+    \toprule
+    Variable & Código GEIH & Tipo / escala & Uso \\
+    \midrule
+    Ingreso laboral mensual & INGLABO & Continua / razón & Cálculo del Theil \\
+    Factor de expansión & FEX\_C\_2011 (2018--2021); FEX\_C18 (2022--2026) & Continua / razón & Ponderación (estimador A) \\
+    Nivel educativo & P3042 (antes P6210) & Cualitativa / ordinal & Dimensión 1 \\
+    Cotización a pensión & P6920 & Cualitativa / nominal & Formalidad (dimensión 2) \\
+    Estrato & P4030S1A1 & Cualitativa / ordinal & Dimensión 3 \\
+    Departamento & DPTO & Cualitativa / nominal & Región (dimensión 4) \\
+    Sexo & P3271 (antes P6020) & Cualitativa / nominal & Dimensión 5 \\
+    Posición ocupacional & P6430 & Cualitativa / nominal & Filtro (remunerados) y ajuste por no respuesta \\
+    Edad & P6040 & Discreta / razón & Filtro ($\geq$ 15 años) \\
+    Zona & CLASE & Cualitativa / nominal & Descripción \\
+    Horas trabajadas & P6800 & Discreta / razón & Descripción \\
+    Tamaño de la empresa & P3069 (antes P6870) & Cualitativa / ordinal & Descripción \\
+    \bottomrule
+  \end{tabular}
+
+  \vspace{0.3\baselineskip}
+  {\itshape Nota.} Los códigos cambian entre el marco muestral antiguo (2018--2021) y el Marco 2018 (2022--2026); el código guarda, para cada año, el nombre original de cada variable.
+\end{table}
+
+% ---------------- Tabla 2 ----------------
+\begin{table}[htbp]
+  \singlespacing
+  \raggedright
+  {\bfseries Tabla A2\par}
+  \vspace{0.5\baselineskip}
+  {\itshape Trazabilidad de la depuración por año (enero--junio)\par}
+  \vspace{0.5\baselineskip}
+  \small
+  \renewcommand{\arraystretch}{1.25}
+  \begin{tabular}{@{}lrrrr@{}}
+    \toprule
+    Año & Ocupados & Población de estudio & Entran al Theil & \% del FEX total \\
+    \midrule
+    2018 & 174.668 & 162.300 & 141.025 & 82,6 \\
+    2019 & 168.441 & 156.616 & 151.283 & 87,6 \\
+    2020 & 146.862 &  96.931 &  57.042 & 46,4 \\
+    2021 & 146.094 & 136.479 & 129.750 & 86,2 \\
+    2022 & 194.647 & 168.270 & 160.946 & 85,3 \\
+    2023 & 183.136 & 160.299 & 157.776 & 88,3 \\
+    2024 & 178.204 & 156.063 & 152.213 & 86,9 \\
+    2025 & 176.176 & 154.659 & 153.340 & 89,1 \\
+    2026 & 177.195 & 155.262 & 154.657 & 89,0 \\
+    \bottomrule
+  \end{tabular}
+
+  \vspace{0.3\baselineskip}
+  {\itshape Nota.} \emph{Población de estudio}: cumple todos los criterios de la depuración. \emph{Entran al Theil}: además reportan ingreso positivo. \emph{\% del FEX total}: porcentaje del factor de expansión de todos los ocupados que representan quienes entran al Theil, antes del ajuste por no respuesta. 2020 no se usa en el Theil.
+\end{table}
 
 \begin{table}[htbp]
   \singlespacing
   \raggedright
-  {\bfseries Tabla 3\par}
+  {\bfseries Tabla A3\par}
   \vspace{0.5\baselineskip}
   {\itshape Medidas descriptivas ponderadas de las variables cuantitativas\par}
   \vspace{0.5\baselineskip}
@@ -353,167 +495,13 @@ La Tabla 3 resume las variables cuantitativas. El ingreso laboral es muy asimét
   \end{tabular}
 
   \vspace{0.3\baselineskip}
-  {\itshape Nota.} Ponderado con el factor de expansión ajustado. Curtosis en exceso (0 = normal). El ingreso está en pesos corrientes, sin deflactar. Fuente: \texttt{outputs/desc\_medidas\_cuantitativas.csv}.
+  {\itshape Nota.} Ponderado con el factor de expansión ajustado. Curtosis en exceso (0 = normal). Ingreso en pesos corrientes. Fuente: \texttt{outputs/desc\_medidas\_cuantitativas.csv}. Las frecuencias y tablas cruzadas completas están en \texttt{outputs/desc\_*.csv}.
 \end{table}
-
-\begin{figure}[htbp]
-  \singlespacing
-  \raggedright
-  {\bfseries Figura 2\par}
-  \vspace{0.5\baselineskip}
-  {\itshape Distribución del ingreso laboral, 2026\par}
-  \vspace{0.5\baselineskip}
-  \includegraphics[width=\textwidth]{fig_histograma_ingreso.png}
-\end{figure}
-
-\subsection{Ingreso por grupo}
-
-La Figura 3 compara el ingreso de los grupos de cada dimensión. Las brechas más grandes son las de estrato y educación: en 2026 el ingreso medio del estrato 6 es 4,2 veces el promedio y el del estrato 1 es 0,56 veces; quienes tienen educación superior son el 38~\% de los ocupados pero reciben el 60,5~\% del ingreso, y ganan en promedio 1,6 veces la media. Los formales ganan 1,46 veces la media y los informales 0,55 veces. Entre hombres y mujeres la diferencia es pequeña (1,05 frente a 0,94). Estas brechas son, precisamente, lo que mide el componente \emph{entre} de la descomposición.
-
-\begin{figure}[htbp]
-  \singlespacing
-  \raggedright
-  {\bfseries Figura 3\par}
-  \vspace{0.5\baselineskip}
-  {\itshape Ingreso laboral por grupo, 2026\par}
-  \vspace{0.5\baselineskip}
-  \includegraphics[width=\textwidth]{fig_boxplot_ingreso_grupo.png}
-\end{figure}
-
-\subsection{¿Es lognormal el ingreso?}
-
-Los estimadores C y D suponen que el logaritmo del ingreso sigue una distribución normal. La Figura 4 muestra que no es así: el logaritmo del ingreso tiene asimetría negativa ($-$0,77) y curtosis en exceso de 4,1, con colas más pesadas que la normal y un pico en el salario mínimo. Con este tamaño de muestra cualquier prueba formal rechazaría la normalidad, así que la evidencia principal es gráfica. Este resultado anticipa que C y D no deberían converger al índice de Theil verdadero.
-
-\begin{figure}[htbp]
-  \singlespacing
-  \raggedright
-  {\bfseries Figura 4\par}
-  \vspace{0.5\baselineskip}
-  {\itshape Logaritmo del ingreso frente a una distribución normal, 2026\par}
-  \vspace{0.5\baselineskip}
-  \includegraphics[width=\textwidth]{fig_ln_ingreso_normal.png}
-\end{figure}
-
-
-\section{Resultados del experimento}
-
-El valor de referencia es el estimador A sobre la base de 2024 completa: $T = 0,5043$. Para cada tamaño de muestra se sacaron 500 submuestras por muestreo aleatorio simple sin reemplazo, y cada persona conservó su factor de expansión. La Tabla 4 resume el sesgo, el ECM y la eficiencia relativa de cada estimador.
 
 \begin{table}[htbp]
   \singlespacing
   \raggedright
-  {\bfseries Tabla 4\par}
-  \vspace{0.5\baselineskip}
-  {\itshape Sesgo, error cuadrático medio y eficiencia relativa según el tamaño de muestra\par}
-  \vspace{0.5\baselineskip}
-  \small
-  \renewcommand{\arraystretch}{1.2}
-  \begin{tabular}{@{}lrrrr@{}}
-    \toprule
-    Estimador & $n = 500$ & $n = 2.000$ & $n = 10.000$ & $n = 50.000$ \\
-    \midrule
-    \multicolumn{5}{@{}l}{\itshape Sesgo} \\
-    A (ponderado)        & $-$0,0321 & $-$0,0095 & $-$0,0020 & 0,0003 \\
-    B (sin ponderar)     & $-$0,0847 & $-$0,0795 & $-$0,0775 & $-$0,0766 \\
-    C (lognormal, momentos) & $-$0,0275 & 0,0032 & 0,0195 & 0,0243 \\
-    D (lognormal, MV)    & $-$0,0773 & $-$0,0777 & $-$0,0778 & $-$0,0780 \\
-    \addlinespace
-    \multicolumn{5}{@{}l}{\itshape ECM ($\times 10^{3}$)} \\
-    A & 23,89 & 7,49 & 1,83 & 0,25 \\
-    B & 13,43 & 8,16 & 6,40 & 5,93 \\
-    C & 21,95 & 9,87 & 2,98 & 0,97 \\
-    D & 7,62  & 6,43 & 6,13 & 6,09 \\
-    \addlinespace
-    \multicolumn{5}{@{}l}{\itshape Eficiencia relativa: ECM(A) / ECM(j)} \\
-    B & 1,78 & 0,92 & 0,29 & 0,04 \\
-    C & 1,09 & 0,76 & 0,61 & 0,26 \\
-    D & 3,14 & 1,17 & 0,30 & 0,04 \\
-    \bottomrule
-  \end{tabular}
-
-  \vspace{0.3\baselineskip}
-  {\itshape Nota.} 500 réplicas por tamaño de muestra. Valor de referencia: $T = 0,5043$ (estimador A sobre la GEIH 2024 completa). Una eficiencia relativa menor que 1 indica que A tiene menor ECM que el competidor. Fuente: \texttt{outputs/simulacion\_resumen.csv}.
-\end{table}
-
-Tres resultados se destacan. Primero, \textbf{solo A es consistente}: su sesgo pasa de $-$0,032 con $n = 500$ a prácticamente cero con $n = 50.000$, y su ECM cae de forma sostenida a medida que crece la muestra (Figura 5). El sesgo negativo de A en muestras pequeñas se explica porque los ingresos muy altos son pocos y una submuestra pequeña rara vez los incluye, así que el Theil sale más bajo de lo que es.
-
-Segundo, \textbf{B y D convergen a un valor equivocado}. Los dos se estabilizan alrededor de 0,427, cerca de 0,078 por debajo del valor de referencia (un 15~\% menos), y ese sesgo no desaparece aunque la muestra crezca. En B el error viene de ignorar el factor de expansión; en D, del supuesto lognormal. C también tiene un sesgo que no desaparece, pero hacia arriba ($+$0,024 con $n = 50.000$).
-
-Tercero, \textbf{con muestras pequeñas A no es el mejor}. Con $n = 500$, D tiene un ECM tres veces menor que el de A (eficiencia relativa de 3,14), porque su varianza es muy baja aunque esté sesgado. Desde $n = 10.000$ el sesgo de los competidores domina y A pasa a tener el menor ECM; con $n = 50.000$ su ECM es entre 4 y 24 veces menor que el de los demás. La Figura 6 muestra que, con $n = 50.000$, las 500 estimaciones de A se concentran alrededor del valor de referencia, mientras que las de B, C y D quedan lejos de él.
-
-\begin{figure}[htbp]
-  \singlespacing
-  \raggedright
-  {\bfseries Figura 5\par}
-  \vspace{0.5\baselineskip}
-  {\itshape Error cuadrático medio de cada estimador según el tamaño de muestra\par}
-  \vspace{0.5\baselineskip}
-  \includegraphics[width=\textwidth]{fig_simulacion_ecm.png}
-\end{figure}
-
-\begin{figure}[htbp]
-  \singlespacing
-  \raggedright
-  {\bfseries Figura 6\par}
-  \vspace{0.5\baselineskip}
-  {\itshape Distribución de las 500 estimaciones con n = 50.000\par}
-  \vspace{0.5\baselineskip}
-  \includegraphics[width=\textwidth]{fig_simulacion_distribucion.png}
-\end{figure}
-
-Hay que leer este resultado con una precaución: como el valor de referencia es el propio estimador A calculado sobre la base completa, el experimento muestra que A converge al Theil ponderado de la GEIH, y mide cuánto se alejan de él los demás estimadores. Por eso, en la aplicación usamos A, que además es el único que usa la información del diseño muestral.
-
-
-\section{Theil anual y descomposición}
-
-La Tabla 5 y la Figura 7 muestran el índice de Theil de cada año con el estimador A. La desigualdad subió de 0,439 en 2018 a 0,477 en 2019, se mantuvo en 2021 y saltó a 0,538 en 2022, el valor más alto de la serie. Desde entonces bajó cada año hasta 0,429 en 2026, el más bajo. El salto de 2022 coincide con el cambio del marco muestral y del factor de expansión, y también aparece en el estimador B, que no usa pesos; por eso, al menos una parte de ese salto puede ser metodológica y no un cambio real de la desigualdad.
-
-\begin{table}[htbp]
-  \singlespacing
-  \raggedright
-  {\bfseries Tabla 5\par}
-  \vspace{0.5\baselineskip}
-  {\itshape Índice de Theil del ingreso laboral por año\par}
-  \vspace{0.5\baselineskip}
-  \small
-  \renewcommand{\arraystretch}{1.2}
-  \begin{tabular}{@{}lrcrr@{}}
-    \toprule
-    Año & A (principal) & IC 95~\% bootstrap & A sin ajuste & B (sin pesos) \\
-    \midrule
-    2018 & 0,4392 & [0,4220; 0,4553] & 0,4322 & 0,3891 \\
-    2019 & 0,4772 & [0,4597; 0,4955] & 0,4733 & 0,4126 \\
-    2021 & 0,4739 & [0,4540; 0,4968] & 0,4622 & 0,4150 \\
-    2022 & 0,5381 & [0,5097; 0,5725] & 0,5314 & 0,4536 \\
-    2023 & 0,5135 & [0,4932; 0,5345] & 0,5083 & 0,4382 \\
-    2024 & 0,5043 & [0,4842; 0,5257] & 0,4981 & 0,4273 \\
-    2025 & 0,4609 & [0,4426; 0,4804] & 0,4576 & 0,3916 \\
-    2026 & 0,4288 & [0,4124; 0,4459] & 0,4279 & 0,3921 \\
-    \bottomrule
-  \end{tabular}
-
-  \vspace{0.3\baselineskip}
-  {\itshape Nota.} A: factor de expansión ajustado por no respuesta. A sin ajuste: factor de expansión original. B: sin factor de expansión. 2020 no se calcula. Intervalos por bootstrap de personas, 500 réplicas. Fuentes: \texttt{outputs/theil\_por\_anio.csv} y \texttt{outputs/bootstrap\_ic\_theil.csv}.
-\end{table}
-
-En todos los años B es menor que A, entre 0,04 y 0,08 puntos (entre 0,037 y 0,085): ignorar el factor de expansión subestima la desigualdad, lo mismo que mostró la simulación. El ajuste por no respuesta, en cambio, cambia poco el resultado (A sin ajuste es como máximo 0,012 menor).
-
-\begin{figure}[htbp]
-  \singlespacing
-  \raggedright
-  {\bfseries Figura 7\par}
-  \vspace{0.5\baselineskip}
-  {\itshape Índice de Theil del ingreso laboral, 2018--2026\par}
-  \vspace{0.5\baselineskip}
-  \includegraphics[width=\textwidth]{fig_theil_anual.png}
-\end{figure}
-
-La Tabla 6 y la Figura 8 muestran qué parte de la desigualdad se explica por las diferencias \emph{entre} los grupos de cada dimensión. El estrato es la dimensión que más explica en todos los años (entre 31~\% y 38~\%), seguido por la educación (24--27~\%) y la formalidad (22--27~\%), que van casi a la par. La región explica entre 5~\% y 9~\%, y el sexo menos del 1~\%. En todos los casos la mayor parte de la desigualdad ocurre \emph{dentro} de los grupos: incluso con el estrato, cerca de dos tercios de la desigualdad se da entre personas del mismo estrato. Como las dimensiones están relacionadas entre sí (Sección de estadística descriptiva), sus porcentajes no se pueden sumar.
-
-\begin{table}[htbp]
-  \singlespacing
-  \raggedright
-  {\bfseries Tabla 6\par}
+  {\bfseries Tabla A4\par}
   \vspace{0.5\baselineskip}
   {\itshape Porcentaje de la desigualdad explicado por cada dimensión (componente entre)\par}
   \vspace{0.5\baselineskip}
@@ -541,77 +529,68 @@ La Tabla 6 y la Figura 8 muestran qué parte de la desigualdad se explica por la
 \begin{figure}[htbp]
   \singlespacing
   \raggedright
-  {\bfseries Figura 8\par}
+  {\bfseries Figura A1\par}
   \vspace{0.5\baselineskip}
-  {\itshape Porcentaje de la desigualdad explicado por cada dimensión\par}
+  {\itshape Composición de los ocupados por dimensión, 2026\par}
   \vspace{0.5\baselineskip}
-  \includegraphics[width=\textwidth]{fig_descomposicion.png}
+  \includegraphics[width=\textwidth]{fig_barras_cualitativas.png}
 \end{figure}
-
-
-\section{Pruebas de hipótesis}
-
-\subsection{H1: el estimador ponderado es el mejor}
-
-Para cada competidor $j$ calculamos, en cada una de las 500 réplicas con $n = 50.000$, la diferencia de pérdidas $d_j = (\hat{T}_A - T)^2 - (\hat{T}_j - T)^2$, y aplicamos una prueba $t$ pareada unilateral (Tabla 7). Se rechaza $H_0$ frente a los tres competidores con valores $p$ prácticamente nulos, así que \textbf{los datos respaldan H1}: con muestras grandes, A tiene un ECM significativamente menor que B, C y D, y es el único consistente (Tabla 4). La diferencia es mucho mayor frente a B y D que frente a C. Como el número de réplicas lo fija el investigador, la significancia por sí sola dice poco; lo importante es el tamaño de la diferencia, que se ve en la eficiencia relativa.
-
-\begin{table}[htbp]
-  \singlespacing
-  \raggedright
-  {\bfseries Tabla 7\par}
-  \vspace{0.5\baselineskip}
-  {\itshape Prueba de H1: prueba t pareada unilateral sobre las diferencias de pérdidas (n = 50.000)\par}
-  \vspace{0.5\baselineskip}
-  \small
-  \renewcommand{\arraystretch}{1.2}
-  \begin{tabular}{@{}lrrrrl@{}}
-    \toprule
-    Competidor & Media de $d_j$ & $t$ & gl & Valor $p$ & Decisión \\
-    \midrule
-    B & $-$0,00567 & $-$109,41 & 499 & $< 0,001$ & Se rechaza $H_0$ \\
-    C & $-$0,00071 & $-$14,89  & 499 & $< 0,001$ & Se rechaza $H_0$ \\
-    D & $-$0,00584 & $-$219,18 & 499 & $< 0,001$ & Se rechaza $H_0$ \\
-    \bottomrule
-  \end{tabular}
-
-  \vspace{0.3\baselineskip}
-  {\itshape Nota.} $H_0: \bar{d}_j \geq 0$ frente a $H_1: \bar{d}_j < 0$, con $\alpha = 0,05$. Fuente: \texttt{outputs/simulacion\_h1.csv}.
-\end{table}
-
-\subsection{H2: la educación explica más que las demás dimensiones}
-
-Con 500 réplicas bootstrap de 2026 calculamos, para cada dimensión $k$, la diferencia $S^*_{edu} - S^*_k$. La educación explica más que el sexo (percentil 5 de la diferencia: 0,235) y que la región (0,165), pero no más que la formalidad, con la que está prácticamente empatada (diferencia media 0,004; percentil 5: $-$0,003), ni más que el estrato, que explica unos 10 puntos más (percentil 5: $-$0,113). Como el percentil 5 no es positivo para todas las dimensiones, \textbf{no se rechaza $H_0$: los datos no respaldan H2}. En 2026 la dimensión que más explica la desigualdad es el estrato, y la educación y la formalidad están empatadas en el segundo lugar.
-
-\subsection{H3: la desigualdad fue menor en 2026 que en 2018}
-
-El Theil de 2026 (0,4288) es 0,010 menor que el de 2018 (0,4392). Sin embargo, el percentil 95 de la diferencia bootstrap $T^*_{2026} - T^*_{2018}$ es 0,0085, mayor que cero, así que \textbf{no se rechaza $H_0$: la reducción no es estadísticamente significativa}. Los intervalos de confianza de los dos años se superponen (Figura 9). La comparación tiene además una limitación: 2018 y 2026 se miden con marcos muestrales y factores de expansión distintos. Dentro del mismo marco, la caída entre 2022 (0,538) y 2026 (0,429) es grande y los intervalos no se superponen.
 
 \begin{figure}[htbp]
   \singlespacing
   \raggedright
-  {\bfseries Figura 9\par}
+  {\bfseries Figura A2\par}
   \vspace{0.5\baselineskip}
-  {\itshape Índice de Theil con intervalo de confianza bootstrap del 95~\%\par}
+  {\itshape Ingreso laboral por grupo, 2026\par}
   \vspace{0.5\baselineskip}
-  \includegraphics[width=\textwidth]{fig_bootstrap_ic.png}
+  \includegraphics[width=\textwidth]{fig_boxplot_ingreso_grupo.png}
 \end{figure}
 
+\begin{figure}[htbp]
+  \singlespacing
+  \raggedright
+  {\bfseries Figura A3\par}
+  \vspace{0.5\baselineskip}
+  {\itshape Logaritmo del ingreso frente a una distribución normal, 2026\par}
+  \vspace{0.5\baselineskip}
+  \includegraphics[width=\textwidth]{fig_ln_ingreso_normal.png}
+\end{figure}
 
-\section{Conclusiones}
+\begin{figure}[htbp]
+  \singlespacing
+  \raggedright
+  {\bfseries Figura A4\par}
+  \vspace{0.5\baselineskip}
+  {\itshape Distribución de las 500 estimaciones con n = 50.000\par}
+  \vspace{0.5\baselineskip}
+  \includegraphics[width=\textwidth]{fig_simulacion_distribucion.png}
+\end{figure}
 
-De los cuatro estimadores del índice de Theil, el ponderado (A) es el que debe usarse con la GEIH. Es el único consistente y, con muestras grandes, tiene un error cuadrático medio entre 4 y 24 veces menor que el de los demás. Ignorar el factor de expansión (B) o suponer que el ingreso es lognormal (C y D) produce sesgos que no desaparecen al aumentar la muestra: B y D subestiman la desigualdad en cerca de un 15~\% y C la sobreestima en cerca de un 5~\%. El supuesto lognormal falla porque el ingreso laboral en Colombia tiene un pico en el salario mínimo y colas más pesadas que las de una lognormal. Solo con muestras pequeñas (500 personas) los estimadores con menos varianza, como D, pueden tener menor error, a costa de estar sesgados.
+\begin{figure}[htbp]
+  \singlespacing
+  \raggedright
+  {\bfseries Figura A5\par}
+  \vspace{0.5\baselineskip}
+  {\itshape Índice de Theil por año con los tres factores de ponderación\par}
+  \vspace{0.5\baselineskip}
+  \includegraphics[width=\textwidth]{fig_theil_anual.png}
+\end{figure}
 
-Con el estimador A, la desigualdad del ingreso laboral subió hasta 2022 y desde entonces bajó cada año, hasta llegar en 2026 a su nivel más bajo del periodo. Aun así, la diferencia entre 2026 y 2018 no es estadísticamente significativa, así que no se puede afirmar que la desigualdad sea menor que en 2018 (H3). El estrato es la dimensión que más explica la desigualdad, seguido por la educación y la formalidad, casi empatadas; el sexo casi no explica nada. Por eso los datos no respaldan H2. En todas las dimensiones, la mayor parte de la desigualdad ocurre dentro de los grupos.
-
-\textbf{Limitaciones.} El valor de referencia de la simulación es la propia GEIH 2024 calculada con A, de modo que el experimento compara a los demás estimadores con el Theil ponderado y no con la población colombiana. El cambio de marco muestral en 2022 impide separar el cambio real de la desigualdad del cambio metodológico. El ajuste por no respuesta no usa el estrato, y quienes no reportan ingreso son más frecuentes en los estratos altos (sobre todo en 2018), lo que puede subestimar la desigualdad de los primeros años. El bootstrap remuestrea personas e ignora los conglomerados de la encuesta, así que los intervalos pueden ser algo estrechos. Por último, los resultados describen asociaciones, no relaciones causales.
-% REVISAR (equipo): en 2022--2026 el código 7 de P6430 tiene ingreso en los datos y hoy
-% se clasifica como "sin remuneración" (unos 3.400 ocupados por año quedan fuera).
-% Decidir si se corrige o si se menciona como limitación.
-
-% ---------------- Referencias ----------------
 \clearpage
-\section{Referencias}
+\section{Anexo B. Resumen de artículos relacionados}
 
-\printbibliography[heading=none]
+\subsection{\texorpdfstring{\textcite{mills1997statistical}}{Mills y Zandvakili (1997)}}
+
+Proponen el bootstrap para construir intervalos y pruebas sobre el Gini y el Theil y sus descomposiciones, con datos de panel de Estados Unidos. Muestran que diferencias aparentes entre grupos pueden no ser significativas incluso con muestras grandes. Tratan el índice de desigualdad como lo que es, un estimador con distribución muestral.
+
+\subsection{\texorpdfstring{\textcite{sanchez2017desigualdad}}{Sánchez-Torres (2017)}}
+
+Con la ECH y la GEIH (2002--2015), el autor descompone el Theil entre y dentro de departamentos y el Gini por fuentes de ingreso. Encuentra que cerca del 88~\% de la desigualdad ocurre dentro de los departamentos, que Chocó y La Guajira están entre los más desiguales y que el ingreso de los asalariados es la fuente que más aporta.
+
+
+\subsection{\texorpdfstring{\textcite{ariza2017labour}}{Ariza y Montes-Rojas (2017)}}
+
+Con un panel de 13 ciudades (2002--2015), modelos de efectos fijos y variables instrumentales, los autores muestran que la informalidad aumenta significativamente la desigualdad del ingreso laboral, y que la desigualdad ocurre casi toda dentro de las ciudades.
+
 
 \end{document}
