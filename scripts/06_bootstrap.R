@@ -115,11 +115,10 @@ g_ic <- ggplot(ic, aes(x = anio, y = T)) +
   geom_errorbar(aes(ymin = ic_inf, ymax = ic_sup), width = 0.2) +
   geom_point(size = 2, colour = "#2c7fb8") +
   scale_x_continuous(breaks = anios_theil) +
-  labs(title = "Índice de Theil (estimador A) con intervalo de confianza del 95 %",
-       subtitle = paste0("Bootstrap de personas, ", B, " réplicas. 2020 excluido."),
-       x = NULL, y = "Theil") +
+  scale_y_continuous(labels = scales::label_number(decimal.mark = ",")) +
+  labs(x = NULL, y = "Índice de Theil (estimador A)") +     # sin título: va en LaTeX
   theme_minimal(base_size = 11) +
-  theme(plot.title = element_text(face = "bold"), panel.grid.minor = element_blank())
-guardar_figura(g_ic, "latex/fig_bootstrap_ic.pdf", 8, 5)
+  theme(panel.grid.minor = element_blank())
+guardar_figura(g_ic, "latex/fig_bootstrap_ic.pdf", 6.5, 4)
 
 cat("06 listo\n")

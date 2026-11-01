@@ -90,8 +90,11 @@ tabla_frecuencias <- function(d, var) {
            variable      = var, .before = 1)
 }
 
+# Estilo de las figuras: sin título (el título y la nota van en LaTeX, en
+# formato APA) y con coma decimal, como el texto del informe.
 tema <- theme_minimal(base_size = 11) +
-  theme(plot.title = element_text(face = "bold"), panel.grid.minor = element_blank())
+  theme(panel.grid.minor = element_blank())
+coma <- label_number(decimal.mark = ",", big.mark = ".")
 
 etiquetas_dim <- c(educ = "Educación", formal = "Formalidad", sexo = "Sexo",
                    region = "Región", estrato = "Estrato", posicion = "Posición ocupacional")
@@ -178,14 +181,14 @@ g_barras <- freq_cuali %>%
   mutate(variable = etiquetas_dim[variable], categoria = factor(categoria, levels = unique(categoria))) %>%
   ggplot(aes(x = categoria, y = pct_poblacion / 100)) +
   geom_col(fill = "#2c7fb8") +
-  geom_text(aes(label = percent(pct_poblacion / 100, accuracy = 0.1)), vjust = -0.3, size = 2.8) +
+  geom_text(aes(label = percent(pct_poblacion / 100, accuracy = 0.1, decimal.mark = ",")),
+            vjust = -0.3, size = 2.8) +
   facet_wrap(~ variable, scales = "free_x", ncol = 3) +
-  scale_y_continuous(labels = percent, expand = expansion(mult = c(0, 0.15))) +
-  labs(title = paste0("Composición de los ocupados, ", anio_ref), x = NULL,
-       y = "Porcentaje de ocupados (ponderado)") +
+  scale_y_continuous(labels = label_percent(), expand = expansion(mult = c(0, 0.15))) +
+  labs(x = NULL, y = "Porcentaje de ocupados (ponderado)") +
   tema + theme(axis.text.x = element_text(angle = 30, hjust = 1))
 
-guardar_figura(g_barras, "latex/fig_barras_cualitativas.pdf", 10, 6)
+guardar_figura(g_barras, "latex/fig_barras_cualitativas.pdf", 8, 5.5)
 
 
 # =============================================================================
@@ -242,14 +245,13 @@ g_cajas <- bind_rows(lapply(dims, function(v) {
   geom_boxplot(outlier.shape = NA, fill = "#a6bddb") +
   geom_hline(yintercept = 1, linetype = "dashed", colour = "#e34a33") +
   facet_wrap(~ dimension, scales = "free_x", ncol = 3) +
-  scale_y_log10(breaks = c(0.25, 0.5, 1, 2, 4, 8, 16), labels = label_number(accuracy = 0.01)) +
+  scale_y_log10(breaks = c(0.25, 0.5, 1, 2, 4, 8, 16),
+                labels = label_number(accuracy = 0.01, decimal.mark = ",")) +
   coord_cartesian(ylim = c(0.1, 20)) +
-  labs(title = paste0("Ingreso laboral por grupo, ", anio_ref),
-       subtitle = "Escala logarítmica. Línea roja = 1 salario mínimo. Sin valores atípicos en el gráfico.",
-       x = NULL, y = "Ingreso laboral (salarios mínimos)") +
+  labs(x = NULL, y = "Ingreso (salarios mínimos, escala log.)") +
   tema + theme(axis.text.x = element_text(angle = 30, hjust = 1))
 
-guardar_figura(g_cajas, "latex/fig_boxplot_ingreso_grupo.pdf", 10, 7)
+guardar_figura(g_cajas, "latex/fig_boxplot_ingreso_grupo.pdf", 8, 6)
 
 
 # =============================================================================
@@ -261,14 +263,16 @@ g_hist <- d_ref %>%
   ggplot(aes(x = ingreso_smmlv, weight = w)) +
   geom_histogram(aes(y = after_stat(density)), binwidth = 0.1, boundary = 0, fill = "#2c7fb8") +
   geom_vline(xintercept = 1, linetype = "dashed", colour = "#e34a33") +
-  labs(title = paste0("Distribución del ingreso laboral, ", anio_ref),
-       subtitle = paste0("Línea roja = 1 salario mínimo. Se muestran los ingresos hasta 6 SMMLV (",
-                         percent(sum(d_ref$w[d_ref$ingreso_smmlv <= 6]) / sum(d_ref$w), accuracy = 0.1),
-                         " de los ocupados)."),
-       x = "Ingreso laboral (salarios mínimos)", y = "Densidad (ponderada)") +
+  scale_x_continuous(labels = coma) +
+  scale_y_continuous(labels = coma) +
+  labs(x = "Ingreso laboral (salarios mínimos)", y = "Densidad (ponderada)") +
   tema
 
-guardar_figura(g_hist, "latex/fig_histograma_ingreso.pdf", 8, 5)
+guardar_figura(g_hist, "latex/fig_histograma_ingreso.pdf", 6.5, 4)
+
+# Para la nota de la figura en LaTeX: qué porcentaje de los ocupados se muestra
+cat("Histograma: ingresos hasta 6 SMMLV =",
+    round(100 * sum(d_ref$w[d_ref$ingreso_smmlv <= 6]) / sum(d_ref$w), 1), "% de los ocupados\n")
 
 # Si el ingreso fuera lognormal (supuesto de C y D), el histograma seguiría la curva roja
 m_ln <- w_media(d_ref$ln_ingreso, d_ref$w)
@@ -278,13 +282,10 @@ g_ln <- ggplot(d_ref, aes(x = ln_ingreso, weight = w)) +
   geom_histogram(aes(y = after_stat(density)), bins = 80, fill = "#a6bddb") +
   stat_function(fun = dnorm, args = list(mean = m_ln, sd = s_ln), colour = "#e34a33",
                 linewidth = 0.9, inherit.aes = FALSE) +
-  labs(title = paste0("ln(ingreso) frente a una distribución normal, ", anio_ref),
-       subtitle = paste0("Curva roja: normal con la misma media y desviación. Asimetría = ",
-                         round(w_asimetria(d_ref$ln_ingreso, d_ref$w), 2), ", curtosis en exceso = ",
-                         round(w_curtosis(d_ref$ln_ingreso, d_ref$w), 2), "."),
-       x = "ln(ingreso laboral)", y = "Densidad (ponderada)") +
+  scale_y_continuous(labels = coma) +
+  labs(x = "ln(ingreso laboral)", y = "Densidad (ponderada)") +
   tema
 
-guardar_figura(g_ln, "latex/fig_ln_ingreso_normal.pdf", 8, 5)
+guardar_figura(g_ln, "latex/fig_ln_ingreso_normal.pdf", 6.5, 4)
 
 cat("03 listo: tablas en outputs/ y figuras en latex/\n")

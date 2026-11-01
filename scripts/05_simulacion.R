@@ -112,19 +112,19 @@ cat("Conclusión H1:", ifelse(all(h1$valor_p < alfa),
 
 # Figuras ----
 
+# Sin título (va en LaTeX, en formato APA) y con coma decimal, como el informe
 tema <- theme_minimal(base_size = 11) +
-  theme(plot.title = element_text(face = "bold"), panel.grid.minor = element_blank(),
-        legend.position = "bottom")
+  theme(panel.grid.minor = element_blank(), legend.position = "bottom")
 
 g_ecm <- ggplot(resumen, aes(x = n, y = ecm, colour = estimador)) +
   geom_line() + geom_point() +
-  scale_x_log10(breaks = tamanos, labels = format(tamanos, big.mark = ".")) +
-  scale_y_log10() +
-  labs(title = "Error cuadrático medio de cada estimador según el tamaño de muestra",
-       subtitle = "500 réplicas por tamaño. Escalas logarítmicas.",
-       x = "Tamaño de la submuestra (n)", y = "ECM", colour = "Estimador") +
+  scale_x_log10(breaks = tamanos, labels = format(tamanos, big.mark = ".", decimal.mark = ",")) +
+  # ECM multiplicado por 1.000, igual que en la tabla del informe
+  scale_y_log10(labels = scales::label_number(scale = 1000, decimal.mark = ",")) +
+  labs(x = "Tamaño de la submuestra (n, escala log.)", y = "ECM × 1.000 (escala log.)",
+       colour = "Estimador") +
   tema
-guardar_figura(g_ecm, "latex/fig_simulacion_ecm.pdf", 8, 5)
+guardar_figura(g_ecm, "latex/fig_simulacion_ecm.pdf", 6.5, 4)
 
 g_dist <- r50 %>%
   pivot_longer(c(A, B, C, D), names_to = "estimador", values_to = "valor") %>%
@@ -132,10 +132,9 @@ g_dist <- r50 %>%
   geom_histogram(bins = 40, fill = "#2c7fb8") +
   geom_vline(xintercept = T_ref, colour = "#e34a33", linetype = "dashed") +
   facet_wrap(~ estimador, scales = "free_x", nrow = 1) +
-  labs(title = "Distribución de las 500 estimaciones con n = 50.000",
-       subtitle = "Línea roja = valor de referencia (A sobre la base 2024 completa).",
-       x = "Theil estimado", y = "Réplicas") +
+  scale_x_continuous(labels = scales::label_number(decimal.mark = ","), n.breaks = 4) +
+  labs(x = "Theil estimado", y = "Réplicas") +
   tema
-guardar_figura(g_dist, "latex/fig_simulacion_distribucion.pdf", 10, 4)
+guardar_figura(g_dist, "latex/fig_simulacion_distribucion.pdf", 8, 3.2)
 
 cat("05 listo\n")

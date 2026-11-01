@@ -74,9 +74,10 @@ print(participacion)
 
 # Figuras ----
 
+# Sin título (va en LaTeX, en formato APA) y con coma decimal, como el informe
 tema <- theme_minimal(base_size = 11) +
-  theme(plot.title = element_text(face = "bold"), panel.grid.minor = element_blank(),
-        legend.position = "bottom")
+  theme(panel.grid.minor = element_blank(), legend.position = "bottom")
+coma <- scales::label_number(decimal.mark = ",")
 
 g_anual <- theil_resumen %>%
   filter(dimension == "total") %>%
@@ -86,19 +87,21 @@ g_anual <- theil_resumen %>%
   geom_vline(xintercept = 2021.5, linetype = "dotted") +
   annotate("text", x = 2021.6, y = Inf, label = "cambio de marco", hjust = 0, vjust = 1.5, size = 3) +
   scale_x_continuous(breaks = anios_theil) +
-  labs(title = "Índice de Theil del ingreso laboral, 2018–2026 (sin 2020)",
-       x = NULL, y = "Theil", colour = NULL) +
+  scale_y_continuous(labels = coma) +
+  labs(x = NULL, y = "Índice de Theil", colour = NULL) +
   tema
-guardar_figura(g_anual, "latex/fig_theil_anual.pdf", 8, 5)
+guardar_figura(g_anual, "latex/fig_theil_anual.pdf", 6.5, 4)
 
+nombres_dim <- c(educ = "Educación", formal = "Formalidad", sexo = "Sexo",
+                 region = "Región", estrato = "Estrato")
 g_desc <- theil_resumen %>%
   filter(peso == "fex_aj", dimension != "total") %>%
+  mutate(dimension = nombres_dim[dimension]) %>%
   ggplot(aes(x = anio, y = 100 * S, colour = dimension)) +
   geom_line() + geom_point() +
   scale_x_continuous(breaks = anios_theil) +
-  labs(title = "Porcentaje de la desigualdad explicado por cada dimensión (entre grupos)",
-       x = NULL, y = "% del Theil total", colour = NULL) +
+  labs(x = NULL, y = "% del Theil explicado entre grupos", colour = NULL) +
   tema
-guardar_figura(g_desc, "latex/fig_descomposicion.pdf", 8, 5)
+guardar_figura(g_desc, "latex/fig_descomposicion.pdf", 6.5, 4)
 
 cat("04 listo\n")
