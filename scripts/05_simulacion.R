@@ -13,7 +13,7 @@
 # pérdidas d_j = (A - T)² - (j - T)²;  H0: media(d_j) >= 0  vs  H1: media(d_j) < 0.
 #
 # Entrada: data/final/geih_2024.csv.gz
-# Salida:  outputs/simulacion_*.csv  y  latex/fig_simulacion_*.png
+# Salida:  outputs/simulacion_*.csv  y  latex/fig_simulacion_*.pdf
 # =============================================================================
 
 library(dplyr)
@@ -124,7 +124,7 @@ g_ecm <- ggplot(resumen, aes(x = n, y = ecm, colour = estimador)) +
        subtitle = "500 réplicas por tamaño. Escalas logarítmicas.",
        x = "Tamaño de la submuestra (n)", y = "ECM", colour = "Estimador") +
   tema
-ggsave("latex/fig_simulacion_ecm.png", g_ecm, width = 8, height = 5, dpi = 300)
+guardar_figura(g_ecm, "latex/fig_simulacion_ecm.pdf", 8, 5)
 
 g_dist <- r50 %>%
   pivot_longer(c(A, B, C, D), names_to = "estimador", values_to = "valor") %>%
@@ -136,6 +136,6 @@ g_dist <- r50 %>%
        subtitle = "Línea roja = valor de referencia (A sobre la base 2024 completa).",
        x = "Theil estimado", y = "Réplicas") +
   tema
-ggsave("latex/fig_simulacion_distribucion.png", g_dist, width = 10, height = 4, dpi = 300)
+guardar_figura(g_dist, "latex/fig_simulacion_distribucion.pdf", 10, 4)
 
 cat("05 listo\n")

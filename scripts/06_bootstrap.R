@@ -11,7 +11,7 @@
 #       Se rechaza H0 si el percentil 95 de T*_2026 - T*_2018 es < 0.
 #
 # Entrada: data/final/geih_<año>.csv.gz
-# Salida:  outputs/bootstrap_*.csv  y  latex/fig_bootstrap_ic.png
+# Salida:  outputs/bootstrap_*.csv  y  latex/fig_bootstrap_ic.pdf
 # =============================================================================
 
 library(dplyr)
@@ -120,6 +120,6 @@ g_ic <- ggplot(ic, aes(x = anio, y = T)) +
        x = NULL, y = "Theil") +
   theme_minimal(base_size = 11) +
   theme(plot.title = element_text(face = "bold"), panel.grid.minor = element_blank())
-ggsave("latex/fig_bootstrap_ic.png", g_ic, width = 8, height = 5, dpi = 300)
+guardar_figura(g_ic, "latex/fig_bootstrap_ic.pdf", 8, 5)
 
 cat("06 listo\n")

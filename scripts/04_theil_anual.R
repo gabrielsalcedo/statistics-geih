@@ -7,7 +7,7 @@
 #   - Descomposición entre/dentro por educación, formalidad, sexo, región y estrato.
 #
 # Entrada: data/final/geih_<año>.csv.gz
-# Salida:  outputs/theil_*.csv  y  latex/fig_theil_anual.png, latex/fig_descomposicion.png
+# Salida:  outputs/theil_*.csv  y  latex/fig_theil_anual.pdf, latex/fig_descomposicion.pdf
 # =============================================================================
 
 library(dplyr)
@@ -89,7 +89,7 @@ g_anual <- theil_resumen %>%
   labs(title = "Índice de Theil del ingreso laboral, 2018–2026 (sin 2020)",
        x = NULL, y = "Theil", colour = NULL) +
   tema
-ggsave("latex/fig_theil_anual.png", g_anual, width = 8, height = 5, dpi = 300)
+guardar_figura(g_anual, "latex/fig_theil_anual.pdf", 8, 5)
 
 g_desc <- theil_resumen %>%
   filter(peso == "fex_aj", dimension != "total") %>%
@@ -99,6 +99,6 @@ g_desc <- theil_resumen %>%
   labs(title = "Porcentaje de la desigualdad explicado por cada dimensión (entre grupos)",
        x = NULL, y = "% del Theil total", colour = NULL) +
   tema
-ggsave("latex/fig_descomposicion.png", g_desc, width = 8, height = 5, dpi = 300)
+guardar_figura(g_desc, "latex/fig_descomposicion.pdf", 8, 5)
 
 cat("04 listo\n")

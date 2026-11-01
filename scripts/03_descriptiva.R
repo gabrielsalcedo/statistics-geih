@@ -12,7 +12,7 @@
 # encuestados. Personas = en_poblacion & responde (las mismas del Theil).
 #
 # Entrada: data/final/geih_<año>.csv.gz
-# Salida:  outputs/desc_*.csv  y  latex/fig_*.png
+# Salida:  outputs/desc_*.csv  y  latex/fig_*.pdf
 # =============================================================================
 
 library(dplyr)
@@ -185,7 +185,7 @@ g_barras <- freq_cuali %>%
        y = "Porcentaje de ocupados (ponderado)") +
   tema + theme(axis.text.x = element_text(angle = 30, hjust = 1))
 
-ggsave("latex/fig_barras_cualitativas.png", g_barras, width = 10, height = 6, dpi = 300)
+guardar_figura(g_barras, "latex/fig_barras_cualitativas.pdf", 10, 6)
 
 
 # =============================================================================
@@ -249,7 +249,7 @@ g_cajas <- bind_rows(lapply(dims, function(v) {
        x = NULL, y = "Ingreso laboral (salarios mínimos)") +
   tema + theme(axis.text.x = element_text(angle = 30, hjust = 1))
 
-ggsave("latex/fig_boxplot_ingreso_grupo.png", g_cajas, width = 10, height = 7, dpi = 300)
+guardar_figura(g_cajas, "latex/fig_boxplot_ingreso_grupo.pdf", 10, 7)
 
 
 # =============================================================================
@@ -268,7 +268,7 @@ g_hist <- d_ref %>%
        x = "Ingreso laboral (salarios mínimos)", y = "Densidad (ponderada)") +
   tema
 
-ggsave("latex/fig_histograma_ingreso.png", g_hist, width = 8, height = 5, dpi = 300)
+guardar_figura(g_hist, "latex/fig_histograma_ingreso.pdf", 8, 5)
 
 # Si el ingreso fuera lognormal (supuesto de C y D), el histograma seguiría la curva roja
 m_ln <- w_media(d_ref$ln_ingreso, d_ref$w)
@@ -285,6 +285,6 @@ g_ln <- ggplot(d_ref, aes(x = ln_ingreso, weight = w)) +
        x = "ln(ingreso laboral)", y = "Densidad (ponderada)") +
   tema
 
-ggsave("latex/fig_ln_ingreso_normal.png", g_ln, width = 8, height = 5, dpi = 300)
+guardar_figura(g_ln, "latex/fig_ln_ingreso_normal.pdf", 8, 5)
 
 cat("03 listo: tablas en outputs/ y figuras en latex/\n")

@@ -17,7 +17,7 @@ statistics-geih/
 │   └── final/    geih_<año>.csv.gz: bases depuradas, con el factor ajustado por no respuesta
 ├── outputs/      tablas de resultados en CSV
 ├── scripts/      código en R (00 a 06 y correr_todo.R)
-├── latex/        informe.tex, beamer.tex, references.bib, logo y figuras .png
+├── latex/        informe.tex, beamer.tex, references.bib, logo y figuras .pdf
 ├── README.md
 └── statistics-geih.Rproj
 ```
@@ -54,7 +54,7 @@ No hace falta descargar nada del DANE: las crudas ya están en `data/raw`.
    - `data/final/geih_<año>.csv.gz`: las nueve bases finales.
    - `outputs/*.csv`: trazabilidad de la depuración (Tabla 2), descriptivas, Theil,
      simulación y bootstrap.
-   - `latex/fig_*.png`: las figuras del informe.
+   - `latex/fig_*.pdf`: las figuras del informe (PDF vectorial: LaTeX las inserta rápido).
 
    Tiempos aproximados: 02 ≈ 2 min, 03 ≈ 1 min, 04 ≈ 1 min,
    05 (simulación) ≈ 0,5 min y 06 (bootstrap) ≈ 6 min. En total, unos 10 minutos.
@@ -64,7 +64,7 @@ No hace falta descargar nada del DANE: las crudas ya están en `data/raw`.
      1. *New Project > Blank Project*.
      2. Borrar el `main.tex` que Overleaf crea y subir **los archivos** de `latex/`
         (seleccionarlos todos, no la carpeta) a la raíz del proyecto: `informe.tex`,
-        `beamer.tex`, `references.bib`, `ur.png` y todos los `fig_*.png`.
+        `beamer.tex`, `references.bib`, `ur.png` y todos los `fig_*.pdf`.
      3. *Menu*: *Compiler* = pdfLaTeX y *Main document* = `informe.tex`. Para compilar la
         presentación se cambia *Main document* a `beamer.tex` (o se hace un segundo
         proyecto con los mismos archivos).

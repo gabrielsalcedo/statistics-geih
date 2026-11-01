@@ -153,6 +153,18 @@ leer_final <- function(anio) {
 }
 
 
+# Guardar una figura de ggplot en PDF ----
+# PDF vectorial: se ve nítido a cualquier tamaño y LaTeX lo inserta muy rápido
+# (con PNG de alta resolución Overleaf supera su límite de tiempo de compilación).
+# timestamp = FALSE: el PDF no guarda la fecha, así que sale idéntico en cada corrida.
+
+guardar_figura <- function(g, archivo, ancho, alto) {
+  pdf(archivo, width = ancho, height = alto, timestamp = FALSE)
+  print(g)
+  invisible(dev.off())
+}
+
+
 # =============================================================================
 # 3. VERIFICACIONES (si alguna falla, el script se detiene)
 # =============================================================================
