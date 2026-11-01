@@ -59,9 +59,21 @@ No hace falta descargar nada del DANE: las crudas ya están en `data/raw`.
    Tiempos aproximados: 02 ≈ 2 min, 03 ≈ 1 min, 04 ≈ 1 min,
    05 (simulación) ≈ 0,5 min y 06 (bootstrap) ≈ 6 min. En total, unos 10 minutos.
 6. **Compilar el informe y la presentación:**
-   - Overleaf: subir la carpeta `latex/` completa y compilar `informe.tex` o `beamer.tex`
-     (Overleaf usa biber automáticamente).
-   - En el computador: dentro de `latex/`, `pdflatex → biber → pdflatex → pdflatex`.
+   - **Overleaf** (Overleaf compila desde la raíz del proyecto, así que los archivos no
+     pueden quedar dentro de una carpeta):
+     1. *New Project > Blank Project*.
+     2. Borrar el `main.tex` que Overleaf crea y subir **los archivos** de `latex/`
+        (seleccionarlos todos, no la carpeta) a la raíz del proyecto: `informe.tex`,
+        `beamer.tex`, `references.bib`, `ur.png` y todos los `fig_*.png`.
+     3. *Menu*: *Compiler* = pdfLaTeX y *Main document* = `informe.tex`. Para compilar la
+        presentación se cambia *Main document* a `beamer.tex` (o se hace un segundo
+        proyecto con los mismos archivos).
+     4. Overleaf corre biber solo. Si la bibliografía sale vacía o con `??`:
+        *Logs and output files > Clear cached files* y volver a compilar.
+     - No vincular Overleaf al repositorio de GitHub completo: el informe quedaría en la
+       subcarpeta `latex/` y no encontraría las figuras ni la bibliografía.
+   - **En el computador:** dentro de `latex/`, `pdflatex → biber → pdflatex → pdflatex`
+     (o `latexmk -pdf informe.tex`). Con BibTeX en lugar de biber, la bibliografía no sale.
 
 Los resultados son idénticos en cualquier computador: la simulación y el bootstrap usan
 semillas fijas.
