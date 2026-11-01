@@ -17,7 +17,7 @@ statistics-geih/
 │   └── final/    geih_<año>.csv.gz: bases depuradas, con el factor ajustado por no respuesta
 ├── outputs/      tablas de resultados en CSV
 ├── scripts/      código en R (00 a 06 y correr_todo.R)
-├── latex/        informe.tex, beamer.tex, references.bib, logo y figuras .pdf
+├── latex/        informe.tex, beamer.tex, poster.tex, references.bib, logo y figuras .pdf
 ├── README.md
 └── statistics-geih.Rproj
 ```
@@ -58,16 +58,16 @@ No hace falta descargar nada del DANE: las crudas ya están en `data/raw`.
 
    Tiempos aproximados: 02 ≈ 2 min, 03 ≈ 1 min, 04 ≈ 1 min,
    05 (simulación) ≈ 0,5 min y 06 (bootstrap) ≈ 6 min. En total, unos 10 minutos.
-6. **Compilar el informe y la presentación:**
+6. **Compilar el informe, la presentación y el póster (70 × 100 cm):**
    - **Overleaf** (Overleaf compila desde la raíz del proyecto, así que los archivos no
      pueden quedar dentro de una carpeta):
      1. *New Project > Blank Project*.
      2. Borrar el `main.tex` que Overleaf crea y subir **los archivos** de `latex/`
         (seleccionarlos todos, no la carpeta) a la raíz del proyecto: `informe.tex`,
-        `beamer.tex`, `references.bib`, `ur.png` y todos los `fig_*.pdf`.
+        `beamer.tex`, `poster.tex`, `references.bib`, `ur.png` y todos los `fig_*.pdf`.
      3. *Menu*: *Compiler* = pdfLaTeX y *Main document* = `informe.tex`. Para compilar la
-        presentación se cambia *Main document* a `beamer.tex` (o se hace un segundo
-        proyecto con los mismos archivos).
+        presentación o el póster se cambia *Main document* a `beamer.tex` o `poster.tex`
+        (o se hace un proyecto aparte con los mismos archivos).
      4. Overleaf corre biber solo. Si la bibliografía sale vacía o con `??`:
         *Logs and output files > Clear cached files* y volver a compilar.
      - No vincular Overleaf al repositorio de GitHub completo: el informe quedaría en la
