@@ -11,8 +11,8 @@
 \usepackage[T1]{fontenc}
 \usepackage[utf8]{inputenc}
 \usepackage[spanish,es-nodecimaldot,es-nolists,es-noshorthands]{babel}
-\usepackage{lmodern}
-\usepackage{amsmath,amssymb}
+\usepackage{amsmath}
+\usepackage{newtxtext,newtxmath}   % Times New Roman, como pide la guía (ya incluye los símbolos de amssymb)
 \usepackage{icomma}            % permite escribir 0,05 en modo matemático
 \usepackage{graphicx}          % logo de la portada (ur.png en la misma carpeta)
 
@@ -60,7 +60,7 @@
 \DeclareDelimFormat[parencite]{finalnamedelim}{\addspace y\space}
 
 
-\newcommand{\titulo}{¿Cómo estimar el índice de Theil con la GEIH? Comparación de cuatro estimadores aplicado a la desigualdad del ingreso laboral en Colombia, 2018--2026}
+\newcommand{\titulo}{¿Cómo estimar el índice de Theil con la GEIH? Comparación de cuatro estimadores aplicada a la desigualdad del ingreso laboral en Colombia, 2018--2026}
 
 % ============================================================
 \begin{document}
@@ -240,6 +240,9 @@ El ingreso laboral es muy asimétrico (Tabla A3): en 2026 la media (\$2.314.067)
   {\itshape Distribución del ingreso laboral, 2026\par}
   \vspace{0.5\baselineskip}
   \includegraphics[width=0.7\textwidth]{fig_histograma_ingreso.pdf}
+
+  \vspace{0.3\baselineskip}
+  {\itshape Nota.} Ponderado con el factor de expansión ajustado. La línea roja marca 1 salario mínimo (SMMLV). Se muestran los ingresos hasta 6 SMMLV, que cubren el 98,2~\% de los ocupados.
 \end{figure}
 
 
@@ -293,6 +296,9 @@ El valor de referencia es el estimador A sobre la base de 2024 completa: $T = 0,
   {\itshape Error cuadrático medio de cada estimador según el tamaño de muestra\par}
   \vspace{0.5\baselineskip}
   \includegraphics[width=0.7\textwidth]{fig_simulacion_ecm.pdf}
+
+  \vspace{0.3\baselineskip}
+  {\itshape Nota.} 500 réplicas por tamaño de muestra. Ambos ejes en escala logarítmica; el ECM está multiplicado por 1.000, como en la Tabla 1.
 \end{figure}
 
 Como el valor de referencia es el propio estimador A sobre la base completa, el experimento muestra que A converge al Theil ponderado de la GEIH y mide cuánto se alejan de él los demás. Por eso, en la aplicación usamos A, que además es el único que incorpora el diseño muestral.
@@ -340,6 +346,9 @@ El estrato es la dimensión que más explica la desigualdad en todos los años (
   {\itshape Porcentaje de la desigualdad explicado por cada dimensión (componente entre)\par}
   \vspace{0.5\baselineskip}
   \includegraphics[width=0.7\textwidth]{fig_descomposicion.pdf}
+
+  \vspace{0.3\baselineskip}
+  {\itshape Nota.} Porcentaje del índice de Theil (estimador A) que explican las diferencias entre los grupos de cada dimensión.
 \end{figure}
 
 
@@ -382,10 +391,13 @@ El estrato es la dimensión que más explica la desigualdad en todos los años (
   {\itshape Índice de Theil con intervalo de confianza bootstrap del 95~\%\par}
   \vspace{0.5\baselineskip}
   \includegraphics[width=0.7\textwidth]{fig_bootstrap_ic.pdf}
+
+  \vspace{0.3\baselineskip}
+  {\itshape Nota.} Bootstrap de personas con 500 réplicas, percentiles 2,5 y 97,5. El año 2020 no se calcula.
 \end{figure}
 
 
-\section{Conclusiones}
+\section{Discusión y conclusiones}
 
 El estimador ponderado (A) es el que debe usarse con la GEIH: es el único consistente y, con muestras grandes, su error cuadrático medio es entre 4 y 24 veces menor que el de los demás. Ignorar el factor de expansión (B) o suponer que el ingreso es lognormal (C y D) produce sesgos que no desaparecen al aumentar la muestra: B y D subestiman la desigualdad en cerca de un 15~\% y C la sobreestima en cerca de un 5~\%. El supuesto lognormal falla porque el ingreso laboral tiene un pico en el salario mínimo y colas pesadas.
 
@@ -537,6 +549,9 @@ A las limitaciones señaladas en la sección de hipótesis se suman dos. El valo
   {\itshape Composición de los ocupados por dimensión, 2026\par}
   \vspace{0.5\baselineskip}
   \includegraphics[width=\textwidth]{fig_barras_cualitativas.pdf}
+
+  \vspace{0.3\baselineskip}
+  {\itshape Nota.} Porcentajes ponderados con el factor de expansión ajustado.
 \end{figure}
 
 \begin{figure}[htbp]
@@ -547,6 +562,9 @@ A las limitaciones señaladas en la sección de hipótesis se suman dos. El valo
   {\itshape Ingreso laboral por grupo, 2026\par}
   \vspace{0.5\baselineskip}
   \includegraphics[width=\textwidth]{fig_boxplot_ingreso_grupo.pdf}
+
+  \vspace{0.3\baselineskip}
+  {\itshape Nota.} Diagramas de caja ponderados, en escala logarítmica y sin valores atípicos. La línea roja marca 1 salario mínimo.
 \end{figure}
 
 \begin{figure}[htbp]
@@ -556,7 +574,10 @@ A las limitaciones señaladas en la sección de hipótesis se suman dos. El valo
   \vspace{0.5\baselineskip}
   {\itshape Logaritmo del ingreso frente a una distribución normal, 2026\par}
   \vspace{0.5\baselineskip}
-  \includegraphics[width=\textwidth]{fig_ln_ingreso_normal.pdf}
+  \includegraphics[width=0.8\textwidth]{fig_ln_ingreso_normal.pdf}
+
+  \vspace{0.3\baselineskip}
+  {\itshape Nota.} Histograma ponderado. La curva roja es una normal con la misma media y desviación estándar (asimetría $-$0,77; curtosis en exceso 4,11).
 \end{figure}
 
 \begin{figure}[htbp]
@@ -567,6 +588,9 @@ A las limitaciones señaladas en la sección de hipótesis se suman dos. El valo
   {\itshape Distribución de las 500 estimaciones con n = 50.000\par}
   \vspace{0.5\baselineskip}
   \includegraphics[width=\textwidth]{fig_simulacion_distribucion.pdf}
+
+  \vspace{0.3\baselineskip}
+  {\itshape Nota.} La línea roja marca el valor de referencia: el estimador A sobre la GEIH 2024 completa ($T = 0,5043$).
 \end{figure}
 
 \begin{figure}[htbp]
@@ -576,7 +600,10 @@ A las limitaciones señaladas en la sección de hipótesis se suman dos. El valo
   \vspace{0.5\baselineskip}
   {\itshape Índice de Theil por año con los tres factores de ponderación\par}
   \vspace{0.5\baselineskip}
-  \includegraphics[width=\textwidth]{fig_theil_anual.pdf}
+  \includegraphics[width=0.8\textwidth]{fig_theil_anual.pdf}
+
+  \vspace{0.3\baselineskip}
+  {\itshape Nota.} La línea punteada marca el cambio de marco muestral y de factor de expansión en 2022.
 \end{figure}
 
 \clearpage
@@ -595,5 +622,27 @@ Con la ECH y la GEIH (2002--2015), el autor descompone el Theil entre y dentro d
 
 Con un panel de 13 ciudades (2002--2015), modelos de efectos fijos y variables instrumentales, los autores muestran que la informalidad aumenta significativamente la desigualdad del ingreso laboral, y que la desigualdad ocurre casi toda dentro de las ciudades.
 
+
+
+\clearpage
+\section{Anexo C. Roles del equipo}
+
+% REVISAR (equipo): completar las responsabilidades de cada integrante.
+\begin{table}[htbp]
+  \singlespacing
+  \raggedright
+  \small
+  \renewcommand{\arraystretch}{1.3}
+  \begin{tabular}{@{}>{\raggedright\arraybackslash}p{1.6in}>{\raggedright\arraybackslash}p{4.4in}@{}}
+    \toprule
+    Integrante & Responsabilidades \\
+    \midrule
+    Gabriel Salcedo & Construcción y depuración de las bases de datos; código en R. \\
+    Jerónimo Marín & (por completar) \\
+    Isaac Suarez & (por completar) \\
+    Santiago Velandia & (por completar) \\
+    \bottomrule
+  \end{tabular}
+\end{table}
 
 \end{document}
