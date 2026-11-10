@@ -1,8 +1,8 @@
 % ============================================================
 %  Póster (70 x 100 cm) — ¿Cómo estimar el índice de Theil con la GEIH?
 %  Usa las mismas figuras que el informe (fig_*.pdf) y los mismos paquetes.
-%  Compilar: pdflatex -> biber -> pdflatex -> pdflatex
-%  Overleaf: este archivo, references.bib, ur.png y fig_*.pdf deben estar en la
+%  Compilar: pdflatex una vez (no necesita biber)
+%  Overleaf: este archivo, ur.png y fig_*.pdf deben estar en la
 %  RAÍZ del proyecto. Menu > Main document = poster.tex.
 % ============================================================
 \documentclass{article}
@@ -11,17 +11,15 @@
 \usepackage[utf8]{inputenc}
 \usepackage[spanish,es-nodecimaldot,es-nolists,es-noshorthands]{babel}
 \usepackage{amsmath}
-\usepackage{newtxtext,newtxmath}   % Times, como el informe
+\usepackage{mathptmx}            % Times, como el informe
+\renewcommand{\ttdefault}{lmtt}   % letra de máquina vectorial (Latin Modern)
 \usepackage{icomma}
 \usepackage{graphicx}
 \usepackage{xcolor}
 \usepackage{array,booktabs}
 \usepackage{enumitem}
 \usepackage[paperwidth=70cm,paperheight=100cm,margin=2cm]{geometry}
-\usepackage{csquotes}
-\usepackage[backend=biber,style=apa]{biblatex}
-\addbibresource{references.bib}
-\renewcommand*{\bibfont}{\pequeno}
+\providecommand{\url}[1]{\texttt{#1}}
 
 \pagestyle{empty}
 \setlength{\parindent}{0pt}
@@ -48,6 +46,10 @@
   \begin{minipage}{\dimexpr\linewidth-2\fboxsep-2\fboxrule\relax}\texto}
   {\end{minipage}\end{lrbox}%
   \fcolorbox{urojo}{white}{\usebox{\contenido}}\par}
+
+% Referencias en APA 7 escritas a mano: así no se necesita biber y Overleaf compila
+% en una o dos pasadas. Las fuentes completas también están en references.bib.
+\newenvironment{referencias}{\begin{list}{}{\setlength{\leftmargin}{0.5in}\setlength{\itemindent}{-0.5in}\setlength{\itemsep}{0pt}\setlength{\parsep}{0pt}}\raggedright}{\end{list}}
 
 \begin{document}
 
@@ -193,8 +195,13 @@
 \vspace{0.4cm}
 
 {\pequeno
-  \nocite{theil1967economics,shorrocks1980class,cowell2011measuring,efron1993introduction,dane2026geih}
-  \printbibliography[heading=none]
+  \begin{referencias}
+  \item Cowell, F. A. (2011). \emph{Measuring inequality} (3.ª ed.). Oxford University Press.
+  \item Departamento Administrativo Nacional de Estadística. (2026). \emph{Gran Encuesta Integrada de Hogares -- GEIH, 2018--2026} [Conjunto de datos]. DANE. \url{https://microdatos.dane.gov.co}
+  \item Efron, B., y Tibshirani, R. J. (1993). \emph{An introduction to the bootstrap}. Chapman \& Hall. \url{https://doi.org/10.1201/9780429246593}
+  \item Shorrocks, A. F. (1980). The class of additively decomposable inequality measures. \emph{Econometrica, 48}(3), 613--625. \url{https://doi.org/10.2307/1913126}
+  \item Theil, H. (1967). \emph{Economics and information theory}. North-Holland.
+\end{referencias}
   \vspace{0.3cm}
   \color{urgris} Código y datos: \texttt{github.com/gabrielsalcedo/statistics-geih}\par}
 

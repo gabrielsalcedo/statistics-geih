@@ -1,9 +1,9 @@
 % ============================================================
 %  Desigualdad del ingreso laboral en Colombia, 2018-2026
 %  Formato APA 7 (estudiante) -- compila con pdfLaTeX
-%  Overleaf: este archivo, references.bib, ur.png y fig_*.pdf deben estar en la
+%  Overleaf: este archivo, ur.png y fig_*.pdf deben estar en la
 %  RAÍZ del proyecto (no dentro de una carpeta). Main document = informe.tex.
-%  La bibliografía necesita biber (Overleaf lo corre solo; BibTeX no sirve).
+%  No necesita biber: las referencias están escritas en el mismo archivo.
 % ============================================================
 \documentclass[12pt,letterpaper]{article}
 
@@ -12,7 +12,8 @@
 \usepackage[utf8]{inputenc}
 \usepackage[spanish,es-nodecimaldot,es-nolists,es-noshorthands]{babel}
 \usepackage{amsmath}
-\usepackage{newtxtext,newtxmath}   % Times New Roman, como pide la guía (ya incluye los símbolos de amssymb)
+\usepackage{mathptmx}            % Times New Roman, como pide la guía (liviano: compila rápido)
+\renewcommand{\ttdefault}{lmtt}   % letra de máquina vectorial (Latin Modern)
 \usepackage{icomma}            % permite escribir 0,05 en modo matemático
 \usepackage{graphicx}          % logo de la portada (ur.png en la misma carpeta)
 
@@ -20,6 +21,7 @@
 \usepackage[margin=1in]{geometry}
 \usepackage{setspace}
 \onehalfspacing
+\setlength{\emergencystretch}{1em}   % evita líneas que se salen del margen
 \setlength{\parindent}{0.5in}
 \setlength{\parskip}{0pt}
 
@@ -48,16 +50,10 @@
 \usepackage[hidelinks]{hyperref}
 \urlstyle{same}
 
-% ---------- Citación APA 7 (biblatex + biber) ----------
-% Compilar: pdflatex -> biber -> pdflatex -> pdflatex
-% (Overleaf lo hace solo; el archivo references.bib debe estar en la misma carpeta)
-\usepackage{csquotes}
-\usepackage[backend=biber,style=apa]{biblatex}
-\addbibresource{references.bib}
-% APA en español: "y" entre autores en lugar de "&"
-\DeclareDelimFormat[bib,biblist]{finalnamedelim}{%
-  \ifnum\value{liststop}>2 \finalandcomma\fi\addspace y\space}
-\DeclareDelimFormat[parencite]{finalnamedelim}{\addspace y\space}
+% ---------- Citación APA 7 ----------
+% Referencias en APA 7 escritas a mano: así no se necesita biber y Overleaf compila
+% en una o dos pasadas. Las fuentes completas también están en references.bib.
+\newenvironment{referencias}{\begin{list}{}{\setlength{\leftmargin}{0.5in}\setlength{\itemindent}{-0.5in}\setlength{\itemsep}{0pt}\setlength{\parsep}{0pt}}\raggedright}{\end{list}}
 
 
 \newcommand{\titulo}{¿Cómo estimar el índice de Theil con la GEIH? Comparación de cuatro estimadores aplicada a la desigualdad del ingreso laboral en Colombia, 2018--2026}
@@ -101,19 +97,19 @@
 
 % REVISAR: el boletín de pobreza monetaria 2024 (clave dane2025pobreza) no parece reportar el Gini de 2000.
 % Confirmar la cifra y su fuente, o volver a la comparación con 2023 (0,553).
-Colombia es uno de los países más desiguales de América Latina: el Gini del ingreso de los hogares fue 0,551 en 2024, casi igual al 0,545 de 2000 \parencite{dane2025pobreza}. Estas cifras se calculan a partir de encuestas, y por eso no son la desigualdad ``real'' sino una estimación de ella. Detrás de cada dato publicado hay decisiones estadísticas sobre qué estimador se usa y bajo qué supuestos.
+Colombia es uno de los países más desiguales de América Latina: el Gini del ingreso de los hogares fue 0,551 en 2024, casi igual al 0,545 de 2000 (DANE, 2025). Estas cifras se calculan a partir de encuestas, y por eso no son la desigualdad ``real'' sino una estimación de ella. Detrás de cada dato publicado hay decisiones estadísticas sobre qué estimador se usa y bajo qué supuestos.
 
-El índice de Theil es una medida usual para este problema, pues permite calcular la desigualdad del ingreso y, además, descomponerla exactamente en desigualdad \emph{entre} grupos y \emph{dentro} de ellos \parencite{shorrocks1980class}. Pero hay varias formas de estimarlo con los mismos datos. Se puede calcular directamente sobre la muestra, con o sin los factores de expansión de la encuesta, o se puede suponer que el ingreso sigue una distribución lognormal, un supuesto usual en las distribuciones de ingreso. Cada opción necesita supuestos distintos, y elegir mal puede producir sesgo.
+El índice de Theil es una medida usual para este problema, pues permite calcular la desigualdad del ingreso y, además, descomponerla exactamente en desigualdad \emph{entre} grupos y \emph{dentro} de ellos (Shorrocks, 1980). Pero hay varias formas de estimarlo con los mismos datos. Se puede calcular directamente sobre la muestra, con o sin los factores de expansión de la encuesta, o se puede suponer que el ingreso sigue una distribución lognormal, un supuesto usual en las distribuciones de ingreso. Cada opción necesita supuestos distintos, y elegir mal puede producir sesgo.
 
 En este proyecto queremos comparar, mediante un experimento de simulación, cuatro estimadores del índice de Theil en términos de sesgo, varianza, error cuadrático medio (ECM), eficiencia relativa y consistencia, y después usar el estimador que mejor se comporte para medir la desigualdad del ingreso laboral en Colombia entre 2018 y 2026.
 
 \subsection{Estado del arte}
 
-\textcite{theil1967economics} propuso un índice que vale cero cuando todas las personas ganan lo mismo y crece a medida que el ingreso se concentra. Este índice tiene varias propiedades que nos serán útiles más adelante; la principal es que es aditivamente descomponible, y a partir de eso se puede medir cuánto del Theil total explica cada partición de la población en grupos.
+Theil (1967) propuso un índice que vale cero cuando todas las personas ganan lo mismo y crece a medida que el ingreso se concentra. Este índice tiene varias propiedades que nos serán útiles más adelante; la principal es que es aditivamente descomponible, y a partir de eso se puede medir cuánto del Theil total explica cada partición de la población en grupos.
 
-Por otro lado, para cuantificar la incertidumbre de cualquier estimador, \textcite{efron1993introduction} desarrollaron el bootstrap, un método que aproxima la distribución muestral de un estimador remuestreando los datos, y \textcite{mills1997statistical} lo aplicaron a índices de desigualdad y a sus descomposiciones.
+Por otro lado, para cuantificar la incertidumbre de cualquier estimador, Efron y Tibshirani (1993) desarrollaron el bootstrap, un método que aproxima la distribución muestral de un estimador remuestreando los datos, y Mills y Zandvakili (1997) lo aplicaron a índices de desigualdad y a sus descomposiciones.
 
-Para Colombia, \textcite{sanchez2017desigualdad} encontró que cerca del 88~\% de la desigualdad se da dentro de los departamentos, y \textcite{ariza2017labour} mostraron que la informalidad aumenta la desigualdad del ingreso laboral en las ciudades. Sin embargo, estos trabajos calculan un único estimador sin justificar la elección, estudian un factor a la vez, usan datos anteriores a 2016 y no reportan la precisión de sus resultados. Este proyecto busca llenar ese vacío: primero valida el estimador y después lo aplica.
+Para Colombia, Sánchez-Torres (2017) encontró que cerca del 88~\% de la desigualdad se da dentro de los departamentos, y Ariza y Montes-Rojas (2017) mostraron que la informalidad aumenta la desigualdad del ingreso laboral en las ciudades. Sin embargo, estos trabajos calculan un único estimador sin justificar la elección, estudian un factor a la vez, usan datos anteriores a 2016 y no reportan la precisión de sus resultados. Este proyecto busca llenar ese vacío: primero valida el estimador y después lo aplica.
 
 \section{Pregunta problema}
 
@@ -153,7 +149,7 @@ donde $N$ es el tamaño de la población, $Y_j$ el ingreso de cada persona y $\m
 \end{equation}
 El estimador \textbf{B} es el estimador A sin el factor de expansión, es decir, la misma fórmula con $w_i = 1$ para todos. Como la GEIH no le da a todas las personas la misma probabilidad de ser encuestadas, B mide la desigualdad \emph{de los encuestados} y no la de la población; por eso se espera que sea sesgado incluso con muestras muy grandes.
 
-\textbf{Estimadores lognormales (C y D).} Si $\ln y \sim N(m, \sigma^2)$, entonces $T = \sigma^2/2$ \parencite{cowell2011measuring}, así que basta con estimar $\sigma^2$:
+\textbf{Estimadores lognormales (C y D).} Si $\ln y \sim N(m, \sigma^2)$, entonces $T = \sigma^2/2$ (Cowell, 2011), así que basta con estimar $\sigma^2$:
 \begin{equation}
   \hat{T}_C = \frac{1}{2}\ln\!\left(1 + \frac{s_y^2}{\bar{y}^{\,2}}\right),
   \qquad
@@ -166,7 +162,7 @@ C despeja $\sigma^2$ igualando la media y la varianza muestrales del ingreso con
 
 \subsection{Fuente}
 
-Se usa la \textbf{Gran Encuesta Integrada de Hogares (GEIH)} del \textcite{dane2026geih}: encuesta mensual, probabilística y de cobertura nacional, con una muestra de cerca de 315.000 hogares al año \parencite{dane2023metodologia}. Es la única fuente que reúne ingreso laboral y factores de expansión. Esto es clave, porque sin factores de expansión no se podría construir el estimador A ni evaluar el sesgo de B. Para cada año se unen los meses de enero a junio de tres módulos (ocupados, características generales y datos del hogar y la vivienda), lo que da nueve bases anuales (2018--2026). Cada una tiene \textbf{más de 140.000 ocupados y 12 variables} (Tabla A1, en el Anexo A), por lo que cumple los requisitos.
+Se usa la \textbf{Gran Encuesta Integrada de Hogares (GEIH)} del Departamento Administrativo Nacional de Estadística (DANE, 2026): encuesta mensual, probabilística y de cobertura nacional, con una muestra de cerca de 315.000 hogares al año (DANE, 2023). Es la única fuente que reúne ingreso laboral y factores de expansión. Esto es clave, porque sin factores de expansión no se podría construir el estimador A ni evaluar el sesgo de B. Para cada año se unen los meses de enero a junio de tres módulos (ocupados, características generales y datos del hogar y la vivienda), lo que da nueve bases anuales (2018--2026). Cada una tiene \textbf{más de 140.000 ocupados y 12 variables} (Tabla A1, en el Anexo A), por lo que cumple los requisitos.
 
 
 \subsection{Depuración}
@@ -412,7 +408,18 @@ A las limitaciones señaladas en la sección de hipótesis se suman dos. El valo
 \clearpage
 \section{Referencias}
 
-\printbibliography[heading=none]
+\begin{referencias}
+  \item Ariza, J., y Montes-Rojas, G. (2017). Labour income inequality and the informal sector in Colombian cities. \emph{Cuadernos de Economía, 36}(72), 77--98. \url{https://doi.org/10.15446/cuad.econ.v36n72.65820}
+  \item Cowell, F. A. (2011). \emph{Measuring inequality} (3.ª ed.). Oxford University Press.
+  \item Departamento Administrativo Nacional de Estadística. (2023). \emph{Metodología general Gran Encuesta Integrada de Hogares -- GEIH} (DSO-GEIH-MET-001, versión 11). DANE. \url{https://www.dane.gov.co/files/operaciones/GEIH/met-GEIH.pdf}
+  \item Departamento Administrativo Nacional de Estadística. (2025). \emph{Pobreza monetaria en Colombia: año 2024} [Boletín técnico]. DANE. \url{https://www.dane.gov.co/files/operaciones/PM/bol-PM-2024.pdf}
+  \item Departamento Administrativo Nacional de Estadística. (2026). \emph{Gran Encuesta Integrada de Hogares -- GEIH, 2018--2026} [Conjunto de datos]. DANE. \url{https://microdatos.dane.gov.co}
+  \item Efron, B., y Tibshirani, R. J. (1993). \emph{An introduction to the bootstrap}. Chapman \& Hall. \url{https://doi.org/10.1201/9780429246593}
+  \item Mills, J. A., y Zandvakili, S. (1997). Statistical inference via bootstrapping for measures of inequality. \emph{Journal of Applied Econometrics, 12}(2), 133--150.
+  \item Sánchez-Torres, R. M. (2017). Desigualdad del ingreso en Colombia: un estudio por departamentos. \emph{Cuadernos de Economía, 36}(72), 139--178. \url{https://doi.org/10.15446/cuad.econ.v36n72.65880}
+  \item Shorrocks, A. F. (1980). The class of additively decomposable inequality measures. \emph{Econometrica, 48}(3), 613--625. \url{https://doi.org/10.2307/1913126}
+  \item Theil, H. (1967). \emph{Economics and information theory}. North-Holland.
+\end{referencias}
 
 % ---------------- Anexos ----------------
 \clearpage
@@ -609,16 +616,16 @@ A las limitaciones señaladas en la sección de hipótesis se suman dos. El valo
 \clearpage
 \section{Anexo B. Resumen de artículos relacionados}
 
-\subsection{\texorpdfstring{\textcite{mills1997statistical}}{Mills y Zandvakili (1997)}}
+\subsection{Mills y Zandvakili (1997)}
 
 Proponen el bootstrap para construir intervalos y pruebas sobre el Gini y el Theil y sus descomposiciones, con datos de panel de Estados Unidos. Muestran que diferencias aparentes entre grupos pueden no ser significativas incluso con muestras grandes. Tratan el índice de desigualdad como lo que es, un estimador con distribución muestral.
 
-\subsection{\texorpdfstring{\textcite{sanchez2017desigualdad}}{Sánchez-Torres (2017)}}
+\subsection{Sánchez-Torres (2017)}
 
 Con la ECH y la GEIH (2002--2015), el autor descompone el Theil entre y dentro de departamentos y el Gini por fuentes de ingreso. Encuentra que cerca del 88~\% de la desigualdad ocurre dentro de los departamentos, que Chocó y La Guajira están entre los más desiguales y que el ingreso de los asalariados es la fuente que más aporta.
 
 
-\subsection{\texorpdfstring{\textcite{ariza2017labour}}{Ariza y Montes-Rojas (2017)}}
+\subsection{Ariza y Montes-Rojas (2017)}
 
 Con un panel de 13 ciudades (2002--2015), modelos de efectos fijos y variables instrumentales, los autores muestran que la informalidad aumenta significativamente la desigualdad del ingreso laboral, y que la desigualdad ocurre casi toda dentro de las ciudades.
 

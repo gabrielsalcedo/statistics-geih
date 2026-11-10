@@ -64,16 +64,17 @@ No hace falta descargar nada del DANE: las crudas ya están en `data/raw`.
      1. *New Project > Blank Project*.
      2. Borrar el `main.tex` que Overleaf crea y subir **los archivos** de `latex/`
         (seleccionarlos todos, no la carpeta) a la raíz del proyecto: `informe.tex`,
-        `beamer.tex`, `poster.tex`, `references.bib`, `ur.png` y todos los `fig_*.pdf`.
+        `beamer.tex`, `poster.tex`, `ur.png` y todos los `fig_*.pdf`.
      3. *Menu*: *Compiler* = pdfLaTeX y *Main document* = `informe.tex`. Para compilar la
         presentación o el póster se cambia *Main document* a `beamer.tex` o `poster.tex`
         (o se hace un proyecto aparte con los mismos archivos).
-     4. Overleaf corre biber solo. Si la bibliografía sale vacía o con `??`:
-        *Logs and output files > Clear cached files* y volver a compilar.
+     4. Las referencias están escritas dentro de cada `.tex` (APA 7), así que no hace falta
+        biber ni `references.bib`. Esto deja la compilación en una o dos pasadas de
+        pdfLaTeX, dentro del límite de tiempo del plan gratuito de Overleaf.
      - No vincular Overleaf al repositorio de GitHub completo: el informe quedaría en la
-       subcarpeta `latex/` y no encontraría las figuras ni la bibliografía.
-   - **En el computador:** dentro de `latex/`, `pdflatex → biber → pdflatex → pdflatex`
-     (o `latexmk -pdf informe.tex`). Con BibTeX en lugar de biber, la bibliografía no sale.
+       subcarpeta `latex/` y no encontraría las figuras.
+   - **En el computador:** dentro de `latex/`, `pdflatex informe.tex` dos veces (o
+     `latexmk -pdf informe.tex`). Igual para `beamer.tex` y `poster.tex`.
 
 Los resultados son idénticos en cualquier computador: la simulación y el bootstrap usan
 semillas fijas.
