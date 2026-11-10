@@ -19,6 +19,8 @@ statistics-geih/
 ├── scripts/      código en R (00 a 06 y correr_todo.R)
 ├── latex/        informe.tex, beamer.tex, poster.tex, references.bib, logo y figuras .pdf
 ├── README.md
+├── GUIA_PROYECTO.md               explicación detallada de todo el proyecto
+├── ORGANIZACION_PRESENTACION.md   guion de la presentación dividido en 4 partes
 └── statistics-geih.Rproj
 ```
 
