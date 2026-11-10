@@ -657,15 +657,15 @@ Se calcula con tres pesos:
 - **Con muestreo sin reemplazo y n = 50.000** (un tercio de la base), la varianza baja algo
   más de lo normal (corrección por población finita ≈ 0,67).
 
-### Decisiones pendientes del equipo
+### Decisiones del equipo
 - **Código 7 de `P6430` desde 2022.** El DANE lo llama "sin remuneración", pero el 99 % de
-  esas personas tiene ingreso. Hoy se excluyen unas 3.400 por año; incluirlas bajaría el
-  Theil de 2022–2026 en cerca de 0,003.
-- **Erratas de la primera entrega:**
-  - "más de 140.000 ocupados": en 2021 son 129.750;
-  - la justificación de "ln 0": la razón real para excluir ceros es comparar la misma
-    población con los cuatro estimadores.
-- **Completar el Anexo C (roles)** del informe.
+  esas personas tiene ingreso. Se siguió la clasificación del DANE (unas 3.400 personas por
+  año quedan fuera) y el informe lo reporta como limitación. Incluirlas bajaría el Theil de
+  2022–2026 en cerca de 0,003.
+- **Ingresos iguales a cero.** El informe explica que se excluyen para que los cuatro
+  estimadores se calculen sobre la misma población, porque C y D usan logaritmos.
+- **Roles del equipo.** La rúbrica evalúa "roles y responsabilidades". El informe ya no tiene
+  anexos, así que el equipo debe decidir dónde presentarlos (por ejemplo, en la sustentación).
 
 ---
 
@@ -675,9 +675,23 @@ Los tres están en `latex/` y usan las mismas figuras (`fig_*.pdf`, generadas po
 
 | Documento | Archivo | Formato | Contenido |
 |---|---|---|---|
-| Informe | `informe.tex` | APA 7, Times 12, interlineado 1,5, 20 páginas | Portada; análisis en las páginas 2 a 11; referencias; Anexo A (tablas), Anexo B (resumen de artículos) y Anexo C (roles) |
-| Presentación | `beamer.tex` | 16:9, colores de la Universidad, 18 diapositivas | Problema, datos y método, resultados, conclusiones, referencias |
-| Póster | `poster.tex` | 70 × 100 cm, una página, dos columnas | Pregunta, hipótesis, datos, estimadores, simulación, desigualdad, descomposición, pruebas y conclusiones |
+| Informe | `informe.tex` | APA 7, Times 12, interlineado 1,5, 12 páginas, sin anexos | Portada; análisis en las páginas 2 a 11 (introducción, pregunta, objetivos, estimadores, datos, hipótesis, cómo hicimos el trabajo, descriptiva, resultados, pruebas, discusión con limitaciones y ética, conclusiones); referencias |
+| Presentación | `beamer.tex` | 16:9, estilo minimalista (blanco, gris oscuro y un acento azul), 18 diapositivas | Problema, datos y método, resultados, conclusiones, referencias |
+| Póster | `poster.tex` | 70 × 100 cm, una página, dos columnas, mismo estilo minimalista | Izquierda: pregunta, hipótesis, datos, estimadores y simulación. Derecha: ingreso, desigualdad, descomposición, pruebas y conclusiones |
+
+**Tablas y figuras del informe:**
+- **Tablas:**
+  1. Variables.
+  2. Personas después de la depuración.
+  3. Etapas del proyecto.
+  4. Medidas descriptivas de 2026.
+  5. Resultados de la simulación.
+  6. Theil por año con sus intervalos de confianza.
+- **Figuras:**
+  1. Histograma del ingreso.
+  2. ECM según n.
+  3. Descomposición.
+- La prueba t de H1 se reporta en el texto.
 
 ### Por qué compilan rápido ahora
 - El límite del plan gratuito de Overleaf es de 10 segundos. Lo que más tardaba era **biber**

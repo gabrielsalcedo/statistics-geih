@@ -51,7 +51,7 @@ desigualdad, y qué vamos a responder.
 > "Primero el problema y la pregunta; luego los datos y el método; después los resultados y,
 > al final, las conclusiones."
 
-### Diapositiva 3: ¿Por qué importa cómo se estima la desigualdad? (1:00)
+### Diapositiva 3: La desigualdad se estima, no se observa (1:00)
 > "Colombia es uno de los países más desiguales de la región. Pero las cifras de desigualdad
 > salen de encuestas: son estimaciones, no la desigualdad real. Con los mismos datos hay
 > varias formas de estimar el índice de Theil, y si elegimos mal la fórmula, el resultado
@@ -82,7 +82,7 @@ desigualdad, y qué vamos a responder.
 **Objetivo de la parte:** que el público sepa de dónde salen los datos, qué son los cuatro
 estimadores y cómo los pusimos a prueba.
 
-### Diapositiva 5: Datos de la GEIH (1:15)
+### Diapositiva 5: Datos: Gran Encuesta Integrada de Hogares (1:15)
 > "Usamos la Gran Encuesta Integrada de Hogares del DANE, de enero a junio de cada año entre
 > 2018 y 2026. 2020 no entra, porque la encuesta fue telefónica y falta el ingreso y el
 > estrato. Trabajamos con ocupados de 15 años o más, remunerados, con ingreso positivo y en
@@ -92,10 +92,9 @@ estimadores y cómo los pusimos a prueba.
 > criterio. A quienes no reportan ingreso no los eliminamos: su peso se reparte entre
 > personas parecidas que sí responden."
 
-- **Señalar:** el bloque "En cifras" y los dos factores de expansión (cambio de marco en
-  2022).
+- **Señalar:** el bloque "En cifras" y el cambio de marco muestral en 2022.
 
-### Diapositiva 6: Cuatro estimadores (1:15)
+### Diapositiva 6: Cuatro formas de estimar el Theil (1:15)
 > "El Theil vale cero cuando todos ganan lo mismo y crece cuando el ingreso se concentra.
 > Los estimadores A y B aplican la fórmula directamente a la muestra: A con el factor de
 > expansión, que dice a cuántas personas representa cada encuestado, y B sin él.
@@ -106,13 +105,14 @@ estimadores y cómo los pusimos a prueba.
 
 - **Señalar:** la fórmula de A y luego el bloque de la descomposición.
 
-### Diapositiva 7: Diseño del experimento y de la inferencia (1:00)
+### Diapositiva 7: Cómo lo hicimos (1:00)
 > "Para saber cuál estimador es mejor, hicimos una simulación Monte Carlo. Tomamos la GEIH
 > 2024 completa como población; su Theil, 0,5043, es el valor de referencia. Sacamos 500
 > submuestras para cada tamaño, de 500 a 50.000 personas, y en cada una calculamos los
 > cuatro estimadores. Así medimos sesgo, varianza y error cuadrático medio.
 > Para la parte aplicada usamos bootstrap: remuestreamos personas 500 veces para obtener
-> intervalos de confianza y probar H2 y H3."
+> intervalos de confianza y probar H2 y H3. Todo está hecho en R, con semillas fijas, y el
+> código es público."
 
 - **Para pasar la palabra:** "Antes de ver la simulación, miremos cómo es el ingreso.
   [Nombre]."
@@ -133,21 +133,21 @@ estimadores y cómo los pusimos a prueba.
 **Objetivo de la parte:** mostrar que el ingreso no es lognormal y que solo A es
 consistente.
 
-### Diapositiva 8: Pico en el salario mínimo (0:50)
+### Diapositiva 8: El ingreso tiene un pico en el salario mínimo (0:50)
 > "Este es el ingreso laboral en salarios mínimos. Hay un pico enorme en un salario mínimo: el
 > 15,5 % gana alrededor de un mínimo y el 39,5 % gana menos. Es muy asimétrico: la media es
 > 2,3 millones y la mediana 1,75 millones."
 
 - **Señalar:** la línea roja en 1 SMMLV y la cola larga a la derecha.
 
-### Diapositiva 9: ¿Es lognormal el ingreso? No (0:50)
+### Diapositiva 9: El ingreso no es lognormal (0:50)
 > "Si el ingreso fuera lognormal, su logaritmo seguiría esta curva normal. No la sigue: hay un
 > pico en el salario mínimo y colas más pesadas. Esto anticipa que C y D, que suponen
 > lognormalidad, van a fallar."
 
 - **Señalar:** dónde el histograma se separa de la curva roja.
 
-### Diapositiva 10: Simulación, solo A es consistente (1:00)
+### Diapositiva 10: Simulación: solo A es consistente (1:00)
 > "Este gráfico muestra el error cuadrático medio de cada estimador según el tamaño de
 > muestra, en escala logarítmica. El error de A baja sin parar. B y D se estancan: su sesgo
 > no desaparece. Un detalle interesante: con muestras de 500, D tiene menos error que A,
@@ -208,7 +208,7 @@ sobre cada hipótesis y las conclusiones.
 > de referencia es el propio A, el marco cambió en 2022, la no respuesta es mayor en estratos
 > altos y el bootstrap ignora los conglomerados."
 
-### Diapositiva 16: ¡Gracias! (0:05)
+### Diapositiva 16: Gracias (0:05)
 > "Muchas gracias. El código y los datos están en el repositorio. Quedamos atentos a sus
 > preguntas."
 
@@ -245,9 +245,9 @@ Las respuestas cortas a las preguntas más probables están en la sección 18 de
 Si hay una sesión de póster, conviene acordar:
 - quién lo imprime y cuándo (el PDF sale de `latex/poster.tex`);
 - el orden de explicación, que sigue el de las columnas:
-  - **izquierda:** pregunta → hipótesis → datos → ingreso no lognormal → estimadores →
-    simulación;
-  - **derecha:** desigualdad → descomposición → pruebas → conclusiones;
+  - **izquierda:** pregunta → hipótesis → datos → estimadores → simulación;
+  - **derecha:** ingreso no lognormal → desigualdad → descomposición → pruebas →
+    conclusiones;
 - quién se queda junto al póster en cada turno: ______________.
 
 ---
@@ -255,7 +255,8 @@ Si hay una sesión de póster, conviene acordar:
 ## Lista de verificación antes del día
 
 - [ ] Asignar las cuatro partes y escribir los nombres en este documento.
-- [ ] Completar el Anexo C (roles) del informe con lo que hizo cada integrante.
+- [ ] Acordar cómo se presentan los roles del equipo (la rúbrica los evalúa y el informe ya no
+      tiene anexos).
 - [ ] Ensayar completo con cronómetro, al menos dos veces: la meta es 13–14 minutos.
 - [ ] Cada integrante repasa la sección "Debe dominar" de su parte y las preguntas
       probables.
