@@ -1,8 +1,8 @@
 % ============================================================
 %  Presentación — ¿Cómo estimar el índice de Theil con la GEIH?
 %  Las figuras las generan los scripts de R en esta misma carpeta.
-%  Compilar: pdflatex -> biber -> pdflatex -> pdflatex
-%  Overleaf: este archivo, references.bib, ur.png y fig_*.pdf deben estar en la
+%  Compilar: pdflatex dos veces (no necesita biber)
+%  Overleaf: este archivo, ur.png y fig_*.pdf deben estar en la
 %  RAÍZ del proyecto. Menu > Main document = beamer.tex.
 %  Duración prevista: 12 a 15 minutos (guion aparte).
 % ============================================================
@@ -14,9 +14,6 @@
 \usepackage{lmodern}
 \usepackage{booktabs}
 \usepackage{icomma}
-\usepackage{csquotes}
-\usepackage[backend=biber,style=apa]{biblatex}
-\addbibresource{references.bib}
 
 % ---------- Estilo: tema por defecto con los colores del Rosario ----------
 \definecolor{urojo}{RGB}{166,25,46}
@@ -30,7 +27,6 @@
 \setbeamerfont{frametitle}{size=\large,series=\bfseries}
 \setbeamertemplate{navigation symbols}{}
 \setbeamertemplate{itemize items}[circle]
-\setbeamertemplate{bibliography item}{}
 
 % Título de cada diapositiva en una franja roja
 \setbeamertemplate{frametitle}{%
@@ -52,6 +48,11 @@
 \institute{Estadística --- Universidad del Rosario}
 \date{2026}
 \titlegraphic{\includegraphics[height=1.6cm]{ur.png}}
+
+% Referencias en APA 7 escritas a mano: así no se necesita biber y Overleaf compila
+% en una o dos pasadas. Las fuentes completas también están en references.bib.
+\urlstyle{same}
+\newenvironment{referencias}{\begin{list}{}{\setlength{\leftmargin}{0.5in}\setlength{\itemindent}{-0.5in}\setlength{\itemsep}{0pt}\setlength{\parsep}{0pt}}\raggedright\footnotesize}{\end{list}}
 
 \begin{document}
 
@@ -308,9 +309,20 @@
 \end{frame}
 
 \begin{frame}[allowframebreaks]{Referencias}
-  \nocite{*}
   \footnotesize
-  \printbibliography[heading=none]
+\begin{referencias}
+  \item Ariza, J., y Montes-Rojas, G. (2017). Labour income inequality and the informal sector in Colombian cities. \emph{Cuadernos de Economía, 36}(72), 77--98. \url{https://doi.org/10.15446/cuad.econ.v36n72.65820}
+  \item Cowell, F. A. (2011). \emph{Measuring inequality} (3.ª ed.). Oxford University Press.
+  \item Cowell, F. A., y Jenkins, S. P. (1995). How much inequality can we explain? A methodology and an application to the United States. \emph{The Economic Journal, 105}(429), 421--430. \url{https://doi.org/10.2307/2235501}
+  \item Departamento Administrativo Nacional de Estadística. (2023). \emph{Metodología general Gran Encuesta Integrada de Hogares -- GEIH} (DSO-GEIH-MET-001, versión 11). DANE. \url{https://www.dane.gov.co/files/operaciones/GEIH/met-GEIH.pdf}
+  \item Departamento Administrativo Nacional de Estadística. (2025). \emph{Pobreza monetaria en Colombia: año 2024} [Boletín técnico]. DANE. \url{https://www.dane.gov.co/files/operaciones/PM/bol-PM-2024.pdf}
+  \item Departamento Administrativo Nacional de Estadística. (2026). \emph{Gran Encuesta Integrada de Hogares -- GEIH, 2018--2026} [Conjunto de datos]. DANE. \url{https://microdatos.dane.gov.co}
+  \item Efron, B., y Tibshirani, R. J. (1993). \emph{An introduction to the bootstrap}. Chapman \& Hall. \url{https://doi.org/10.1201/9780429246593}
+  \item Mills, J. A., y Zandvakili, S. (1997). Statistical inference via bootstrapping for measures of inequality. \emph{Journal of Applied Econometrics, 12}(2), 133--150.
+  \item Sánchez-Torres, R. M. (2017). Desigualdad del ingreso en Colombia: un estudio por departamentos. \emph{Cuadernos de Economía, 36}(72), 139--178. \url{https://doi.org/10.15446/cuad.econ.v36n72.65880}
+  \item Shorrocks, A. F. (1980). The class of additively decomposable inequality measures. \emph{Econometrica, 48}(3), 613--625. \url{https://doi.org/10.2307/1913126}
+  \item Theil, H. (1967). \emph{Economics and information theory}. North-Holland.
+\end{referencias}
 \end{frame}
 
 \end{document}
