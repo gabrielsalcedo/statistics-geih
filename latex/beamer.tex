@@ -1,349 +1,339 @@
 % ============================================================
-%  Presentación — ¿Cómo estimar el índice de Theil con la GEIH?
-%  Estilo minimalista: fondo blanco, texto gris oscuro y un solo color de acento.
-%  Las figuras las generan los scripts de R en esta misma carpeta.
-%  Compilar: pdflatex dos veces (no necesita biber).
-%  Overleaf: este archivo, ur.png y fig_*.pdf deben estar en la RAÍZ del proyecto.
-%  Menu > Main document = beamer.tex. Guion: ORGANIZACION_PRESENTACION.md.
+%  Presentación — ¿Qué estimador del índice de Theil usar con la GEIH?
+%  10 diapositivas. Las gráficas se dibujan con pgfplots a partir de las
+%  cifras del informe final, así que no necesita archivos de figuras.
+%  Compilar: pdflatex una vez. Overleaf: este archivo y ur.png en la raíz.
+%  Guion de la exposición: GUION_PRESENTACION.md (4 personas, 2 turnos cada una).
 % ============================================================
 \documentclass[aspectratio=169,11pt]{beamer}
 
-\usepackage[T1]{fontenc}
+\usepackage[spanish]{babel}
 \usepackage[utf8]{inputenc}
-\usepackage[spanish,es-nodecimaldot,es-noshorthands]{babel}
-\usepackage{lmodern}
+\usepackage[T1]{fontenc}
+\usepackage{amsmath, amssymb}
 \usepackage{booktabs}
-\usepackage{icomma}
+\usepackage{tikz}
+\usepackage{pgfplots}
+\pgfplotsset{compat=1.18}
+\usetikzlibrary{babel}   % evita choques entre babel-spanish y TikZ
 
-% ---------- Colores: gris oscuro y un acento azul ----------
-\definecolor{texto}{RGB}{35,35,35}
-\definecolor{gris}{RGB}{115,115,115}
-\definecolor{acento}{RGB}{44,95,138}
-\definecolor{fondo}{RGB}{244,246,248}
-\setbeamercolor{normal text}{fg=texto,bg=white}
-\setbeamercolor{structure}{fg=acento}
-\setbeamercolor{frametitle}{fg=texto}
-\setbeamercolor{title}{fg=texto}
-\setbeamercolor{subtitle}{fg=gris}
-\setbeamercolor{block title}{fg=acento,bg=}
-\setbeamercolor{block body}{fg=texto,bg=fondo}
-\setbeamercolor{item}{fg=acento}
-\setbeamerfont{frametitle}{size=\Large,series=\bfseries}
-\setbeamerfont{block title}{size=\normalsize,series=\bfseries}
+% ---------- Apariencia sencilla ----------
+\usetheme{default}
+\usecolortheme{beaver}
 \setbeamertemplate{navigation symbols}{}
-\setbeamertemplate{itemize items}{\small\textbullet}
-\setbeamertemplate{blocks}[default]
+\setbeamertemplate{footline}[frame number]
+\setbeamercolor{block title}{bg=gray!20, fg=black}
+\setbeamercolor{block body}{bg=gray!6}
 
-% Título de cada diapositiva: texto oscuro y una línea corta de acento
-\setbeamertemplate{frametitle}{%
-  \vspace*{0.9em}%
-  \usebeamerfont{frametitle}\insertframetitle\par
-  \vspace{0.35em}{\color{acento}\rule{3em}{1.5pt}}\par}
+% Colores de las gráficas
+\colorlet{rojo}{red!60!black}
+\colorlet{grisclaro}{gray!55}
 
-% Pie: solo el título corto y el número, en gris
-\setbeamertemplate{footline}{%
-  \leavevmode
-  \hbox to \paperwidth{\hspace{1.2em}\color{gris}\scriptsize Theil con la GEIH\hfill\insertframenumber\,/\,\inserttotalframenumber\hspace{1.2em}}%
-  \vspace{0.8em}}
+% Caja gris sin título, para mensajes clave
+\newenvironment{caja}{\begin{beamercolorbox}[sep=5pt]{block body}}{\end{beamercolorbox}}
 
-% Referencias APA con sangría francesa (sin biber)
-\newenvironment{referencias}{\begin{list}{}{\setlength{\leftmargin}{2em}\setlength{\itemindent}{-2em}\setlength{\itemsep}{2pt}\setlength{\parsep}{0pt}}\raggedright\footnotesize}{\end{list}}
-\urlstyle{same}
+% Estilo de gráficas: coma decimal y punto de miles, letra pequeña
+\pgfplotsset{
+  /pgf/number format/.cd, use comma, 1000 sep={.},
+  /pgfplots/.cd,
+  grafica/.style={tick label style={font=\scriptsize}, label style={font=\scriptsize},
+    legend style={font=\scriptsize, draw=none}, axis line style={gray}},
+}
+
+\title{¿Qué estimador del índice de Theil usar con la GEIH?}
+\subtitle{Evaluación de seis estimadores mediante simulación Monte Carlo}
+\author{Gabriel Salcedo \and Jerónimo Marín \and Isaac Suarez \and Santiago Velandia}
+\institute{Estadística --- Universidad del Rosario}
+\date{Noviembre de 2026}
+\titlegraphic{\includegraphics[height=1.3cm]{ur.png}}
 
 \begin{document}
 
-% ------------------------------------------------------------
-\begin{frame}[plain]
-  \vspace{1.5em}
-  \includegraphics[height=1.3cm]{ur.png}
-
-  \vspace{2.2em}
-  {\usebeamercolor[fg]{title}\LARGE\bfseries ¿Cómo estimar el índice de Theil con la GEIH?\par}
-  \vspace{0.6em}
-  {\color{gris}\large Comparación de cuatro estimadores y desigualdad del ingreso laboral en Colombia, 2018--2026\par}
-  \vspace{0.8em}
-  {\color{acento}\rule{4em}{1.5pt}}
-
-  \vspace{1.2em}
-  Gabriel Salcedo \quad Jerónimo Marín \quad Isaac Suarez \quad Santiago Velandia\par
-  \vspace{0.3em}
-  {\color{gris}\small Estadística --- Universidad del Rosario, 2026\par}
+% ============================================================ 1
+\begin{frame}
+  \titlepage
 \end{frame}
 
-\begin{frame}{Contenido}
-  \vspace{1em}
-  \begin{enumerate}
-    \setlength{\itemsep}{1em}
-    \item Problema y pregunta
-    \item Datos y método
-    \item Resultados
-    \item Conclusiones
-  \end{enumerate}
-\end{frame}
-
-% ============================================================
+% ============================================================ 2
 \begin{frame}{La desigualdad se estima, no se observa}
-  \begin{itemize}
-    \setlength{\itemsep}{0.6em}
-    \item Colombia es uno de los países más desiguales de América Latina.
-    \item Las cifras de desigualdad salen de \textbf{encuestas}: son estimaciones.
-    \item Con los mismos datos hay varias formas de estimar el índice de Theil. Si se elige mal, el resultado queda \textbf{sesgado}.
-  \end{itemize}
-  \vspace{1em}
-  \begin{block}{Pregunta}
-    De cuatro estimadores del índice de Theil, ¿cuál estima mejor la desigualdad del ingreso laboral con la GEIH? Con ese estimador: ¿cómo cambió la desigualdad entre 2018 y 2026, y qué la explica?
-  \end{block}
-\end{frame}
-
-\begin{frame}{Hipótesis}
-  \vspace{0.5em}
-  \begin{description}[H1]
-    \setlength{\itemsep}{0.8em}
-    \item[H1] El estimador ponderado (A) es consistente y tiene el menor error cuando la muestra crece.
-    \item[H2] En 2026 la educación explica más desigualdad que las otras cuatro dimensiones.
-    \item[H3] La desigualdad fue menor en 2026 que en 2018.
-  \end{description}
-  \vspace{1.2em}
-  {\color{gris}\small Pruebas unilaterales, $\alpha = 0,05$.}
-\end{frame}
-
-% ============================================================
-\begin{frame}{Datos: Gran Encuesta Integrada de Hogares (DANE)}
   \begin{columns}[T]
-    \begin{column}{0.56\textwidth}
+    \begin{column}{0.47\textwidth}
       \begin{itemize}
-        \setlength{\itemsep}{0.5em}
-        \item Enero a junio de 2018 a 2026. 2020 no entra: la encuesta fue telefónica.
-        \item Ocupados de 15 años o más, remunerados, con ingreso positivo, en 24 departamentos.
-        \item Regla: \emph{marcar, no borrar}. El peso de quien no reporta ingreso se reparte entre personas parecidas.
-        \item Cinco dimensiones: educación, formalidad, estrato, región y sexo.
+        \item En 2024 el Gini de Colombia fue 0,551. Esa cifra sale de una \textbf{encuesta}: es una estimación.
+        \item Con los mismos datos se puede calcular de varias formas. Si se elige mal, el error \textbf{no se ve}.
+        \item Usamos el \textbf{índice de Theil}:
       \end{itemize}
+      \[ T=\frac{1}{N}\sum_{j=1}^{N}\frac{Y_j}{\mu}\ln\frac{Y_j}{\mu} \]
+      \centering{\footnotesize Vale 0 si todos ganan lo mismo y crece cuando el ingreso se concentra.}
     \end{column}
-    \begin{column}{0.38\textwidth}
-      \begin{block}{En cifras}
-        \begin{itemize}
-          \item 130.000 a 161.000 personas por año
-          \item 21,6 millones de ocupados representados
-          \item Cambio de marco muestral en 2022
-        \end{itemize}
+    \begin{column}{0.49\textwidth}
+      \begin{block}{Pregunta}
+        De seis estimadores del Theil, ¿cuál estima mejor la desigualdad del ingreso laboral con la GEIH, y cuándo cambia la respuesta?
+      \end{block}
+      \vspace{0.2cm}
+      \begin{block}{Hipótesis ($\alpha=0{,}05$)}
+        \textbf{H1a.} Con muestras grandes, A tiene menor error (ECM) que los otros cinco.\\[0.15cm]
+        \textbf{H1b.} A es consistente y los otros cinco no.
       \end{block}
     \end{column}
   \end{columns}
 \end{frame}
 
-\begin{frame}{Cuatro formas de estimar el Theil}
+% ============================================================ 3
+\begin{frame}{Datos: GEIH 2024, 152.213 ocupados}
   \begin{columns}[T]
     \begin{column}{0.5\textwidth}
-      \textbf{Aplicar la fórmula a la muestra}
-      \[ \hat T_A = \frac{1}{W}\sum_i w_i \frac{y_i}{\hat\mu_w}\ln\frac{y_i}{\hat\mu_w} \]
+      \small
       \begin{itemize}
-        \item \textbf{A:} con el factor de expansión $w_i$
-        \item \textbf{B:} igual, pero con $w_i = 1$
+        \item \textbf{Fuente:} microdatos del DANE, enero a junio de 2024.
+        \item \textbf{Muestreo:} probabilístico, estratificado, por conglomerados y multietápico. Cada persona trae un \textbf{factor de expansión} $w_i\approx 1/\pi_i$.
+        \item \textbf{Individuos:} de 178.204 ocupados quedan 152.213 (15 años o más, remunerados, 24 departamentos, ingreso positivo). Representan 20,3 millones.
+        \item \textbf{10 variables:} 4 cuantitativas (razón), 4 cualitativas nominales y 2 ordinales.
+        \item Todo el análisis se hizo en \textbf{R}.
       \end{itemize}
     \end{column}
-    \begin{column}{0.5\textwidth}
-      \textbf{Suponer que el ingreso es lognormal}\\[0.4em]
-      Si $\ln y \sim N(m,\sigma^2)$, entonces $T = \sigma^2/2$
-      \begin{itemize}
-        \item \textbf{C:} $\hat\sigma^2 = \ln(1 + CV^2)$ (momentos)
-        \item \textbf{D:} $\hat\sigma^2 = \frac{1}{n}\sum_i (\ln y_i - \overline{\ln y})^2$ (máx. verosimilitud)
-      \end{itemize}
-    \end{column}
-  \end{columns}
-  \vspace{1em}
-  \begin{block}{Descomposición}
-    $T = \underbrace{\textstyle\sum_k s_k \ln(\mu_k/\mu)}_{\text{entre grupos}} + \underbrace{\textstyle\sum_k s_k T_k}_{\text{dentro de los grupos}}$ \qquad $s_k$: parte del ingreso total del grupo $k$
-  \end{block}
-\end{frame}
-
-\begin{frame}{Cómo lo hicimos}
-  \begin{columns}[T]
-    \begin{column}{0.5\textwidth}
-      \begin{block}{Simulación (H1)}
-        \begin{enumerate}
-          \item GEIH 2024 completa como ``población'': $T = 0,5043$
-          \item 500 submuestras de $n$ = 500, 2.000, 10.000 y 50.000
-          \item A, B, C y D en cada una
-          \item Sesgo, ECM y eficiencia relativa
-          \item Prueba $t$ pareada con $n = 50.000$
-        \end{enumerate}
-      \end{block}
-    \end{column}
-    \begin{column}{0.5\textwidth}
-      \begin{block}{Bootstrap (H2, H3)}
-        \begin{enumerate}
-          \item Remuestrear personas con reemplazo, 500 veces
-          \item Recalcular el Theil y su descomposición
-          \item IC del 95~\%: percentiles 2,5 y 97,5
-          \item H2 y H3 con percentiles de las diferencias
-        \end{enumerate}
-      \end{block}
-    \end{column}
-  \end{columns}
-  \vspace{0.8em}
-  {\color{gris}\small Todo en R, con semillas fijas: \texttt{github.com/gabrielsalcedo/statistics-geih}}
-\end{frame}
-
-% ============================================================
-\begin{frame}{El ingreso tiene un pico en el salario mínimo}
-  \begin{columns}[c]
-    \begin{column}{0.6\textwidth}
-      \includegraphics[width=\textwidth]{fig_histograma_ingreso.pdf}
-    \end{column}
-    \begin{column}{0.36\textwidth}
-      \begin{itemize}
-        \setlength{\itemsep}{0.6em}
-        \item Media \$2,3 millones; mediana \$1,75 millones.
-        \item 15,5~\% gana cerca de un salario mínimo; 39,5~\% gana menos.
-        \item Muy asimétrico: asimetría 9,9.
-      \end{itemize}
+    \begin{column}{0.46\textwidth}
+      \centering
+      {\small\textbf{Ingreso laboral} (miles de \$, ponderado)}\\[0.2cm]
+      \small
+      \begin{tabular}{@{}lr@{}}
+        \toprule
+        Media            & 1.810 \\
+        Mediana          & 1.300 \\
+        $Q_1$ -- $Q_3$   & 700 -- 1.800 \\
+        Coef. de variación & 151\,\% \\
+        Asimetría        & 9,85 \\
+        \bottomrule
+      \end{tabular}\\[0.3cm]
+      \begin{caja}
+        \footnotesize La mediana es el salario mínimo y el 59\,\% gana como máximo cerca de un mínimo. Unos pocos ingresos muy altos jalan la media.
+      \end{caja}
     \end{column}
   \end{columns}
 \end{frame}
 
-\begin{frame}{El ingreso no es lognormal}
-  \begin{columns}[c]
-    \begin{column}{0.6\textwidth}
-      \includegraphics[width=\textwidth]{fig_ln_ingreso_normal.pdf}
-    \end{column}
-    \begin{column}{0.36\textwidth}
-      \begin{itemize}
-        \setlength{\itemsep}{0.6em}
-        \item ln(ingreso) no sigue la curva normal.
-        \item Pico en el mínimo y colas pesadas (curtosis en exceso 4,1).
-        \item Por eso esperábamos que \textbf{C y D fallaran}.
-      \end{itemize}
-    \end{column}
-  \end{columns}
-\end{frame}
-
-\begin{frame}{Simulación: solo A es consistente}
-  \begin{columns}[c]
-    \begin{column}{0.6\textwidth}
-      \includegraphics[width=\textwidth]{fig_simulacion_ecm.pdf}
-    \end{column}
-    \begin{column}{0.36\textwidth}
-      \begin{itemize}
-        \setlength{\itemsep}{0.6em}
-        \item El error de A baja sin parar.
-        \item B y D se estancan: su sesgo no desaparece.
-        \item Con $n = 500$ gana D (casi no varía); desde $n = 10.000$ gana A.
-      \end{itemize}
-    \end{column}
-  \end{columns}
-\end{frame}
-
-\begin{frame}{Simulación con $n = 50.000$}
+% ============================================================ 4
+\begin{frame}{Seis formas de calcular el mismo índice}
   \centering
-  \vspace{0.5em}
-  \renewcommand{\arraystretch}{1.25}
-  \begin{tabular}{@{}lrrr@{}}
+  \footnotesize
+  \renewcommand{\arraystretch}{1.3}
+  \begin{tabular}{@{}llll@{}}
     \toprule
-    Estimador & Sesgo & ECM $\times 1.000$ & ECM(A) / ECM(j) \\
+    & Cómo se calcula & Pesos & Qué necesita para acertar \\
     \midrule
-    \textbf{A (ponderado)}   & \textbf{0,0003} & \textbf{0,25} & --- \\
-    B (sin ponderar)         & $-$0,0766 & 5,93 & 0,04 \\
-    C (lognormal, momentos)  & 0,0243    & 0,97 & 0,26 \\
-    D (lognormal, MV)        & $-$0,0780 & 6,09 & 0,04 \\
+    \textbf{A} & Fórmula del Theil en la muestra & Sí & \textbf{Nada} \\
+    B & Fórmula del Theil en la muestra & No & Diseño no informativo \\
+    C & Lognormal, momentos: $\tfrac12\ln(1+\mathrm{CV}^2)$ & No & Diseño no informativo y lognormal \\
+    D & Lognormal, máx. verosimilitud: $\tfrac12\mathrm{Var}(\ln y)$ & No & Diseño no informativo y lognormal \\
+    $C_w$, $D_w$ & C y D con media y varianza ponderadas & Sí & Ingreso lognormal \\
     \bottomrule
   \end{tabular}
 
-  \vspace{1.5em}
-  \raggedright
-  \begin{itemize}
-    \item B y D subestiman la desigualdad en cerca de \textbf{15~\%}; C la sobreestima en cerca de \textbf{5~\%}.
-    \item El error de A es entre \textbf{4 y 24 veces menor}.
-  \end{itemize}
+  \vspace{0.45cm}
+  \begin{columns}[T]
+    \begin{column}{0.47\textwidth}
+      \begin{block}{Si $\ln Y\sim N(m,\sigma^2)$, entonces $T=\sigma^2/2$}
+        \footnotesize Basta estimar $\sigma^2$. Si el modelo fuera cierto, D sería el más preciso (alcanza la cota de Cramér-Rao).
+      \end{block}
+    \end{column}
+    \begin{column}{0.47\textwidth}
+      \begin{block}{¿Para qué $C_w$ y $D_w$?}
+        \footnotesize Para separar los dos errores posibles: \textbf{no ponderar} y \textbf{suponer un modelo}.
+      \end{block}
+    \end{column}
+  \end{columns}
+
+  \vspace{0.2cm}
+  {\tiny\color{gray} Horvitz y Thompson (1952); Aitchison y Brown (1957); Shorrocks (1980).}
 \end{frame}
 
-\begin{frame}{Desigualdad 2018--2026 (estimador A)}
-  \begin{columns}[c]
-    \begin{column}{0.6\textwidth}
-      \includegraphics[width=\textwidth]{fig_bootstrap_ic.pdf}
+% ============================================================ 5
+\begin{frame}{En la GEIH fallan los dos supuestos}
+  \begin{columns}[T]
+    \begin{column}{0.53\textwidth}
+      \centering
+      {\small\textbf{1. El diseño es informativo}}\\[0.1cm]
+      \begin{tikzpicture}
+        \begin{axis}[grafica, xbar, width=7.4cm, height=5.1cm, bar width=5pt,
+            xmin=0, xmax=40, xlabel={Porcentaje por región},
+            ytick={1,2,3,4,5}, yticklabels={Pacífica,Oriental,Central,Caribe,Bogotá},
+            enlarge y limits=0.15, nodes near coords,
+            nodes near coords style={font=\tiny, /pgf/number format/fixed zerofill, /pgf/number format/precision=1},
+            legend style={at={(0.5,-0.3)}, anchor=north, legend columns=2}]
+          \addplot[fill=grisclaro, draw=none] coordinates {(18.2,1) (19.7,2) (31.6,3) (26.2,4) (4.3,5)};
+          \addplot[fill=rojo, draw=none] coordinates {(16.0,1) (19.4,2) (24.6,3) (19.7,4) (20.3,5)};
+          \legend{Muestra, Población}
+        \end{axis}
+      \end{tikzpicture}\\
+      \footnotesize Bogotá, la región más rica, casi no está en la muestra: el 11,4\,\% gana 4 mínimos o más, frente al 2,3\,\% en el Caribe.
     \end{column}
-    \begin{column}{0.36\textwidth}
+    \begin{column}{0.44\textwidth}
+      {\small\textbf{2. El ingreso no es lognormal}}
       \begin{itemize}
-        \setlength{\itemsep}{0.6em}
-        \item Máximo en 2022 (0,538); mínimo en 2026 (0,429).
-        \item El salto de 2022 coincide con el cambio de marco muestral.
-        \item Los intervalos de 2018 y 2026 se superponen.
+        \small
+        \item $\ln y$ debería ser normal, pero tiene un pico en el salario mínimo y una cola izquierda larga.
+        \item Asimetría $-0{,}52$ y curtosis en exceso $2{,}30$ (en la normal, ambas valen 0).
+        \item Las dos formas de estimar $\sigma^2$ deberían coincidir:\\
+              por el CV da \textbf{1,184}; por $\mathrm{Var}(\ln y)$, \textbf{0,964}.
+      \end{itemize}
+      \vspace{0.2cm}
+      \begin{caja}
+        \footnotesize Ignorar los pesos mide la desigualdad de los encuestados, no la del país (Pfeffermann, 1993).
+      \end{caja}
+    \end{column}
+  \end{columns}
+\end{frame}
+
+% ============================================================ 6
+\begin{frame}{La teoría predice el sesgo de cada estimador}
+  \begin{columns}[c]
+    \begin{column}{0.52\textwidth}
+      \centering
+      \begin{tikzpicture}
+        \begin{axis}[grafica, xbar, width=6.5cm, height=5.6cm, bar width=8pt,
+            xmin=-22, xmax=24, xlabel={Sesgo (porcentaje del valor verdadero)},
+            ytick={1,2,3,4,5,6}, yticklabels={$D_w$,$C_w$,D,C,B,A},
+            enlarge y limits=0.1, nodes near coords, nodes near coords style={font=\scriptsize},
+            extra x ticks={0}, extra x tick labels={}, extra x tick style={grid=major, grid style={gray}}]
+          \addplot[fill=rojo, draw=none] coordinates {(-4.4,1) (17.4,2) (-15.4,3) (4.7,4) (-15.3,5) (0,6)};
+        \end{axis}
+      \end{tikzpicture}
+    \end{column}
+    \begin{column}{0.45\textwidth}
+      \small
+      Valor verdadero: $T=0{,}5043$. Al aplicar cada fórmula a toda la base se obtiene a qué valor llega.
+      \begin{itemize}
+        \item \textbf{B y D:} $-15$\,\%. Sobre todo por \textbf{no ponderar}.
+        \item \textbf{C:} $+4{,}7$\,\% parece bien, pero son dos errores que se compensan: $-0{,}064$ por no ponderar y $+0{,}088$ por el modelo.
+        \item \textbf{$C_w$ y $D_w$:} solo el error del modelo, de $+17$\,\% y $-4$\,\%.
+        \item \textbf{A:} sin sesgo.
       \end{itemize}
     \end{column}
   \end{columns}
 \end{frame}
 
-\begin{frame}{¿Qué explica la desigualdad?}
-  \begin{columns}[c]
-    \begin{column}{0.6\textwidth}
-      \includegraphics[width=\textwidth]{fig_descomposicion.pdf}
+% ============================================================ 7
+\begin{frame}{Monte Carlo: una población donde sí conocemos la verdad}
+  \begin{columns}[T]
+    \begin{column}{0.4\textwidth}
+      \small
+      \begin{enumerate}
+        \item Cada uno de los 152.213 registros representa a $w_i$ personas: población artificial con $T=0{,}5043$.
+        \item Se sacan \textbf{500 muestras} de \textbf{7 tamaños}, de $n=500$ a $n=50{.}000$.
+        \item En cada muestra se calculan los seis estimadores.
+        \item Se mide sesgo, varianza y\\ $\mathrm{ECM}=\text{sesgo}^2+\text{varianza}$.
+      \end{enumerate}
     \end{column}
-    \begin{column}{0.36\textwidth}
+    \begin{column}{0.57\textwidth}
+      \centering
+      {\small\textbf{Estimadores consistentes en cada escenario}}\\[0.2cm]
+      \footnotesize
+      \renewcommand{\arraystretch}{1.5}
+      \begin{tabular}{@{}lcc@{}}
+        \toprule
+        & Diseño informativo & Muestreo simple \\
+        \midrule
+        Ingreso real & \textbf{\color{rojo}Solo A (GEIH)} & A y B \\
+        Ingreso lognormal & A, $C_w$ y $D_w$ & Los seis \\
+        \bottomrule
+      \end{tabular}\\[0.35cm]
+      \begin{caja}
+        \footnotesize En los 24 casos, el sesgo simulado coincide con el que predice la teoría. Cada estimador acierta exactamente donde se cumplen sus supuestos.
+      \end{caja}
+    \end{column}
+  \end{columns}
+\end{frame}
+
+% ============================================================ 8
+\begin{frame}{En el escenario de la GEIH, solo el error de A sigue bajando}
+  \begin{columns}[c]
+    \begin{column}{0.62\textwidth}
+      \centering
+      \begin{tikzpicture}
+        \begin{loglogaxis}[grafica, width=7.6cm, height=6.1cm,
+            xlabel={Tamaño de muestra $n$ (escala log.)}, ylabel={ECM $\times 1{.}000$ (escala log.)},
+            xtick={500,1000,2000,5000,10000,20000,50000},
+            xticklabels={500,1 mil,2 mil,5 mil,10 mil,20 mil,50 mil},
+            ytick={0.3,1,3,10,30}, yticklabels={{0,3},1,3,10,30},
+            ymin=0.25, ymax=35, legend pos=outer north east, legend cell align=left,
+            mark size=1.4pt]
+          \addplot[rojo, very thick, mark=*] coordinates {(500,19.62) (1000,14.67) (2000,8.33) (5000,3.81) (10000,1.70) (20000,1.00) (50000,0.38)};
+          \addplot[gray, mark=square*] coordinates {(500,14.46) (1000,9.79) (2000,8.30) (5000,6.86) (10000,6.16) (20000,6.14) (50000,6.03)};
+          \addplot[orange, mark=triangle*] coordinates {(500,24.34) (1000,19.44) (2000,12.19) (5000,5.81) (10000,3.62) (20000,2.04) (50000,1.12)};
+          \addplot[black, mark=diamond*] coordinates {(500,8.21) (1000,6.81) (2000,6.52) (5000,6.29) (10000,6.12) (20000,6.16) (50000,6.08)};
+          \addplot[teal!60, mark=o] coordinates {(500,26.61) (1000,24.19) (2000,21.37) (5000,14.85) (10000,12.39) (20000,10.40) (50000,8.30)};
+          \addplot[blue!70!black, thick, mark=x] coordinates {(500,6.58) (1000,3.24) (2000,1.99) (5000,1.15) (10000,0.77) (20000,0.67) (50000,0.56)};
+          \legend{A, B, C, D, $C_w$, $D_w$}
+        \end{loglogaxis}
+      \end{tikzpicture}
+    \end{column}
+    \begin{column}{0.35\textwidth}
+      \small
       \begin{itemize}
-        \setlength{\itemsep}{0.6em}
-        \item \textbf{Estrato}: 31--38~\% del Theil.
-        \item Educación (24--27~\%) y formalidad (22--27~\%) casi empatan.
-        \item Región 5--9~\%; sexo $<$ 1~\%.
-        \item La mayor parte está \emph{dentro} de los grupos.
+        \item \textbf{A} baja como $1/n$: su sesgo pasa de $-6{,}9$\,\% a $-0{,}2$\,\%.
+        \item \textbf{B y D} se estancan en $-15$\,\%: poca varianza, pero apuntan al valor equivocado.
+        \item \textbf{$D_w$} se equivoca menos que A hasta unas \textbf{32.000} personas.
       \end{itemize}
     \end{column}
   \end{columns}
 \end{frame}
 
-\begin{frame}{Pruebas de hipótesis}
+% ============================================================ 9
+\begin{frame}{Prueba $t$ pareada: con $n=50{.}000$, A se equivoca menos que los cinco}
+  \small
   \centering
-  \vspace{0.5em}
-  \renewcommand{\arraystretch}{1.4}
-  \begin{tabular}{@{}p{0.9cm}p{9.4cm}p{2.6cm}@{}}
+  En cada réplica: $d_j=(\hat T_A-T)^2-(\hat T_j-T)^2$, \quad $t_j=\bar d_j\big/\big(s_{d_j}/\sqrt{500}\big)$\\[0.1cm]
+  $H_0:\ \mathbb{E}[d_j]\ge 0$ \ frente a \ $H_1:\ \mathbb{E}[d_j]<0$ \ (A tiene menor ECM)
+
+  \vspace{0.25cm}
+  \footnotesize
+  \renewcommand{\arraystretch}{1.1}
+  \begin{tabular}{@{}lrcrcr@{}}
     \toprule
-    & Evidencia & Decisión \\
+    Competidor & $\bar d_j\times 10^3$ & IC 95\,\% de $\mathbb{E}[d_j]\times 10^3$ & $t$ (499 gl) & Valor $p$ & Réplicas en que A gana \\
     \midrule
-    H1 & $t$ pareada: $t = -109$ (B), $-15$ (C), $-219$ (D); $p < 0,001$ & \textbf{Se cumple} \\
-    H2 & La educación no supera a la formalidad (percentil 5: $-0,003$) ni al estrato ($-0,113$) & No se cumple \\
-    H3 & $T_{2026} - T_{2018} = -0,010$; percentil 95 $= +0,0085$ & No se cumple \\
+    B     & $-5{,}65$ & $[-5{,}78;\ -5{,}51]$ & $-82{,}44$  & $<0{,}001$ & 99,8 \\
+    C     & $-0{,}73$ & $[-0{,}87;\ -0{,}60]$ & $-10{,}84$  & $<0{,}001$ & 69,0 \\
+    D     & $-5{,}69$ & $[-5{,}76;\ -5{,}62]$ & $-162{,}65$ & $<0{,}001$ & 100,0 \\
+    $C_w$ & $-7{,}92$ & $[-8{,}48;\ -7{,}37]$ & $-28{,}05$  & $<0{,}001$ & 94,2 \\
+    $D_w$ & $-0{,}18$ & $[-0{,}23;\ -0{,}13]$ & $-6{,}66$   & $<0{,}001$ & 72,6 \\
     \bottomrule
   \end{tabular}
+
+  \vspace{0.25cm}
+  \begin{columns}[T]
+    \begin{column}{0.47\textwidth}
+      \begin{block}{H1a se cumple}
+        \footnotesize Se rechaza $H_0$ frente a los cinco y todos los intervalos quedan por debajo de cero. Pero con muestras pequeñas no: A le gana a $D_w$ solo desde $n\approx 31{.}894$.
+      \end{block}
+    \end{column}
+    \begin{column}{0.47\textwidth}
+      \begin{block}{H1b se cumple}
+        \footnotesize El sesgo de A ($-0{,}0011$) no se distingue de cero ($t=-1{,}24$; $p=0{,}22$). El de los otros cinco sí ($p<0{,}001$).
+      \end{block}
+    \end{column}
+  \end{columns}
 \end{frame}
 
-% ============================================================
+% ============================================================ 10
 \begin{frame}{Conclusiones}
+  \vspace{-0.2cm}
   \begin{enumerate}
-    \setlength{\itemsep}{0.7em}
-    \item \textbf{Con la GEIH hay que usar el estimador ponderado (A).} Ignorar los pesos o suponer lognormalidad deja sesgos que no desaparecen.
-    \item \textbf{La desigualdad} subió hasta 2022 y bajó hasta su mínimo en 2026, pero frente a 2018 la caída no es significativa.
-    \item \textbf{El estrato} es lo que más explica la desigualdad.
+    \item \textbf{Con la GEIH hay que usar el estimador ponderado A.} Es el único consistente cuando el diseño es informativo y el ingreso no es lognormal.
+    \item \textbf{Cada estimador falla donde fallan sus supuestos.} Ignorar los pesos subestima la desigualdad un 15\,\%; suponer lognormalidad la desvía entre $-4$\,\% y $+17$\,\%. Más datos no corrigen esos sesgos.
+    \item \textbf{La respuesta depende del tamaño de muestra.} Con menos de unas 32.000 personas (como en cada departamento), $D_w$ se equivoca menos, pero con un sesgo de signo desconocido.
   \end{enumerate}
-  \vspace{0.8em}
-  \begin{block}{Limitaciones}
-    \small Referencia = A sobre la GEIH 2024 · cambio de marco en 2022 · más no respuesta en estratos altos · el bootstrap ignora los conglomerados.
-  \end{block}
-\end{frame}
 
-\begin{frame}[plain]
-  \centering
-  \vfill
-  {\Huge\bfseries Gracias\par}
-  \vspace{0.6em}
-  {\color{acento}\rule{3em}{1.5pt}\par}
-  \vspace{0.8em}
-  {\color{gris}\large Preguntas\par}
-  \vfill
-  {\color{gris}\small Código y datos: \texttt{github.com/gabrielsalcedo/statistics-geih}\par}
-  \vspace{1.5em}
-\end{frame}
+  \vspace{0.2cm}
+  \begin{caja}
+    \small\centering Antes de reportar una cifra de desigualdad hay que validar cómo se calcula: la teoría dice qué puede fallar, la simulación dice cuánto y la prueba de hipótesis dice si la diferencia es real.
+  \end{caja}
 
-\begin{frame}[allowframebreaks]{Referencias}
-  \begin{referencias}
-  \item Ariza, J., y Montes-Rojas, G. (2017). Labour income inequality and the informal sector in Colombian cities. \emph{Cuadernos de Economía, 36}(72), 77--98. \url{https://doi.org/10.15446/cuad.econ.v36n72.65820}
-  \item Cowell, F. A. (2011). \emph{Measuring inequality} (3.ª ed.). Oxford University Press.
-  \item Departamento Administrativo Nacional de Estadística. (2023). \emph{Metodología general Gran Encuesta Integrada de Hogares -- GEIH} (DSO-GEIH-MET-001, versión 11). DANE. \url{https://www.dane.gov.co/files/operaciones/GEIH/met-GEIH.pdf}
-  \item Departamento Administrativo Nacional de Estadística. (2025). \emph{Pobreza monetaria en Colombia: año 2024} [Boletín técnico]. DANE. \url{https://www.dane.gov.co/files/operaciones/PM/bol-PM-2024.pdf}
-  \item Departamento Administrativo Nacional de Estadística. (2026). \emph{Gran Encuesta Integrada de Hogares -- GEIH, 2018--2026} [Conjunto de datos]. DANE. \url{https://microdatos.dane.gov.co}
-  \item Efron, B., y Tibshirani, R. J. (1993). \emph{An introduction to the bootstrap}. Chapman \& Hall. \url{https://doi.org/10.1201/9780429246593}
-  \item Mills, J. A., y Zandvakili, S. (1997). Statistical inference via bootstrapping for measures of inequality. \emph{Journal of Applied Econometrics, 12}(2), 133--150.
-  \item Sánchez-Torres, R. M. (2017). Desigualdad del ingreso en Colombia: un estudio por departamentos. \emph{Cuadernos de Economía, 36}(72), 139--178. \url{https://doi.org/10.15446/cuad.econ.v36n72.65880}
-  \item Shorrocks, A. F. (1980). The class of additively decomposable inequality measures. \emph{Econometrica, 48}(3), 613--625. \url{https://doi.org/10.2307/1913126}
-  \item Theil, H. (1967). \emph{Economics and information theory}. North-Holland.
-  \end{referencias}
+  \vspace{0.1cm}
+  {\scriptsize\color{gray} Limitaciones: la población simulada es la propia GEIH y el muestreo simulado no tiene estratos ni conglomerados. Código en R: github.com/gabrielsalcedo/statistics-geih}
+
+  \vspace{0.05cm}
+  \centering{\Large\color{rojo} ¡Gracias! \quad\normalsize\color{black}¿Preguntas?}
 \end{frame}
 
 \end{document}
